@@ -17,8 +17,12 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include, url
 import debug_toolbar
+from webapp import views
 
 urlpatterns = [
+    url(r"^$", views.index, name="index"),
+    url(r"^webapp/", include("webapp.urls")),
+    url(r"^userapp/", include("userapp.urls")),
     path('admin/', admin.site.urls),
 ]
 
