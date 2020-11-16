@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "webapp.apps.WebappConfig",
     "userapp.apps.UserappConfig",
+    "prodapp.apps.ProdappConfig",
+    "stockapp.apps.StockappConfig",
 ]
 
 MIDDLEWARE = [
@@ -154,6 +156,6 @@ if os.environ.get("ENV") == "PRODUCTION":
     db_from_env = dj_database_url.config(conn_max_age=500)
     DATABASES["default"].update(db_from_env)
 
-# LOGIN_REDIRECT_URL = "/"
-# LOGOUT_REDIRECT_URL = "/"
-# AUTH_USER_MODEL = "userapp.CustomUser"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+AUTH_USER_MODEL = "userapp.CustomUser"

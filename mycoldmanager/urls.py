@@ -24,6 +24,8 @@ urlpatterns = [
     url(r"^webapp/", include("webapp.urls")),
     url(r"^userapp/", include("userapp.urls")),
     path('admin/', admin.site.urls),
+    path("accounts/", include("userapp.urls")),
+    path("accounts/", include("django.contrib.auth.urls")),
 ]
 
 urlpatterns = [url(r"^__debug__/", include(debug_toolbar.urls)),] + urlpatterns
