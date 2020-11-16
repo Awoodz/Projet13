@@ -1,3 +1,10 @@
-Bienvenue sur MyColdManager.com !
-<a href="{% url 'signup' %}">Créer un compte</a>
-<a href="{% url 'login' %}">Se connecter</a>
+{% extends "webapp/base.html" %}
+{% block title %}Accueil{% endblock %}
+{% block content %}
+{% load static %}
+<!-- CSS-->
+<link href="{% static 'webapp/css/index.css' %}" rel="stylesheet" />
+<div class="index">
+    <h1>SITE EN CONSTRUCTION</h1>
+</div>
+{% endblock %}

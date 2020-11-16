@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="MyColdDevice" content="" />
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="{% static 'webapp/img/favicon.png' %}" />
+    <!-- CSS-->
+    <link href="{% static 'webapp/css/base.css' %}" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- header -->
+    <header>
+        <h1>Bienvenue sur MyColdManager.com !</h1></br>
+        {% if user.is_authenticated %}
+        <p>Bonjour {{ user }}</p>
+        <a href="{% url 'logout' %}">Me déconnecter</a>
+        {% else %}
+        <a href="{% url 'signup' %}">Créer un compte</a>
+        <a href="{% url 'login' %}">Se connecter</a>
+        {% endif %}
+    </header>
+
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- Footer-->
+    <footer>
+        A remplir
+    </footer>
+</body>
+
+</html>
