@@ -1,6 +1,8 @@
 language: python
 python:
   - "3.6"
+env:
+  - MYCOLDMANAGER_KEY=travistest
 addons:
   chrome: stable
 install:
