@@ -23,6 +23,8 @@ urlpatterns = [
     url(r"^$", webviews.index, name="index"),
     url(r"^webapp/", include("webapp.urls")),
     url(r"^userapp/", include("userapp.urls")),
+    url(r"^device/", webviews.device, name="device"),
+    url(r"^create_device/", webviews.add_device, name="create_device"),
     path('admin/', admin.site.urls),
     path("accounts/", include("userapp.urls")),
     path("accounts/", include("django.contrib.auth.urls")),

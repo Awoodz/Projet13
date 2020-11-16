@@ -1,0 +1,95 @@
+{% extends "webapp/base.html" %}
+{% block title %}Accueil{% endblock %}
+{% block content %}
+{% load static %}
+<!-- CSS-->
+<link href="{% static 'webapp/css/create_device.css' %}" rel="stylesheet" />
+<div class="leftside">
+    <form id="create_device">
+        <input type="text" name="device_name" id="device_name" placeholder="Nommez votre appareil"/>
+        <input type="text" name="device_place" id="device_place" placeholder="Où est votre appareil ? (optionnel)"/>
+        <select id="device_type_select">
+            {% for type in device_types %}
+            <option>{{ type }}</option>
+            {% endfor %}
+        </select>
+        <div id="compartment_number">1</div> 
+        <button id=add_button type="button">+</button>
+        <button id=remove_button type="button">-</button>
+        <button type="submit" name="submit_device" id="submit_device">
+            Créer l'appareil
+        </button>
+    </form>
+</div>
+<div class="rightside">
+    <div id="compartment1">
+        <div id="compartment_img1" class="compartment">1</div>
+        <input type="text" class="compartment_name" id="compartment_name1" name="compartment_name" placeholder="Nommez le compartiment"/>
+        <script>
+            $("#compartment_name1").on('input', function () {
+                if ($(this).val() == "") {
+                    alert("Vous devez saisir au moins un caractère");
+                    return false;
+                }
+                document.querySelector("#compartment_img1").innerHTML = $(this).val();
+            });
+        </script>
+    </div>
+
+</div>
+
+<script>
+    // + button add 1 to compartment number
+    $("#add_button").click(function () {
+        var compartBody = document.querySelector(".rightside");
+        var compartNbDiv = document.getElementById("compartment_number").innerHTML;
+        var compartDiv = document.getElementById(("compartment" + compartNbDiv));
+        var intCompartNbDiv = parseInt(compartNbDiv);
+        
+        console.log(compartDiv)
+
+        if (intCompartNbDiv == 10) {
+            alert("Il ne peut pas y avoir plus de 10 compartiments");
+            return false;
+        }
+
+        intCompartNbDiv += 1;
+        newCompartId = ("compartment" + intCompartNbDiv.toString());
+        var newCompartInnerHTML = (
+            "<div id='compartment_img" + intCompartNbDiv.toString() +"' class='compartment'>" + intCompartNbDiv.toString() + "</div>"
+            +"<input type='text' class='compartment_name' id='compartment_name" + intCompartNbDiv.toString() + "' name='compartment_name' placeholder='Nommez le compartiment'/>"
+            +"<script>"
+            +"    $('#compartment_name" + intCompartNbDiv.toString() + "').on('input', function () {"
+            +"       if ($(this).val() == '') {"
+            +"           alert('Vous devez saisir au moins un caractère');"
+            +"           return false;"
+            +"       }"
+            +"       document.querySelector('#compartment_img" + intCompartNbDiv.toString() + "').innerHTML = $(this).val();"
+            +"    });"
+            +"</scr"+"ipt>"
+        );
+        document.getElementById("compartment_number").innerHTML = intCompartNbDiv;
+        $(compartDiv).clone(true).prop('id', newCompartId).html(newCompartInnerHTML).appendTo(compartBody);
+        });
+
+
+    // - button add 1 to compartment number
+    $("#remove_button").click(function () {
+        var compartBody = document.querySelector(".rightside");
+        var compartNbDiv = document.getElementById("compartment_number").innerHTML;
+        var compartDiv = document.getElementById(("compartment" + compartNbDiv));
+        var intCompartNbDiv = parseInt(compartNbDiv)
+
+        console.log(compartDiv)
+
+        if (intCompartNbDiv == 1) {
+            alert("Il ne peut pas y avoir moins de 1 compartiment");
+            return false;
+        }
+        intCompartNbDiv -= 1;
+        document.getElementById("compartment_number").innerHTML = intCompartNbDiv;
+        compartDiv.remove()
+        });
+</script>
+
+{% endblock %}

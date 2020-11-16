@@ -9,14 +9,17 @@
     <link rel="icon" type="image/x-icon" href="{% static 'webapp/img/favicon.png' %}" />
     <!-- CSS-->
     <link href="{% static 'webapp/css/base.css' %}" rel="stylesheet" />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 
 <body>
     <!-- header -->
     <header>
-        <h1>Bienvenue sur MyColdManager.com !</h1></br>
+        <a href="{% url 'index' %}"><h1>Bienvenue sur MyColdManager.com !</h1></a></br>
         {% if user.is_authenticated %}
-        <p>Bonjour {{ user }}</p>
+        Bonjour {{ user }}
+        <a href="{% url 'device' %}">Mes appareils</a>
         <a href="{% url 'logout' %}">Me déconnecter</a>
         {% else %}
         <a href="{% url 'signup' %}">Créer un compte</a>

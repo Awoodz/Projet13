@@ -8,5 +8,18 @@ body, header, footer
 header, footer
 {
     background-color: blueviolet;
+}
+
+header
+{
     height: 10em;
+    position: fixed;
+    top: 0;
+}
+
+footer
+{
+    height: 4em;
+    position: fixed;
+    bottom: 0;
 }
