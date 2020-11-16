@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "userapp.apps.UserappConfig",
     "prodapp.apps.ProdappConfig",
     "stockapp.apps.StockappConfig",
+    "colddeviceapp.apps.ColddeviceappConfig",
 ]
 
 MIDDLEWARE = [

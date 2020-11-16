@@ -14,5 +14,5 @@ class TypeList(models.Model):
 
 
 class UserType(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    usertype = models.OneToOneField(TypeList, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    usertype = models.ForeignKey(TypeList, on_delete=models.CASCADE)
