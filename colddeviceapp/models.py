@@ -21,6 +21,8 @@ class ColdDevice(models.Model):
         on_delete=models.CASCADE
     )
 
+    def __str__(self):
+        return self.colddevice_name
 
 class Compartment(models.Model):
     compartment_name = models.CharField(max_length=100)
@@ -28,3 +30,6 @@ class Compartment(models.Model):
         ColdDevice,
         on_delete=models.CASCADE
     )
+
+    def __str__(self):
+        return self.compartment_name

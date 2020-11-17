@@ -4,8 +4,9 @@
 {% load static %}
 <!-- CSS-->
 <link href="{% static 'webapp/css/create_device.css' %}" rel="stylesheet" />
-<div class="leftside">
-    <form id="create_device">
+<form id="create_device">
+    <!-- leftside -->
+    <div class="leftside">
         <input type="text" name="device_name" id="device_name" placeholder="Nommez votre appareil"/>
         <input type="text" name="device_place" id="device_place" placeholder="Où est votre appareil ? (optionnel)"/>
         <select id="device_type_select">
@@ -19,24 +20,24 @@
         <button type="submit" name="submit_device" id="submit_device">
             Créer l'appareil
         </button>
-    </form>
-</div>
-<div class="rightside">
-    <div id="compartment1">
-        <div id="compartment_img1" class="compartment">1</div>
-        <input type="text" class="compartment_name" id="compartment_name1" name="compartment_name" placeholder="Nommez le compartiment"/>
-        <script>
-            $("#compartment_name1").on('input', function () {
-                if ($(this).val() == "") {
-                    alert("Vous devez saisir au moins un caractère");
-                    return false;
-                }
-                document.querySelector("#compartment_img1").innerHTML = $(this).val();
-            });
-        </script>
     </div>
-
-</div>
+    <!-- rightside -->
+    <div class="rightside">
+        <div id="compartment1">
+            <div id="compartment_img1" class="compartment">1</div>
+            <input type="text" class="compartment_name" id="compartment_name1" name="compartment_name" placeholder="Nommez le compartiment"/>
+            <script>
+                $("#compartment_name1").on('input', function () {
+                    if ($(this).val() == "") {
+                        alert("Vous devez saisir au moins un caractère");
+                        return false;
+                    }
+                    document.querySelector("#compartment_img1").innerHTML = $(this).val();
+                });
+            </script>
+        </div>
+    </div>
+</form>
 
 <script>
     // + button add 1 to compartment number
@@ -82,6 +83,41 @@
         intCompartNbDiv -= 1;
         document.getElementById("compartment_number").innerHTML = intCompartNbDiv;
         compartDiv.remove();
+    });
+
+    $("#submit_device").click(function () {
+        var deviceName = document.getElementById("device_name").value;
+        var devicePlace = document.getElementById("device_place").value;
+        var deviceType = document.getElementById("device_type_select").value;
+        var compartNb = document.getElementById("compartment_number").innerHTML;
+
+        if (deviceName == "") {
+            alert("Vous devez saisir un nom !");
+            return false;
+        };
+
+        function listBuilder(number) {
+            var compartList = [];
+            var i;
+            for (i = 1; i-1 < compartNb; i++) {
+                var compartName = document.getElementById("compartment_img" + i.toString()).innerHTML;
+                compartList.push(compartName);
+            };
+            console.log(compartList)
+            return compartList;
+        };
+        
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'ajax_device' %}",
+            data: {
+                'device_name': deviceName,
+                'device_place': devicePlace,
+                'device_type': deviceType,
+                'compart_nb': compartNb,
+                'compart_list': JSON.stringify(listBuilder(compartNb)),
+            },
+        });
     });
 </script>
 

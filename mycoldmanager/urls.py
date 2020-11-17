@@ -26,6 +26,7 @@ urlpatterns = [
     url(r"^device/", webviews.device, name="device"),
     url(r"^create_device/", webviews.create_device, name="create_device"),
     url(r"^ajax_compart/", webviews.ajax_compart, name="ajax_compart"),
+    url(r"^ajax_device/", webviews.ajax_device, name="ajax_device"),
     path('admin/', admin.site.urls),
     path("accounts/", include("userapp.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
