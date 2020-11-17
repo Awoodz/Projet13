@@ -6,7 +6,7 @@ import logging
 
 class Sql():
 
-    def device_type_builder(logger):
+    def device_type_builder():
         """"""
         logger = logging.getLogger(__name__)
         type_list = ["Congélateur bac", "Congélateur tiroir"]
@@ -20,7 +20,7 @@ class Sql():
                 logger.error(insert_error)
                 pass
 
-    def user_type_builder(logger):
+    def user_type_builder():
         """"""
         logger = logging.getLogger(__name__)
         type_list = ["particulier", "professionel"]
