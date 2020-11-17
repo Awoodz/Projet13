@@ -27,10 +27,19 @@ def device(request):
 
 
 @login_required
-def add_device(request):
+def create_device(request):
     template = loader.get_template("webapp/create_device.html")
     device_types = ColdDeviceType.objects.all()
     return HttpResponse(template.render(
         {"device_types": device_types},
+        request=request,
+    ))
+
+
+def ajax_compart(request):
+    template = loader.get_template("webapp/add_compartment.html")
+    compart_number = request.GET.get("compartment")
+    return HttpResponse(template.render(
+        {"compart_number": compart_number},
         request=request,
     ))
