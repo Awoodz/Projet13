@@ -24,6 +24,7 @@ class ColdDevice(models.Model):
     def __str__(self):
         return self.colddevice_name
 
+
 class Compartment(models.Model):
     compartment_name = models.CharField(max_length=100)
     compartment_colddevice = models.ForeignKey(

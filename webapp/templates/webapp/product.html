@@ -13,6 +13,14 @@
     <div id="subcategory_list"></div>
     <div id="product_list"></div>
     <div id="product_creation"></div>
+    <div id="add_to_stock"></div>
+    <div id="stock"></div>
+    <div id="compartment_list"></div>
+    <div id="device_list">
+        {% for device in user_devices %}
+        <button type="submit" class="device" value="{{ device }}">{{ device }}</button></br>
+        {% endfor %}
+    </div>
 
 </div>
 
@@ -21,6 +29,7 @@
 $(".category").click(function () {
     document.getElementById("subcategory_list").innerHTML = "";
     document.getElementById("product_list").innerHTML = "";
+    document.getElementById("product_creation").innerHTML = "";
     var category = $(this).val();
     $.ajax({
         type: 'GET',
@@ -29,8 +38,23 @@ $(".category").click(function () {
             'category': category,
         },
         success: function (data) {
-            console.log(data);
             $("#subcategory_list").html(data);
+        }
+    });
+});
+
+$(".device").click(function () {
+    document.getElementById("compartment_list").innerHTML = "";
+    document.getElementById("stock").innerHTML = "";
+    var device = $(this).val();
+    $.ajax({
+        type: 'GET',
+        url: "{% url 'ajax_device' %}",
+        data: {
+            'device': device,
+        },
+        success: function (data) {
+            $("#compartment_list").html(data);
         }
     });
 });

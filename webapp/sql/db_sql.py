@@ -98,3 +98,19 @@ class Sql():
                 except DatabaseError as insert_error:
                     logger.error(insert_error)
                     pass
+
+    def product_creation(data):
+        logger = logging.getLogger(__name__)
+        subcategory = SubCategory.objects.get(subcategory_name=data["subcategory"])
+        user = CustomUser.objects.get(username=data["user"])
+        product = Product(
+            product_subcategory=subcategory,
+            product_name=data["product_name"],
+            user_product=user
+        )
+        try:
+            with transaction.atomic():
+                product.save()
+        except DatabaseError as insert_error:
+            logger.error(insert_error)
+            pass

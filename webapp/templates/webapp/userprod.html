@@ -1,4 +1,21 @@
 {% for product in products %}
 <button type="submit" class="category">{{ product }}</button></br>
 {% endfor %}
-Créer un produit
+<button type="submit" id="creation_button">Créer un produit</button>
+
+<script>
+    $("#creation_button").click(function () {
+        document.getElementById("product_creation").innerHTML = "";
+        var subcategory = "{{ subcategory }}";
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'ajax_product_creation' %}",
+            data: {
+                'subcategory': subcategory,
+            },
+            success: function (data) {
+                $("#product_creation").html(data);
+            }
+        });
+    });
+</script>

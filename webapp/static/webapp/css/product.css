@@ -27,3 +27,28 @@
     width: 10%;
     float: left;
 }
+
+#product_creation
+{
+    background-color: darkslateblue;
+    width: 20%;
+    float: left;
+}
+
+#compartment_list
+{
+    background-color: darkslategrey;
+    width: 10%;
+    float: right;
+    margin-right: 10%;
+}
+
+
+#device_list
+{
+    background-color: dimgrey;
+    width: 10%;
+    float: right;
+    position: fixed;
+    right: 0;
+}

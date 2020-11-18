@@ -1,9 +1,9 @@
-{% for subcategory in subcategories %}
-<button type="submit" class="subcategory" value="{{ subcategory}}">{{ subcategory }}</button></br>
+{% for compartment in compartments %}
+<button type="submit" class="compartment" value="{{ compartment }}">{{ compartment }}</button></br>
 {% endfor %}
 
-<script>
-    $(".subcategory").click(function () {
+<!-- <script>
+    $(".compartment").click(function () {
     document.getElementById("product_list").innerHTML = "";
     document.getElementById("product_creation").innerHTML = "";
     var subcategory = $(this).val();
@@ -18,4 +18,4 @@
         }
     });
 });
-</script>
+</script> -->

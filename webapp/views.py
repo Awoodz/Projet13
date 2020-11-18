@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
-from colddeviceapp.models import ColdDevice, ColdDeviceType
+from colddeviceapp.models import ColdDevice, ColdDeviceType, Compartment
 from prodapp.models import Category, SubCategory, Product
 from webapp.sql.db_sql import Sql
 
@@ -45,7 +45,7 @@ def ajax_compart(request):
     ))
 
 
-def ajax_device(request):
+def ajax_create_device(request):
 
     current_user = request.user
     device_name = request.GET.get("device_name")
@@ -73,9 +73,14 @@ def ajax_device(request):
 def product(request):
     """Product list page"""
     template = loader.get_template("webapp/product.html")
+    current_user = request.user
+    user_devices = ColdDevice.objects.filter(colddevice_user=current_user.id)
     categories = Category.objects.all()
     return HttpResponse(template.render(
-        {"categories": categories},
+        {
+            "categories": categories,
+            "user_devices": user_devices,
+        },
         request=request,
     ))
 
@@ -102,7 +107,10 @@ def ajax_product(request):
     user_products = Product.objects.filter(user_product=current_user)
     products = user_products.filter(product_subcategory=subcategory)
     return HttpResponse(template.render(
-        {"products": products},
+        {
+            "products": products,
+            "subcategory": subcategory
+        },
         request=request,
     ))
 
@@ -114,5 +122,45 @@ def ajax_product_creation(request):
     subcategory = SubCategory.objects.get(subcategory_name=get_subcategory)
     return HttpResponse(template.render(
         {"subcategory": subcategory},
+        request=request,
+    ))
+
+
+def ajax_create_product(request):
+    """"""
+    template = loader.get_template("webapp/userprod.html")
+    get_subcategory = request.GET.get("subcategory")
+    get_product_name = request.GET.get("product_name")
+    current_user = request.user
+
+    product_data = {
+        "user": current_user,
+        "product_name": get_product_name,
+        "subcategory": get_subcategory,
+    }
+
+    Sql.product_creation(product_data)
+
+    subcategory = SubCategory.objects.get(subcategory_name=get_subcategory)
+    user_products = Product.objects.filter(user_product=current_user)
+    products = user_products.filter(product_subcategory=subcategory)
+
+    return HttpResponse(template.render(
+        {
+            "products": products,
+            "subcategory": subcategory,
+        },
+        request=request,
+    ))
+
+
+def ajax_device(request):
+    """"""
+    template = loader.get_template("webapp/compartment.html")
+    get_device = request.GET.get("device")
+    device = ColdDevice.objects.get(colddevice_name=get_device)
+    compartments = Compartment.objects.filter(compartment_colddevice=device)
+    return HttpResponse(template.render(
+        {"compartments": compartments},
         request=request,
     ))

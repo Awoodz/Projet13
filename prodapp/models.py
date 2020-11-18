@@ -28,7 +28,10 @@ class Product(models.Model):
         on_delete=models.CASCADE
     )
     product_name = models.CharField(max_length=100)
-    user_product = models.ManyToManyField(CustomUser)
+    user_product = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.product_name
