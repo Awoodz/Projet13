@@ -1,6 +1,8 @@
 from django.db import DatabaseError, transaction
 from colddeviceapp.models import ColdDeviceType, ColdDevice, Compartment
 from userapp.models import TypeList, CustomUser
+from prodapp.models import Category, SubCategory, Product
+import webapp.utilities.data as dt
 import logging
 
 
@@ -66,3 +68,33 @@ class Sql():
             except DatabaseError as prod_error:
                 logger.error(prod_error)
                 pass
+
+    def category_builder():
+        logger = logging.getLogger(__name__)
+        category_list = ["viande", "poisson", "legume"]
+        for category in category_list:
+            new_category = Category(category_name=category)
+            try:
+                with transaction.atomic():
+                    new_category.save()
+            except DatabaseError as insert_error:
+                logger.error(insert_error)
+                pass
+
+    def subcategory_builder():
+        logger = logging.getLogger(__name__)
+        data_dict = dt.data_dict
+        for categories in data_dict:
+            category = Category.objects.get(category_name=categories)
+            for subcategory in data_dict[categories]["subcategory"]:
+                new_subcategory = SubCategory(
+                    subcategory_category=category,
+                    subcategory_name=subcategory["name"],
+                    subcategory_peremption=subcategory["duration"],
+                )
+                try:
+                    with transaction.atomic():
+                        new_subcategory.save()
+                except DatabaseError as insert_error:
+                    logger.error(insert_error)
+                    pass

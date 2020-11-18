@@ -1,0 +1,39 @@
+{% extends "webapp/base.html" %}
+{% block title %}Produits{% endblock %}
+{% block content %}
+{% load static %}
+<!-- CSS-->
+<link href="{% static 'webapp/css/product.css' %}" rel="stylesheet" />
+<div class="background">
+    <div id="category_list">
+        {% for category in categories %}
+        <button type="submit" class="category" value="{{ category }}">{{ category }}</button></br>
+        {% endfor %}
+    </div>
+    <div id="subcategory_list"></div>
+    <div id="product_list"></div>
+    <div id="product_creation"></div>
+
+</div>
+
+<script>
+
+$(".category").click(function () {
+    document.getElementById("subcategory_list").innerHTML = "";
+    document.getElementById("product_list").innerHTML = "";
+    var category = $(this).val();
+    $.ajax({
+        type: 'GET',
+        url: "{% url 'ajax_subcategory' %}",
+        data: {
+            'category': category,
+        },
+        success: function (data) {
+            console.log(data);
+            $("#subcategory_list").html(data);
+        }
+    });
+});
+
+</script>
+{% endblock %}

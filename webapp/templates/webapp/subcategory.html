@@ -1,0 +1,21 @@
+{% for subcategory in subcategories %}
+<button type="submit" class="subcategory" value="{{ subcategory}}">{{ subcategory }}</button></br>
+{% endfor %}
+
+<script>
+    $(".subcategory").click(function () {
+    document.getElementById("product_list").innerHTML = "";
+    var subcategory = $(this).val();
+    $.ajax({
+        type: 'GET',
+        url: "{% url 'ajax_product' %}",
+        data: {
+            'subcategory': subcategory,
+        },
+        success: function (data) {
+            console.log(data);
+            $("#product_list").html(data);
+        }
+    });
+});
+</script>

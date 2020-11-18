@@ -1,0 +1,29 @@
+.background
+{
+    height: 40em;
+    width: 100%;
+    margin-bottom: 4em;
+    margin-top: 10em;
+    background-color: cornflowerblue;
+
+}
+#category_list
+{
+    background-color: darkgray;
+    width: 10%;
+    float: left;
+}
+
+#subcategory_list
+{
+    background-color: darkkhaki;
+    width: 10%;
+    float: left;
+}
+
+#product_list
+{
+    background-color: darksalmon;
+    width: 10%;
+    float: left;
+}

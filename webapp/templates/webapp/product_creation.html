@@ -1,0 +1,32 @@
+<h3>Création d'un produit</h3>
+<div>La durée de conservation recommandé pour la sous-catégorie {{ subcategory }} et de {{ subcategory.subcategory_peremption }} jours.</div>
+<form id="create_product">
+    <input type="text" name="product_name" id="product_name" placeholder="Nommez votre produit"/>
+    <button type="submit" name="submit_product" id="submit_product">
+        Créer le produit
+    </button>
+</form>
+
+<script>
+    $("#submit_product").click(function () {
+    var subcategory = "{{ subcategory }}";
+    var productName = document.getElementById("product_name").value;
+    $.ajax({
+        type: 'GET',
+        url: "{% url 'ajax_product' %}",
+        data: {
+            'subcategory': subcategory,
+            'product_name': productName,
+        },
+        success: function (data) {
+            document.getElementById("product_creation").innerHTML = "";
+            $("#product_list").html(data);
+        }
+    });
+});
+
+
+
+
+
+</script>

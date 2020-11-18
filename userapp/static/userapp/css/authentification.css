@@ -1,0 +1,7 @@
+.login_body, .signup_body
+{
+    width: 100%;
+    margin-top: 10em;
+    background-color: cornflowerblue;
+    height: 40em;
+}

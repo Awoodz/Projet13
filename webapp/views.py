@@ -4,6 +4,7 @@ from django.template import loader
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from colddeviceapp.models import ColdDevice, ColdDeviceType
+from prodapp.models import Category, SubCategory, Product
 from webapp.sql.db_sql import Sql
 
 
@@ -67,3 +68,51 @@ def ajax_device(request):
     Sql.device_creation(device_data)
 
     return redirect(device)
+
+@login_required
+def product(request):
+    """Product list page"""
+    template = loader.get_template("webapp/product.html")
+    categories = Category.objects.all()
+    return HttpResponse(template.render(
+        {"categories": categories},
+        request=request,
+    ))
+
+
+def ajax_subcategory(request):
+    """"""
+    template = loader.get_template("webapp/subcategory.html")
+    get_category = request.GET.get("category")
+    print(get_category)
+    category = Category.objects.get(category_name=get_category)
+    subcategories = SubCategory.objects.filter(subcategory_category=category)
+    return HttpResponse(template.render(
+        {"subcategories": subcategories},
+        request=request,
+    ))
+
+
+def ajax_product(request):
+    """"""
+    template = loader.get_template("webapp/userprod.html")
+    get_subcategory = request.GET.get("subcategory")
+    subcategory = SubCategory.objects.get(subcategory_name=get_subcategory)
+    current_user = request.user
+    user_products = Product.objects.filter(user_product=current_user)
+    products = user_products.filter(product_subcategory=subcategory)
+    return HttpResponse(template.render(
+        {"products": products},
+        request=request,
+    ))
+
+
+def ajax_product_creation(request):
+    """"""
+    template = loader.get_template("webapp/product_creation.html")
+    get_subcategory = request.GET.get("subcategory")
+    subcategory = SubCategory.objects.get(subcategory_name=get_subcategory)
+    return HttpResponse(template.render(
+        {"subcategory": subcategory},
+        request=request,
+    ))
