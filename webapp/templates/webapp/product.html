@@ -7,7 +7,7 @@
 <div class="background">
     <div id="category_list">
         {% for category in categories %}
-        <button type="submit" class="category" value="{{ category }}">{{ category }}</button></br>
+        <button type="submit" class="category" value="{{ category.id }}">{{ category }}</button></br>
         {% endfor %}
     </div>
     <div id="subcategory_list"></div>
@@ -18,7 +18,7 @@
     <div id="compartment_list"></div>
     <div id="device_list">
         {% for device in user_devices %}
-        <button type="submit" class="device" value="{{ device }}">{{ device }}</button></br>
+        <button type="submit" class="device" value="{{ device.id }}">{{ device }}</button></br>
         {% endfor %}
     </div>
 

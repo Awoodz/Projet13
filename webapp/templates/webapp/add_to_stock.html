@@ -1,0 +1,55 @@
+
+<h3 style="float: left;">Ajout d'un produit</h3><button id="close_add_to_stock" style="float: right;">X</button>
+<div style="float: left;">Vous voulez ajouter {{ product }} dans compartiment {{ compartment }}.</div></br>
+<form id="add_product_to_stock">
+    <div id="product_quantity">1</div> 
+    <button id=add_product_button type="button">+</button>
+    <button id=remove_product_button type="button">-</button>
+    <button type="submit" name="submit_add_to_stock" id="submit_add_to_stock">
+        Ajouter le produit
+    </button>
+</form>
+
+<script>
+    $("#close_add_to_stock").click(function () {
+        document.getElementById("add_to_stock").innerHTML = "";
+    });
+
+    $("#add_product_button").click(function () {
+        var productNb = document.getElementById("product_quantity").innerHTML;
+        var intProductNb = parseInt(productNb);
+        intProductNb += 1;
+        document.getElementById("product_quantity").innerHTML = intProductNb;
+    });
+
+    $("#remove_product_button").click(function () {
+        var productNb = document.getElementById("product_quantity").innerHTML;
+        var intProductNb = parseInt(productNb);
+        if (intProductNb == 1) {
+            alert("La quantité ne peut pas être égale à 0");
+            return false;
+        };
+        intProductNb -= 1;
+        document.getElementById("product_quantity").innerHTML = intProductNb;
+    });
+
+$("#submit_add_to_stock").click(function () {
+    var subcategory = "{{ subcategory.id }}";
+    var product = "{{ product.id }}"
+    var compartment = "{{ compartment.id }}"
+    var productNb = document.getElementById("product_quantity").innerHTML
+    $.ajax({
+        type: 'GET',
+        url: "{% url 'ajax_stocked' %}",
+        data: {
+            'subcategory': subcategory,
+            'product_name': product,
+            'compartment': compartment,
+            'product_quantity': productNb,
+        },
+        success: function (data) {
+            document.getElementById("add_to_stock").innerHTML = "";
+        }
+    });
+});
+</script>

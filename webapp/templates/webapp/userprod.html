@@ -1,12 +1,12 @@
 {% for product in products %}
-<button type="submit" class="category">{{ product }}</button></br>
+<button type="submit" class="product" value="{{ product.id }}">{{ product }}</button></br>
 {% endfor %}
 <button type="submit" id="creation_button">Créer un produit</button>
 
 <script>
     $("#creation_button").click(function () {
         document.getElementById("product_creation").innerHTML = "";
-        var subcategory = "{{ subcategory }}";
+        var subcategory = "{{ subcategory.id }}";
         $.ajax({
             type: 'GET',
             url: "{% url 'ajax_product_creation' %}",
@@ -15,6 +15,32 @@
             },
             success: function (data) {
                 $("#product_creation").html(data);
+            }
+        });
+    });
+
+    $(".product").click(function () {
+        var product = $(this).val();
+        var subcategory = "{{ subcategory.id }}";
+        if ($('#compartment_check').length == 0 ){
+            alert("Sélectionnez un compartiment pour ajouter un produit");
+            return false;
+        }
+        var compartment = document.getElementById("compartment_check").innerHTML;
+        if (compartment == ""){
+            alert("Sélectionnez un compartiment pour ajouter un produit");
+            return false;
+        };
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'ajax_add_to_stock' %}",
+            data: {
+                'product': product,
+                'subcategory': subcategory,
+                'compartment': compartment
+            },
+            success: function (data) {
+                $("#add_to_stock").html(data);
             }
         });
     });

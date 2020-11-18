@@ -10,7 +10,7 @@
 
 <script>
 $("#submit_product").click(function () {
-    var subcategory = "{{ subcategory }}";
+    var subcategory = "{{ subcategory.id }}";
     var productName = document.getElementById("product_name").value;
     $.ajax({
         type: 'GET',

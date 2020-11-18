@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from colddeviceapp.models import ColdDevice, ColdDeviceType, Compartment
 from prodapp.models import Category, SubCategory, Product
+from stockapp.models import Stock
 from webapp.sql.db_sql import Sql
 
 
@@ -89,8 +90,7 @@ def ajax_subcategory(request):
     """"""
     template = loader.get_template("webapp/subcategory.html")
     get_category = request.GET.get("category")
-    print(get_category)
-    category = Category.objects.get(category_name=get_category)
+    category = Category.objects.get(id=get_category)
     subcategories = SubCategory.objects.filter(subcategory_category=category)
     return HttpResponse(template.render(
         {"subcategories": subcategories},
@@ -102,7 +102,7 @@ def ajax_product(request):
     """"""
     template = loader.get_template("webapp/userprod.html")
     get_subcategory = request.GET.get("subcategory")
-    subcategory = SubCategory.objects.get(subcategory_name=get_subcategory)
+    subcategory = SubCategory.objects.get(id=get_subcategory)
     current_user = request.user
     user_products = Product.objects.filter(user_product=current_user)
     products = user_products.filter(product_subcategory=subcategory)
@@ -119,7 +119,7 @@ def ajax_product_creation(request):
     """"""
     template = loader.get_template("webapp/product_creation.html")
     get_subcategory = request.GET.get("subcategory")
-    subcategory = SubCategory.objects.get(subcategory_name=get_subcategory)
+    subcategory = SubCategory.objects.get(id=get_subcategory)
     return HttpResponse(template.render(
         {"subcategory": subcategory},
         request=request,
@@ -141,7 +141,7 @@ def ajax_create_product(request):
 
     Sql.product_creation(product_data)
 
-    subcategory = SubCategory.objects.get(subcategory_name=get_subcategory)
+    subcategory = SubCategory.objects.get(id=get_subcategory)
     user_products = Product.objects.filter(user_product=current_user)
     products = user_products.filter(product_subcategory=subcategory)
 
@@ -158,9 +158,77 @@ def ajax_device(request):
     """"""
     template = loader.get_template("webapp/compartment.html")
     get_device = request.GET.get("device")
-    device = ColdDevice.objects.get(colddevice_name=get_device)
+    device = ColdDevice.objects.get(id=get_device)
     compartments = Compartment.objects.filter(compartment_colddevice=device)
     return HttpResponse(template.render(
         {"compartments": compartments},
         request=request,
     ))
+
+
+def ajax_stock(request):
+    """"""
+    template = loader.get_template("webapp/stock.html")
+    get_compartment = request.GET.get("compartment")
+    compartment = Compartment.objects.get(id=get_compartment)
+    stocks = Stock.objects.filter(stock_compartment=compartment)
+    if not stocks:
+        return HttpResponse(template.render(request=request))
+    else:
+        for stock in stocks:
+            products = Product.objects.filter(id=stock.stock_product.id)
+        return HttpResponse(template.render(
+            {
+                "stockprods": products,
+                "stocks": stocks,
+            },
+            request=request,
+        ))
+
+
+def ajax_add_to_stock(request):
+    """"""
+    template = loader.get_template("webapp/add_to_stock.html")
+    get_compartment = request.GET.get("compartment")
+    get_product = request.GET.get("product")
+    get_subcategory = request.GET.get("subcategory")
+    product = Product.objects.get(id=get_product)
+    compartment = Compartment.objects.get(id=get_compartment)
+    subcategory = SubCategory.objects.get(id=get_subcategory)
+    return HttpResponse(template.render(
+        {
+            "product": product,
+            "subcategory": subcategory,
+            "compartment": compartment,
+        },
+        request=request,
+    ))
+
+
+
+def ajax_stocked(request):
+    """"""
+    get_compartment = request.GET.get("compartment")
+    get_product = request.GET.get("product_name")
+    get_product_quantity = request.GET.get("product_quantity")
+    get_subcategory = request.GET.get("subcategory")
+    subcategory = SubCategory.objects.get(id=get_subcategory)
+    compartment = Compartment.objects.get(id=get_compartment)
+    product = Product.objects.get(id=get_product)
+
+    stock_data = {
+        "product": product,
+        "product_quantity": get_product_quantity,
+        "compartment": compartment,
+        "subcategory": subcategory,
+    }
+
+    check_compartment = Stock.objects.filter(stock_compartment=compartment)
+    check_product = check_compartment.filter(stock_product=product)
+    Sql.stockage(stock_data)
+    if not check_product:
+        print("ça existe déjà")
+    else:
+        Sql.stockage(stock_data)
+    
+    pass

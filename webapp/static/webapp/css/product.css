@@ -31,8 +31,24 @@
 #product_creation
 {
     background-color: darkslateblue;
-    width: 20%;
+    width: 40%;
     float: left;
+}
+
+#add_to_stock
+{
+    background-color: teal;
+    width: 40%;
+    float: left;
+}
+
+#stock
+{
+    background-color: wheat;
+    width: 10%;
+    float: right;
+    position: fixed;
+    right: 20%;
 }
 
 #compartment_list
@@ -40,9 +56,9 @@
     background-color: darkslategrey;
     width: 10%;
     float: right;
-    margin-right: 10%;
+    position: fixed;
+    right: 10%;
 }
-
 
 #device_list
 {

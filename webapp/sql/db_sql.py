@@ -2,6 +2,7 @@ from django.db import DatabaseError, transaction
 from colddeviceapp.models import ColdDeviceType, ColdDevice, Compartment
 from userapp.models import TypeList, CustomUser
 from prodapp.models import Category, SubCategory, Product
+from stockapp.models import Stock, Diary, Notification
 import webapp.utilities.data as dt
 import logging
 
@@ -101,7 +102,7 @@ class Sql():
 
     def product_creation(data):
         logger = logging.getLogger(__name__)
-        subcategory = SubCategory.objects.get(subcategory_name=data["subcategory"])
+        subcategory = SubCategory.objects.get(id=data["subcategory"])
         user = CustomUser.objects.get(username=data["user"])
         product = Product(
             product_subcategory=subcategory,
@@ -111,6 +112,20 @@ class Sql():
         try:
             with transaction.atomic():
                 product.save()
+        except DatabaseError as insert_error:
+            logger.error(insert_error)
+            pass
+
+    def stockage(data):
+        logger = logging.getLogger(__name__)
+        stockage = Stock(
+            stock_product=data["product"],
+            stock_compartment=data["compartment"],
+            stock_number=int(data["product_quantity"]),
+        )
+        try:
+            with transaction.atomic():
+                stockage.save()
         except DatabaseError as insert_error:
             logger.error(insert_error)
             pass
