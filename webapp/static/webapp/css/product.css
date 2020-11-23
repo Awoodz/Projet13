@@ -7,64 +7,56 @@
     background-color: cornflowerblue;
 
 }
+
+#product_type
+{
+    background-color: turquoise;
+    z-index: 2;
+}
+
 #category_list
 {
     background-color: darkgray;
-    width: 10%;
-    float: left;
+    z-index: 1;
 }
 
 #subcategory_list
 {
     background-color: darkkhaki;
-    width: 10%;
-    float: left;
+    position: fixed;
+    top: 0;
 }
 
 #product_list
 {
     background-color: darksalmon;
-    width: 10%;
-    float: left;
+    position: fixed;
+    top: 0;
 }
 
 #product_creation
 {
     background-color: darkslateblue;
-    width: 40%;
-    float: left;
 }
 
 #add_to_stock
 {
     background-color: teal;
-    width: 40%;
-    float: left;
 }
 
 #stock
 {
     background-color: wheat;
-    width: 10%;
-    float: right;
-    position: fixed;
-    right: 20%;
 }
 
 #compartment_list
 {
     background-color: darkslategrey;
-    width: 10%;
-    float: right;
     position: fixed;
-    right: 10%;
+    top: 0;
 }
 
 #device_list
 {
     background-color: dimgrey;
-    width: 10%;
-    float: right;
-    position: fixed;
-    right: 0;
 }

@@ -7,9 +7,10 @@
         Créer le produit
     </button>
 </form>
-
+<button id="close_product">Refermer</button>
 <script>
-$("#submit_product").click(function () {
+$("#submit_product").click(function (event) {
+    event.preventDefault()
     var subcategory = "{{ subcategory.id }}";
     var productName = document.getElementById("product_name").value;
     $.ajax({
@@ -21,8 +22,8 @@ $("#submit_product").click(function () {
         },
         success: function (data) {
             document.getElementById("product_creation").innerHTML = "";
-            document.getElementById("product_list").innerHTML = "";
-            $("#product_list").html(data);
+            // document.getElementById("product_list").innerHTML = "";
+            // $("#product_list").html(data);
         }
     });
 });

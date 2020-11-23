@@ -2,6 +2,7 @@
 <button type="submit" class="product" value="{{ product.id }}">{{ product }}</button></br>
 {% endfor %}
 <button type="submit" id="creation_button">Créer un produit</button>
+<button id="close_product">Refermer</button>
 
 <script>
     $("#creation_button").click(function () {
@@ -42,6 +43,14 @@
             success: function (data) {
                 $("#add_to_stock").html(data);
             }
+        });
+    });
+
+    $("#close_product").click(function () {
+        $("#product_list").animate({top:"0em",opacity:"0"},500, function() {
+            $("#subcategory_list").css('z-index', 2);
+            $("#product_list").css('z-index', 1);
+            $("#product_list").html("");
         });
     });
 </script>

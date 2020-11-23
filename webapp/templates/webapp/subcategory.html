@@ -1,6 +1,7 @@
 {% for subcategory in subcategories %}
 <button type="submit" class="subcategory" value="{{ subcategory.id }}">{{ subcategory }}</button></br>
 {% endfor %}
+<button id="close_subcategory">Refermer</button>
 
 <script>
     $(".subcategory").click(function () {
@@ -15,7 +16,18 @@
         },
         success: function (data) {
             $("#product_list").html(data);
+            $("#subcategory_list").css('z-index', 1);
+            $("#product_list").css('z-index', 2);
+            $("#product_list").animate({top:"10em",opacity:"1"},500);
         }
+    });
+});
+
+$("#close_subcategory").click(function () {
+    $("#subcategory_list").animate({top:"0em",opacity:"0"},500, function() {
+        $("#category_list").css('z-index', 2);
+        $("#subcategory_list").css('z-index', 1);
+        $("#subcategory_list").html("");
     });
 });
 </script>

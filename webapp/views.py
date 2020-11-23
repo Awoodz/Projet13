@@ -1,5 +1,5 @@
 import json
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
@@ -145,13 +145,7 @@ def ajax_create_product(request):
     user_products = Product.objects.filter(user_product=current_user)
     products = user_products.filter(product_subcategory=subcategory)
 
-    return HttpResponse(template.render(
-        {
-            "products": products,
-            "subcategory": subcategory,
-        },
-        request=request,
-    ))
+    return JsonResponse({"response": "success"})
 
 
 def ajax_device(request):
@@ -172,14 +166,12 @@ def ajax_stock(request):
     get_compartment = request.GET.get("compartment")
     compartment = Compartment.objects.get(id=get_compartment)
     stocks = Stock.objects.filter(stock_compartment=compartment)
+    print(stocks)
     if not stocks:
         return HttpResponse(template.render(request=request))
     else:
-        for stock in stocks:
-            products = Product.objects.filter(id=stock.stock_product.id)
         return HttpResponse(template.render(
             {
-                "stockprods": products,
                 "stocks": stocks,
             },
             request=request,
@@ -225,10 +217,9 @@ def ajax_stocked(request):
 
     check_compartment = Stock.objects.filter(stock_compartment=compartment)
     check_product = check_compartment.filter(stock_product=product)
-    Sql.stockage(stock_data)
+    print(check_product)
     if not check_product:
-        print("ça existe déjà")
-    else:
         Sql.stockage(stock_data)
-    
+    else:
+        print("ça existe déjà")
     pass

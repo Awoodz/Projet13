@@ -1,4 +1,4 @@
 LE STOCK</br>
-{% for product in stockprods %}
-{{ product }}</br>
+{% for product in stocks %}
+{{ product.stock_product.product_name }}{{ product.stock_number }}<button id=remove_stock_button type="button">-</button></br>
 {% endfor %}

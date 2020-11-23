@@ -8,6 +8,7 @@ body, header, footer
 header, footer
 {
     background-color: blueviolet;
+    z-index: 3;
 }
 
 header
@@ -22,4 +23,9 @@ footer
     height: 4em;
     position: fixed;
     bottom: 0;
+}
+
+body
+{
+    z-index: -1;
 }
