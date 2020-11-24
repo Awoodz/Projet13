@@ -1,4 +1,11 @@
+MAX_PAGE = 3
+
 data_dict = {
+    "industriel": {
+        "subcategory": [
+            {"name": "industriel", "duration": 0},
+        ],
+    },
     "viande": {
         "subcategory": [
             {"name": "boeuf", "duration": 30},
@@ -14,11 +21,15 @@ data_dict = {
         ],
     },
     "legume": {
-        "name": "legume",
         "subcategory": [
             {"name": "carotte", "duration": 30},
             {"name": "haricot", "duration": 40},
             {"name": "oignons", "duration": 50},
         ],
-    }
+    },
+    "autre": {
+        "subcategory": [
+            {"name": "autre", "duration": 0},
+        ],
+    },
 }

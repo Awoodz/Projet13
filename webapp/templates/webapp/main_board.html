@@ -1,0 +1,69 @@
+{% extends "webapp/base.html" %}
+{% block title %}Tableau de bord{% endblock %}
+{% block content %}
+{% load static %}
+<!-- CSS-->
+<link href="{% static 'webapp/css/main_board.css' %}" rel="stylesheet" />
+<div class="background">
+    <div id="product_view" class="col-md-4" style="float: left; background-color: lightblue;">Gérer mes produit</div>
+    <div id="device_view" class="col-md-4" style="float: left; background-color: lightblue;">Gérer mes appareil</div>
+    <div id="stock_view" class="col-md-4" style="float: left; background-color: lightblue;">Gérer stock</div>
+    <div class="col-md-4" style="float: left; background-color: purple;">
+        <div id="product_type"></div>
+        <div id="category_list"></div>
+        <div id="subcategory_list"></div>
+        <div id="product_list"></div>
+        <div id="product_creation"></div>
+    </div>
+    <div class="col-md-4" style="float: left; background-color: purple;">
+        <div id="add_to_stock"></div>
+        <div id="stock"></div>
+    </div>
+    <div class="col-md-4" style="float: left; background-color: purple;">
+        <div id="device_list">
+        <div id="compartment_list"></div>
+    </div>
+
+</div>
+
+<script>
+    $("#product_view").click(function () {
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'ajax_product_type' %}",
+        success: function (data) {
+            $("#product_type").html(data);
+            $("#device_list").html("");
+        }
+        });
+    });
+
+    $("#device_view").click(function () {
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'ajax_device' %}",
+                data: {
+                'checker': "device",
+                },
+            success: function (data) {
+                $("#device_list").html(data);
+                $("#product_type").html("");
+            }
+        });
+    });
+
+    $("#stock_view").click(function () {
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'ajax_device' %}",
+                data: {
+                'checker': "stock",
+                },
+            success: function (data) {
+                $("#device_list").html(data);
+                $("#product_type").html("");
+            }
+        });
+    });
+</script>
+{% endblock %}

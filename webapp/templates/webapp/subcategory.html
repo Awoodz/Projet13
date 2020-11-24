@@ -1,33 +1,20 @@
 {% for subcategory in subcategories %}
 <button type="submit" class="subcategory" value="{{ subcategory.id }}">{{ subcategory }}</button></br>
 {% endfor %}
-<button id="close_subcategory">Refermer</button>
 
 <script>
     $(".subcategory").click(function () {
-    document.getElementById("product_list").innerHTML = "";
-    document.getElementById("product_creation").innerHTML = "";
-    var subcategory = $(this).val();
-    $.ajax({
-        type: 'GET',
-        url: "{% url 'ajax_product' %}",
-        data: {
-            'subcategory': subcategory,
-        },
-        success: function (data) {
-            $("#product_list").html(data);
-            $("#subcategory_list").css('z-index', 1);
-            $("#product_list").css('z-index', 2);
-            $("#product_list").animate({top:"10em",opacity:"1"},500);
-        }
+        var subcategory = $(this).val();
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'ajax_product_creation' %}",
+            data: {
+                'subcategory': subcategory,
+            },
+            success: function (data) {
+                $("#product_creation").html(data);
+            }
+        });
     });
-});
 
-$("#close_subcategory").click(function () {
-    $("#subcategory_list").animate({top:"0em",opacity:"0"},500, function() {
-        $("#category_list").css('z-index', 2);
-        $("#subcategory_list").css('z-index', 1);
-        $("#subcategory_list").html("");
-    });
-});
 </script>

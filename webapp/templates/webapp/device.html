@@ -1,13 +1,6 @@
-{% extends "webapp/base.html" %}
-{% block title %}Appareil{% endblock %}
-{% block content %}
-{% load static %}
-<!-- CSS-->
-<link href="{% static 'webapp/css/device.css' %}" rel="stylesheet" />
-<div class="device_list">
-    {% for device in user_devices %}
-    <div class="device">{{ device }}</div>
-    {% endfor %}
-    <a href="{% url 'create_device' %}">Ajouter un appareil</a>
-</div>
-{% endblock %}
+{% for device in user_devices %}
+<button type="submit" class="device" value="{{ device.id }}">{{ device }}</button></br>
+{% endfor %}
+{% if checker == "device" %}
+<a href="{% url 'create_device' %}" class="btn btn-primary">Créer un appareil</button>
+{% endif %}

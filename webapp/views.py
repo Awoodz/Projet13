@@ -71,15 +71,41 @@ def ajax_create_device(request):
     return redirect(device)
 
 @login_required
-def product(request):
+def main_board(request):
     """Product list page"""
-    template = loader.get_template("webapp/product.html")
-    current_user = request.user
-    user_devices = ColdDevice.objects.filter(colddevice_user=current_user.id)
-    categories = Category.objects.all()
+    template = loader.get_template("webapp/main_board.html")
+    return HttpResponse(template.render(
+        request=request,
+    ))
+
+
+def ajax_product_type(request):
+    """"""
+    template = loader.get_template("webapp/product_type.html")
+    return HttpResponse(template.render(request=request))
+
+
+def ajax_category(request):
+    """"""
+    template = loader.get_template("webapp/category.html")
+    categories = Category.objects.all().exclude(category_name="industriel")
     return HttpResponse(template.render(
         {
             "categories": categories,
+        },
+        request=request,
+    ))
+
+
+def ajax_device(request):
+    """"""
+    template = loader.get_template("webapp/device.html")
+    checker = request.GET.get("checker")
+    current_user = request.user
+    user_devices = ColdDevice.objects.filter(colddevice_user=current_user.id)
+    return HttpResponse(template.render(
+        {
+            "checker": checker,
             "user_devices": user_devices,
         },
         request=request,
@@ -148,7 +174,7 @@ def ajax_create_product(request):
     return JsonResponse({"response": "success"})
 
 
-def ajax_device(request):
+def ajax_compartment(request):
     """"""
     template = loader.get_template("webapp/compartment.html")
     get_device = request.GET.get("device")

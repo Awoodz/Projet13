@@ -10,29 +10,21 @@
 #product_type
 {
     background-color: turquoise;
-    z-index: 2;
 }
 
 #category_list
 {
     background-color: darkgray;
-    z-index: 1;
 }
 
 #subcategory_list
 {
     background-color: darkkhaki;
-    height: 40em;
-    /* width: 23em; */
-    position: fixed;
-    top: 0;
 }
 
 #product_list
 {
     background-color: darksalmon;
-    position: fixed;
-    top: 0;
 }
 
 #product_creation
@@ -53,8 +45,6 @@
 #compartment_list
 {
     background-color: darkslategrey;
-    position: fixed;
-    top: 0;
 }
 
 #device_list

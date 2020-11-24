@@ -9,3 +9,4 @@ class Command(BaseCommand):
         Sql.user_type_builder()
         Sql.category_builder()
         Sql.subcategory_builder()
+        Sql.product_updater()

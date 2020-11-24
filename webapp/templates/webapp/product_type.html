@@ -1,0 +1,15 @@
+Choisissez un type de produit:
+<button id="raw_product">brut</button>
+<button id="industrial_product">industriel</button>
+
+<script>
+    $("#raw_product").click(function () {
+    $.ajax({
+        type: 'GET',
+        url: "{% url 'ajax_category' %}",
+    success: function (data) {
+        $("#category_list").html(data);
+    }
+    });
+});
+</script>
