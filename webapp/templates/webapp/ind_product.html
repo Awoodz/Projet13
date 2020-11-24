@@ -1,0 +1,34 @@
+{% load static %}
+<form action="/search" method="get" title="Entrez le nom d'un produit">
+    {% csrf_token %}
+    {{ prodform.as_p }}
+
+    <input type="submit" value="Rechercher" />
+</form>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+{{ prodform.media }}
+
+<script src="{% static 'webapp/js/autocomplete.js' %}"></script>
+
+<button id="test_button" value="{{ test_button }}">{{ test_button }}</button>
+
+<script>
+    $("#test_button").click(function () {
+        var subcategory = $(this).val();
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'ajax_product_creation' %}",
+            data: {
+                'subcategory': subcategory,
+                'checker': "industrial",
+            },
+            success: function (data) {
+                $("#master_div_product div").html("");
+                $("#product_creation").html(data);
+            }
+        });
+    });
+
+</script>

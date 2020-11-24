@@ -1,34 +1,38 @@
-
-<h3 style="float: left;">Création d'un produit</h3><button id="close_creation" style="float: right;">X</button>
-<div style="float: left;">La durée de conservation recommandé pour la sous-catégorie {{ subcategory }} et de {{ subcategory.subcategory_peremption }} jours.</div>
+<button id="close_creation">X</button>
+<h3>Création d'un produit</h3>
+{% if checker == "raw" %}
+<div>La durée de conservation recommandé pour la sous-catégorie {{ subcategory }} et de {{ subcategory.subcategory_peremption }} jours.</div>
+{% endif %}
+{% if checker == "industrial" %}
+<div>La durée de conservation de ce produit nous est inconnue.</div>
+{% endif %}
 <form id="create_product">
-    <input type="text" name="product_name" id="product_name" placeholder="Nommez votre produit"/>
+    Nommez votre produit :
+    <input type="text" name="product_name" id="product_name" placeholder="{{ subcategory }}"/>
     <button type="submit" name="submit_product" id="submit_product">
         Créer le produit
     </button>
 </form>
-<button id="close_product">Refermer</button>
 <script>
-$("#submit_product").click(function (event) {
-    event.preventDefault()
-    var subcategory = "{{ subcategory.id }}";
-    var productName = document.getElementById("product_name").value;
-    $.ajax({
-        type: 'GET',
-        url: "{% url 'ajax_create_product' %}",
-        data: {
-            'subcategory': subcategory,
-            'product_name': productName,
-        },
-        success: function (data) {
-            document.getElementById("product_creation").innerHTML = "";
-            // document.getElementById("product_list").innerHTML = "";
-            // $("#product_list").html(data);
-        }
+    $("#submit_product").click(function (event) {
+        event.preventDefault();
+        var productName = $("#product_name").val();
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'ajax_create_product' %}",
+            data: {
+                'checker': "{{ checker }}",
+                'subcategory': "{{ subcategory }}",
+                'product_name': productName,
+            },
+            success: function (data) {
+                $("#product_creation").html("");
+            }
+        });
     });
-});
 
-$("#close_creation").click(function () {
-    document.getElementById("product_creation").innerHTML = "";
-});
+    $("#close_creation").click(function () {
+        $("#master_div_product div").html("");
+        $("#master_div_stock div").html("");
+    });
 </script>

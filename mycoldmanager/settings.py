@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     "prodapp.apps.ProdappConfig",
     "stockapp.apps.StockappConfig",
     "colddeviceapp.apps.ColddeviceappConfig",
+    "dal",
+    "dal_select2",
 ]
 
 MIDDLEWARE = [

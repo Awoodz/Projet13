@@ -1,12 +1,14 @@
 import json
+from dal import autocomplete
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from colddeviceapp.models import ColdDevice, ColdDeviceType, Compartment
-from prodapp.models import Category, SubCategory, Product
+from prodapp.models import Category, SubCategory, Product, IndustrialProduct
 from stockapp.models import Stock
 from webapp.sql.db_sql import Sql
+from webapp.forms import ProductForm
 
 
 def index(request):
@@ -27,8 +29,7 @@ def device(request):
     ))
 
 
-@login_required
-def create_device(request):
+def ajax_device_creation(request):
     template = loader.get_template("webapp/create_device.html")
     device_types = ColdDeviceType.objects.all()
     return HttpResponse(template.render(
@@ -124,18 +125,28 @@ def ajax_subcategory(request):
     ))
 
 
+def ajax_ind_product(request):
+    """"""
+    template = loader.get_template("webapp/ind_product.html")
+    form_class = ProductForm
+    test_button = IndustrialProduct.objects.get(id=1)
+    return HttpResponse(template.render(
+        {
+            "prodform": form_class,
+            "test_button": test_button,
+        },
+        request=request,
+    ))
+
+
 def ajax_product(request):
     """"""
     template = loader.get_template("webapp/userprod.html")
-    get_subcategory = request.GET.get("subcategory")
-    subcategory = SubCategory.objects.get(id=get_subcategory)
     current_user = request.user
-    user_products = Product.objects.filter(user_product=current_user)
-    products = user_products.filter(product_subcategory=subcategory)
+    products = Product.objects.filter(user_product=current_user)
     return HttpResponse(template.render(
         {
             "products": products,
-            "subcategory": subcategory
         },
         request=request,
     ))
@@ -145,9 +156,16 @@ def ajax_product_creation(request):
     """"""
     template = loader.get_template("webapp/product_creation.html")
     get_subcategory = request.GET.get("subcategory")
-    subcategory = SubCategory.objects.get(id=get_subcategory)
+    checker = request.GET.get("checker")
+    try:
+        subcategory = SubCategory.objects.get(id=get_subcategory)
+    except:
+        subcategory = get_subcategory
     return HttpResponse(template.render(
-        {"subcategory": subcategory},
+        {
+            "subcategory": subcategory,
+            "checker": checker
+        },
         request=request,
     ))
 
@@ -155,21 +173,25 @@ def ajax_product_creation(request):
 def ajax_create_product(request):
     """"""
     template = loader.get_template("webapp/userprod.html")
+    checker = request.GET.get("checker")
     get_subcategory = request.GET.get("subcategory")
     get_product_name = request.GET.get("product_name")
     current_user = request.user
 
-    product_data = {
-        "user": current_user,
-        "product_name": get_product_name,
-        "subcategory": get_subcategory,
-    }
+    if checker == "raw":
+        product_data = {
+            "user": current_user,
+            "product_name": get_product_name,
+            "subcategory": get_subcategory,
+        }
+    if checker == "industrial":
+        product_data = {
+            "user": current_user,
+            "product_name": get_product_name,
+            "subcategory": "industriel",
+        }
 
     Sql.product_creation(product_data)
-
-    subcategory = SubCategory.objects.get(id=get_subcategory)
-    user_products = Product.objects.filter(user_product=current_user)
-    products = user_products.filter(product_subcategory=subcategory)
 
     return JsonResponse({"response": "success"})
 
@@ -249,3 +271,19 @@ def ajax_stocked(request):
     else:
         print("ça existe déjà")
     pass
+
+
+class ProductAutocomplete(autocomplete.Select2QuerySetView):
+    """Autocomplete form"""
+
+    def get_queryset(self):
+        """Set how autocomplete form must filter"""
+
+        request = IndustrialProduct.objects.all().order_by("ind_product_name")
+
+        if self.q:
+            request = request.filter(
+                ind_product_name__istartswith=self.q
+            )
+
+        return request

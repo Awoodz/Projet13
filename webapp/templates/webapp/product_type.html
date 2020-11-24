@@ -4,12 +4,27 @@ Choisissez un type de produit:
 
 <script>
     $("#raw_product").click(function () {
-    $.ajax({
-        type: 'GET',
-        url: "{% url 'ajax_category' %}",
-    success: function (data) {
-        $("#category_list").html(data);
-    }
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'ajax_category' %}",
+        success: function (data) {
+            $("#master_div_product div").html("");
+            $("#category_list").html(data);
+            $("#stock").html("Selectionnez une catégorie");
+        }
+        });
     });
-});
+    
+    $("#industrial_product").click(function () {
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'ajax_ind_product' %}",
+        success: function (data) {
+            $("#master_div_product div").html("");
+            $("#category_list").html(data);
+            $("#stock").html("Selectionnez votre produit dans la liste");
+        }
+        });
+    });
+
 </script>

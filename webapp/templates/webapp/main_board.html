@@ -6,62 +6,76 @@
 <link href="{% static 'webapp/css/main_board.css' %}" rel="stylesheet" />
 <div class="background">
     <div id="product_view" class="col-md-4" style="float: left; background-color: lightblue;">Gérer mes produit</div>
-    <div id="device_view" class="col-md-4" style="float: left; background-color: lightblue;">Gérer mes appareil</div>
     <div id="stock_view" class="col-md-4" style="float: left; background-color: lightblue;">Gérer stock</div>
-    <div class="col-md-4" style="float: left; background-color: purple;">
+    <div id="device_view" class="col-md-4" style="float: left; background-color: lightblue;">Gérer mes appareil</div>
+    <div id="master_div_product" class="col-md-4" style="float: left; background-color: purple;">
         <div id="product_type"></div>
         <div id="category_list"></div>
         <div id="subcategory_list"></div>
         <div id="product_list"></div>
         <div id="product_creation"></div>
     </div>
-    <div class="col-md-4" style="float: left; background-color: purple;">
+    <div id="master_div_stock" class="col-md-4" style="float: left; background-color: purple;">
         <div id="add_to_stock"></div>
         <div id="stock"></div>
     </div>
-    <div class="col-md-4" style="float: left; background-color: purple;">
-        <div id="device_list">
+    <div id="master_div_device" class="col-md-4" style="float: left; background-color: purple;">
+        <div id="device_list"></div>
         <div id="compartment_list"></div>
+        <div id="device_creation"></div>
     </div>
 
 </div>
 
 <script>
+    $.ajaxPrefilter(function( options, original_Options, jqXHR ) {
+        options.async = true;
+    });
+
     $("#product_view").click(function () {
         $.ajax({
             type: 'GET',
             url: "{% url 'ajax_product_type' %}",
-        success: function (data) {
-            $("#product_type").html(data);
-            $("#device_list").html("");
-        }
+            success: function (data) {
+                $("#master_div_product div").html("");
+                $("#master_div_stock div").html("");
+                $("#master_div_device div").html("");
+                $("#product_type").html(data);
+                $("#stock").html("Votre produit est-il brut ou industriel ?");
+            }
         });
     });
 
     $("#device_view").click(function () {
-            $.ajax({
-                type: 'GET',
-                url: "{% url 'ajax_device' %}",
-                data: {
-                'checker': "device",
-                },
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'ajax_device' %}",
+            data: {
+            'checker': "device",
+            },
             success: function (data) {
+                $("#master_div_product div").html("");
+                $("#master_div_stock div").html("");
+                $("#master_div_device div").html("");
                 $("#device_list").html(data);
-                $("#product_type").html("");
+                $("#stock").html("Selectionnez un appareil à modifier ou créez en un");
             }
         });
     });
 
     $("#stock_view").click(function () {
-            $.ajax({
-                type: 'GET',
-                url: "{% url 'ajax_device' %}",
-                data: {
-                'checker': "stock",
-                },
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'ajax_device' %}",
+            data: {
+            'checker': "stock",
+            },
             success: function (data) {
+                $("#master_div_product div").html("");
+                $("#master_div_stock div").html("");
+                $("#master_div_device div").html("");
                 $("#device_list").html(data);
-                $("#product_type").html("");
+                $("#stock").html("Selectionnez un appareil");
             }
         });
     });

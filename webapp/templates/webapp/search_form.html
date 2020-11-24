@@ -1,0 +1,30 @@
+{% load static %}
+
+{% block productform %}
+<!-- <div style="display: table;">
+    <div style="display: table-cell; vertical-align: middle; text-align: center;"> -->
+<form action="/search" method="get" title="Entrez le nom d'un produit">
+    {% csrf_token %}
+    {{ prodform.as_p }}
+
+    <!-- <table style="display: none">
+                {{ view.formset.empty_form }}
+            </table>
+
+            <table>
+                {{ view.formset }}
+            </table> -->
+
+    <!-- <span id="add-form" class="button"></span> -->
+
+    <input type="submit" value="Rechercher" />
+</form>
+<!-- </div>
+</div> -->
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+{{ prodform.media }}
+
+<script src="{% static 'webapp/js/autocomplete.js' %}"></script>
+{% endblock %}

@@ -1,41 +1,35 @@
-{% extends "webapp/base.html" %}
-{% block title %}Accueil{% endblock %}
-{% block content %}
-{% load static %}
-<!-- CSS-->
-<link href="{% static 'webapp/css/create_device.css' %}" rel="stylesheet" />
 <form id="create_device">
     <!-- leftside -->
     <div class="leftside">
-        <input type="text" name="device_name" id="device_name" placeholder="Nommez votre appareil"/>
-        <input type="text" name="device_place" id="device_place" placeholder="Où est votre appareil ? (optionnel)"/>
+        <input type="text" name="device_name" id="device_name" placeholder="Nommez votre appareil"/></br>
+        <input type="text" name="device_place" id="device_place" placeholder="Où est votre appareil ? (optionnel)"/><br>
         <select id="device_type_select">
             {% for type in device_types %}
             <option>{{ type }}</option>
             {% endfor %}
-        </select>
-        <div id="compartment_number">1</div> 
+        </select></br>
+        <div>Définissez le nombre de compartiments : <div id="compartment_number">1</div></div></br>
         <button id=add_button type="button">+</button>
         <button id=remove_button type="button">-</button>
-        <button type="submit" name="submit_device" id="submit_device">
-            Créer l'appareil
-        </button>
-    </div>
-    <!-- rightside -->
-    <div class="rightside">
-        <div id="compartment1">
-            <div id="compartment_img1" class="compartment">1</div>
-            <input type="text" class="compartment_name" id="compartment_name1" name="compartment_name" placeholder="Nommez le compartiment"/>
-            <script>
-                $("#compartment_name1").on('input', function () {
-                    if ($(this).val() == "") {
-                        alert("Vous devez saisir au moins un caractère");
-                        return false;
-                    }
-                    document.querySelector("#compartment_img1").innerHTML = $(this).val();
-                });
-            </script>
+
+        <div class="rightside">
+            <div id="compartment1">
+                <div id="compartment_img1" class="compartment" style="float: left;">Compartiment 1 </div>
+                <input type="text" class="compartment_name" id="compartment_name1" name="compartment_name" placeholder="Nommez le compartiment"/>
+                <script>
+                    $("#compartment_name1").on('input', function () {
+                        if ($(this).val() == "") {
+                            alert("Vous devez saisir au moins un caractère");
+                            return false;
+                        }
+                        document.querySelector("#compartment_img1").innerHTML = $(this).val();
+                    });
+                </script>
+            </div>
         </div>
+    <button type="submit" name="submit_device" id="submit_device">
+        Créer l'appareil
+    </button>
     </div>
 </form>
 
@@ -85,7 +79,8 @@
         compartDiv.remove();
     });
 
-    $("#submit_device").click(function () {
+    $("#submit_device").click(function (event) {
+        event.preventDefault();
         var deviceName = document.getElementById("device_name").value;
         var devicePlace = document.getElementById("device_place").value;
         var deviceType = document.getElementById("device_type_select").value;
@@ -117,8 +112,9 @@
                 'compart_nb': compartNb,
                 'compart_list': JSON.stringify(listBuilder(compartNb)),
             },
+            success: function (data) {
+                $("#device_creation").html("");
+            }
         });
     });
 </script>
-
-{% endblock %}

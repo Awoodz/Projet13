@@ -2,15 +2,13 @@
 <input type="radio" name="compartment" value="{{ compartment.id }}" class="compartment"/>
 <label for="{{ compartment }}">{{ compartment }}</label></br>
 {% endfor %}
-<button id="close_compartment">Refermer</button>
 <div id="compartment_check" style="visibility: hidden; height: 0px;"></div>
 
 
 <script>
 $(".compartment").click(function () {
-    document.getElementById("stock").innerHTML = "";
     var compartment = $(this).val();
-    document.getElementById("compartment_check").innerHTML = compartment;
+    $("#compartment_check").html(compartment);
     $.ajax({
         type: 'GET',
         url: "{% url 'ajax_stock' %}",
@@ -21,13 +19,12 @@ $(".compartment").click(function () {
             $("#stock").html(data);
         }
     });
-});
-
-$("#close_compartment").click(function () {
-    $("#compartment_list").animate({top:"0em",opacity:"0"},500, function() {
-        $("#device_list").css('z-index', 2);
-        $("#compartment_list").css('z-index', 1);
-        $("#compartment_list").html("");
+    $.ajax({
+        type: 'GET',
+        url: "{% url 'ajax_product' %}",
+        success: function (data) {
+            $("#product_list").html(data);
+        }
     });
 });
 </script>

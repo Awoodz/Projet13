@@ -104,7 +104,9 @@ class Sql():
 
     def product_creation(data):
         logger = logging.getLogger(__name__)
-        subcategory = SubCategory.objects.get(id=data["subcategory"])
+        subcategory = SubCategory.objects.get(
+            subcategory_name=data["subcategory"]
+        )
         user = CustomUser.objects.get(username=data["user"])
         product = Product(
             product_subcategory=subcategory,

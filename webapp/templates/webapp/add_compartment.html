@@ -1,7 +1,7 @@
 {% load static %}
 {% if compart_number %}
 <div id="compartment{{ compart_number }}">
-    <div id='compartment_img{{ compart_number }}' class='compartment'>{{ compart_number }}</div>
+    <div id='compartment_img{{ compart_number }}' class='compartment' style="float: left;">Compartiment {{ compart_number }} </div>
     <input type='text' class='compartment_name' id='compartment_name{{ compart_number}}' name='compartment_name' placeholder='Nommez le compartiment'/>
     <script>
         $('#compartment_name{{ compart_number}}').on('input', function () {
@@ -9,7 +9,7 @@
             alert('Vous devez saisir au moins un caractère');
             return false;
         }
-        document.querySelector('#compartment_img{{ compart_number }}').innerHTML = $(this).val();
+        $("#compartment_img{{ compart_number }}").html($(this).val());
         });
     </script>
 </div>
