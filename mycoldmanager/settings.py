@@ -21,6 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ["MYCOLDMANAGER_KEY"]
+SENDGRID_API_KEY = os.environ["MYCOLDMANAGER_SENDGRID_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get("ENV") == "PRODUCTION":
@@ -162,3 +163,11 @@ if os.environ.get("ENV") == "PRODUCTION":
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 AUTH_USER_MODEL = "userapp.CustomUser"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

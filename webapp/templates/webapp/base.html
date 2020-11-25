@@ -29,6 +29,20 @@
         Bonjour {{ user }}
         <a href="{% url 'logout' %}">Me déconnecter</a>
         <a href="{% url 'main_board' %}">Main Board</a>
+        <button id="mail">email</button>
+        <div id="worked"></div>
+        <script>
+            $("#mail").click(function (event) {
+                event.preventDefault();
+                $.ajax({
+                    type: 'GET',
+                    url: "{% url 'emailing' %}",
+                    success: function (data) {
+                        $("#wordked").html("Yay !");
+                    }
+                });
+            });
+        </script>
         {% else %}
         <a href="{% url 'signup' %}">Créer un compte</a>
         <a href="{% url 'login' %}">Se connecter</a>

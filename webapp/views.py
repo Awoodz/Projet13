@@ -10,6 +10,9 @@ from prodapp.models import Category, SubCategory, Product, IndustrialProduct
 from stockapp.models import Stock, Diary, Notification
 from webapp.sql.db_sql import Sql
 from webapp.forms import ProductForm
+from django.core import mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 
 def index(request):
@@ -341,4 +344,27 @@ def ajax_remove_stock(request):
     """"""
     get_stock = request.GET.get("stock")
     Sql.remove_stock(get_stock)
+    return JsonResponse({"response": "success"})
+
+
+def emailing(request):
+    stocks = Stock.objects.all()
+    for stock in stocks:
+        if stock.stock_notification.notification_date == datetime.now().date():
+            user = stock.stock_compartment.compartment_colddevice.colddevice_user
+            product = stock.stock_product.product_name
+
+            subject = "MyColdManager - Rappel"
+            html_message = render_to_string(
+                "webapp/mail.html",
+                {
+                    "user": user,
+                    "product": product,
+                }
+            )
+            plain_message = strip_tags(html_message)
+            from_email = 'From <mycoldmanager@gmail.com>'
+            to = user.email
+
+            mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
     return JsonResponse({"response": "success"})

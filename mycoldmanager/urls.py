@@ -46,6 +46,7 @@ urlpatterns = [
     url(r"^ajax_stocked/", webviews.ajax_stocked, name="ajax_stocked"),
     url(r"^ajax_remove_stock/", webviews.ajax_remove_stock, name="ajax_remove_stock"),
     url(r"^autocomplete/$", webviews.ProductAutocomplete.as_view(), name="autocomplete",),
+    url(r"^emailing/$", webviews.emailing, name="emailing"),
     path('admin/', admin.site.urls),
     path("accounts/", include("userapp.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
