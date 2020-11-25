@@ -7,6 +7,7 @@ from webapp.utilities.api.requester import Requester
 from webapp.utilities.api.product_data import Product_data
 import webapp.utilities.data as dt
 import logging
+import datetime
 
 
 class Sql():
@@ -122,13 +123,26 @@ class Sql():
 
     def stockage(data):
         logger = logging.getLogger(__name__)
+        notification_date = datetime.datetime.strptime(data["date"], '%d/%m/%Y')
+        diary = Diary(
+            diary_add=datetime.datetime.now().date(),
+            diary_number=0,
+        )
+        notification = Notification(
+            notification_date=notification_date,
+            notification_is_send=0,
+        )
         stockage = Stock(
             stock_product=data["product"],
             stock_compartment=data["compartment"],
             stock_number=int(data["product_quantity"]),
+            stock_diary=diary,
+            stock_notification=notification,
         )
         try:
             with transaction.atomic():
+                diary.save()
+                notification.save()
                 stockage.save()
         except DatabaseError as insert_error:
             logger.error(insert_error)
@@ -163,3 +177,56 @@ class Sql():
                 except DatabaseError as prod_error:
                     logger.error(prod_error)
                     pass
+
+    def remove_device(device_id):
+        logger = logging.getLogger(__name__)
+        device = ColdDevice.objects.get(id=device_id)
+        try:
+            with transaction.atomic():
+                device.delete()
+        # report error if not ok
+        except DatabaseError as remove_error:
+            logger.error(remove_error)
+            pass
+
+    def remove_compartment(compartment_id):
+        logger = logging.getLogger(__name__)
+        compartment = Compartment.objects.get(id=compartment_id)
+        try:
+            with transaction.atomic():
+                compartment.delete()
+        # report error if not ok
+        except DatabaseError as remove_error:
+            logger.error(remove_error)
+            pass
+
+    def remove_stock(stock_id):
+        logger = logging.getLogger(__name__)
+        stock = Stock.objects.get(id=stock_id)
+        stock.stock_number -= 1
+        diary = stock.stock_diary
+        notification = stock.stock_notification
+        if stock.stock_number == 0:
+            diary.diary_remove = datetime.datetime.now().date()
+            diary.diary_number += 1
+            notification.notification_is_send = 1
+            try:
+                with transaction.atomic():
+                    stock.save()
+                    diary.save()
+                    notification.save()
+            # report error if not ok
+            except DatabaseError as remove_error:
+                logger.error(remove_error)
+                pass
+        else:
+            diary.diary_modification = datetime.datetime.now().date()
+            diary.diary_number += 1
+            try:
+                with transaction.atomic():
+                    diary.save()
+                    stock.save()
+            # report error if not ok
+            except DatabaseError as remove_error:
+                logger.error(remove_error)
+                pass

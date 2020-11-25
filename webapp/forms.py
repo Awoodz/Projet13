@@ -24,3 +24,4 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = IndustrialProduct
         fields = ("product_search",)
+

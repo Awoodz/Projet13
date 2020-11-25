@@ -1,0 +1,155 @@
+<form id="create_device">
+    <!-- leftside -->
+    <div class="leftside">
+        <input type="text" name="device_name" id="device_name" placeholder="Nommez votre appareil" value="{{ device }}"/></br>
+        <input type="text" name="device_place" id="device_place" placeholder="Où est votre appareil ? (optionnel)" value="{{ device.colddevice_place }}"/><br>
+        <select id="device_type_select" value="{{ device.colddevice_type }}">
+            {% for type in device_types %}
+            <option>{{ type }}</option>
+            {% endfor %}
+        </select></br>
+        
+        <div>Définissez le nombre de compartiments : <div id="compartment_number">{{ compartments.count }}</div></div></br>
+        <button id=add_button type="button">+</button>
+        <button id=remove_button type="button">-</button>
+
+        <div class="rightside">
+            {% for compartment in compartments %}
+            <div id="compartment{{ compartment.id }}">
+                <div id="compartment_img{{ compartment.id }}" class="compartment" style="float: left;">{{ compartment }} </div>
+                <input type="text" class="compartment_name" id="compartment_name{{ compartment.id }}" name="compartment_name" placeholder="Nommez le compartiment"/>
+                <button class="delete_compartment" value="{{ compartment.id }}">Supprimer</button>
+                <script>
+                    $("#compartment_name{{ compartment.id }}").on('input', function () {
+                        if ($(this).val() == "") {
+                            alert("Vous devez saisir au moins un caractère");
+                            return false;
+                        }
+                        document.querySelector("#compartment_img{{ compartment.id }}").innerHTML = $(this).val();
+                    });
+                    $(".delete_compartment").click(function () {
+                        var compartmentDiv = $("#compartment{{ compartment.id }}");
+                        var compartmentId = $(this).val()
+                        $.ajax({
+                        type: 'GET',
+                        url: "{% url 'ajax_compartment_deletion' %}",
+                        data: {'compartment': compartmentId},
+                        success: function (data) {
+                            console.log(compartmentDiv);
+                            $(compartmentDiv).remove();
+                            }
+                        });
+
+                    });
+                </script>
+            </div>
+            {% endfor %}
+        </div>
+        
+    <button type="submit" id="submit_device">
+        Modifier l'appareil
+    </button>
+    <button type="submit" id="delete_device">
+        Supprimer l'appareil
+    </button>
+    </div>
+</form>
+
+<script>
+    // + button add 1 to compartment number
+    $("#add_button").click(function () {
+
+        var compartBody = document.querySelector(".rightside");
+        var compartNbDiv = document.getElementById("compartment_number").innerHTML;
+
+        function newCompartDiv(bodyId, compartNb) {
+            var intCompartNbDiv = parseInt(compartNb);
+            if (intCompartNbDiv == 10) {
+                alert("Il ne peut pas y avoir plus de 10 compartiments");
+                return false;
+            };
+            intCompartNbDiv += 1;
+            newCompartId = intCompartNbDiv.toString();
+            document.getElementById("compartment_number").innerHTML = intCompartNbDiv;
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'ajax_compart' %}",
+                data: {
+                    'compartment': newCompartId,
+                },
+                success: function (data) {
+                    $(bodyId).append(data);
+                }
+            })
+        }
+
+        newCompartDiv(compartBody, compartNbDiv);
+    });
+
+    // - button add 1 to compartment number
+    $("#remove_button").click(function () {
+        var compartNbDiv = document.getElementById("compartment_number").innerHTML;
+        var compartDiv = document.getElementById(("compartment" + compartNbDiv));
+        var intCompartNbDiv = parseInt(compartNbDiv);
+
+        if (intCompartNbDiv == 1) {
+            alert("Il ne peut pas y avoir moins de 1 compartiment");
+            return false;
+        };
+        intCompartNbDiv -= 1;
+        document.getElementById("compartment_number").innerHTML = intCompartNbDiv;
+        compartDiv.remove();
+    });
+
+    $("#submit_device").click(function (event) {
+        event.preventDefault();
+        var deviceName = document.getElementById("device_name").value;
+        var devicePlace = document.getElementById("device_place").value;
+        var deviceType = document.getElementById("device_type_select").value;
+        var compartNb = document.getElementById("compartment_number").innerHTML;
+
+        if (deviceName == "") {
+            alert("Vous devez saisir un nom !");
+            return false;
+        };
+
+        function listBuilder(number) {
+            var compartList = [];
+            var i;
+            for (i = parseInt("{{ compartments.first.id }}"); i-1 < compartNb; i++) {
+                var compartName = document.getElementById("compartment_img" + i.toString()).innerHTML;
+                compartList.push(compartName);
+            };
+            console.log(compartList)
+            return compartList;
+        };
+        
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'ajax_device_modification' %}",
+            data: {
+                'device': "{{ device.id }}",
+                'device_name': deviceName,
+                'device_place': devicePlace,
+                'device_type': deviceType,
+                'compart_nb': compartNb,
+                'compart_list': JSON.stringify(listBuilder(compartNb)),
+            },
+            success: function (data) {
+                $("#device_creation").html("");
+            }
+        });
+    });
+
+    $("#delete_device").click(function (event) {
+        event.preventDefault();
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'ajax_device_deletion' %}",
+            data: {'device': "{{ device.id }}"},
+            success: function (data) {
+                $("#device_creation").html("");
+            }
+        });
+    });
+</script>

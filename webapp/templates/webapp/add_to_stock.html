@@ -1,10 +1,28 @@
 
-<h3 style="float: left;">Ajout d'un produit</h3><button id="close_add_to_stock" style="float: right;">X</button>
-<div style="float: left;">Vous voulez ajouter {{ product }} dans compartiment {{ compartment }}.</div></br>
+<button id="close_add_to_stock">X</button></br>
+<h3>Ajout d'un produit</h3></br>
+<div>Vous voulez ajouter {{ product }} à votre stock !</div></br>
 <form id="add_product_to_stock">
-    <div id="product_quantity">1</div> 
+    <div>Quantité : <div id="product_quantity">1</div></div></br>
     <button id=add_product_button type="button">+</button>
     <button id=remove_product_button type="button">-</button>
+    </br>
+    {% if checker == "nodate" %}
+    <div>Nous n'avons pas d'information concernant la durabilité de ce produit !</div>
+    <div>Par défaut, nous réglerons la date de rappel sur 3 mois, vous pouvez la modifier.</div>
+    {% else %}
+    <div>Nous recommandons la date de rappel suivante :</div>
+    <div>(vous pouvez la modifier)</div>
+    {% endif %}
+    <input id="datepicker">
+    <script>
+        $(function () {
+            $("#datepicker").datepicker({
+            format:'dd/mm/yyyy',
+            });
+        });
+    </script>
+    </br>
     <button type="submit" name="submit_add_to_stock" id="submit_add_to_stock">
         Ajouter le produit
     </button>
@@ -33,23 +51,29 @@
         document.getElementById("product_quantity").innerHTML = intProductNb;
     });
 
-$("#submit_add_to_stock").click(function () {
-    var subcategory = "{{ subcategory.id }}";
-    var product = "{{ product.id }}"
-    var compartment = "{{ compartment.id }}"
-    var productNb = document.getElementById("product_quantity").innerHTML
-    $.ajax({
-        type: 'GET',
-        url: "{% url 'ajax_stocked' %}",
-        data: {
-            'subcategory': subcategory,
-            'product_name': product,
-            'compartment': compartment,
-            'product_quantity': productNb,
-        },
-        success: function (data) {
-            document.getElementById("add_to_stock").innerHTML = "";
-        }
+    $("#submit_add_to_stock").click(function (event) {
+        event.preventDefault();
+        var compartment = $("#compartment_check").html();
+        var durationDate = $("#datepicker").datepicker('getDate', true);
+        var productNb = document.getElementById("product_quantity").innerHTML
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'ajax_stocked' %}",
+            data: {
+                'date': durationDate,
+                'product': "{{ product.id }}",
+                'compartment': compartment,
+                'product_quantity': productNb,
+            },
+            success: function (data) {
+                document.getElementById("add_to_stock").innerHTML = "";
+            }
+        });
     });
-});
+
+    $("#datepicker").ready(function() {
+        console.log("{{ checker }}");
+        $("#datepicker").datepicker('setDate', '{{ duration }}');
+    });
+
 </script>

@@ -12,18 +12,33 @@
 <script>
     $(".device").click(function () {
         var device = $(this).val();
-        $.ajax({
-            type: 'GET',
-            url: "{% url 'ajax_compartment' %}",
-            data: {
-                'device': device,
-            },
-            success: function (data) {
-                $("#master_div_device div").html("");
-                $("#compartment_list").html(data);
-                $("#stock").html("Selectionnez un compartiment");
-            }
-        });
+        if ("{{ checker }}" == "device") {
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'ajax_modify_device' %}",
+                data: {
+                    'device': device,
+                },
+                success: function (data) {
+                    $("#master_div_device div").html("");
+                    $("#device_creation").html(data);
+                    $("#stock").html("Modifiez votre appareil");
+                }
+            });
+        } else {
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'ajax_compartment' %}",
+                data: {
+                    'device': device,
+                },
+                success: function (data) {
+                    $("#master_div_device div").html("");
+                    $("#compartment_list").html(data);
+                    $("#stock").html("Selectionnez un compartiment");
+                }
+            });
+        }
     });
 
     $("#create_device").click(function () {
