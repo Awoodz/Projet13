@@ -16,8 +16,7 @@ $(".compartment").click(function () {
             'compartment': compartment,
         },
         success: function (data) {
-            $("#master_div_stock div").html("");
-            $("#stock").html(data);
+            $("#stock_list").html(data);
         }
     });
     $.ajax({

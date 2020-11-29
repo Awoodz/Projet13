@@ -36,6 +36,7 @@ urlpatterns = [
     url(r"^main_board/", webviews.main_board, name="main_board"),
     url(r"^manage_products/", webviews.manage_products, name="manage_products"),
     url(r"^manage_devices/", webviews.manage_devices, name="manage_devices"),
+    url(r"^manage_stocks/", webviews.manage_stocks, name="manage_stocks"),
     url(r"^ajax_device/", webviews.ajax_device, name="ajax_device"),
     url(r"^ajax_category/", webviews.ajax_category, name="ajax_category"),
     url(r"^ajax_ind_product/", webviews.ajax_ind_product, name="ajax_ind_product"),

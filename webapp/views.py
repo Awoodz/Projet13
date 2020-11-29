@@ -154,14 +154,7 @@ def ajax_category(request):
 def manage_devices(request):
     """"""
     template = loader.get_template("webapp/manage_devices.html")
-    current_user = request.user
-    user_devices = ColdDevice.objects.filter(colddevice_user=current_user.id)
-    return HttpResponse(template.render(
-        {
-            "user_devices": user_devices,
-        },
-        request=request,
-    ))
+    return HttpResponse(template.render(request=request))
 
 
 def ajax_device(request):
@@ -177,6 +170,12 @@ def ajax_device(request):
         },
         request=request,
     ))
+
+
+def manage_stocks(request):
+    """"""
+    template = loader.get_template("webapp/manage_stocks.html")
+    return HttpResponse(template.render(request=request))
 
 
 def ajax_subcategory(request):
