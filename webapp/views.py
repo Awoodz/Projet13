@@ -4,10 +4,10 @@ from datetime import datetime, timedelta
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
 from colddeviceapp.models import ColdDevice, ColdDeviceType, Compartment
 from prodapp.models import Category, SubCategory, Product, IndustrialProduct
-from stockapp.models import Stock, Diary, Notification
+from stockapp.models import Stock
+from userapp.models import CustomUser
 from webapp.sql.db_sql import Sql
 from webapp.forms import ProductForm
 from django.core import mail
@@ -22,6 +22,121 @@ def index(request):
 
 
 @login_required
+def manage_products(request):
+    """"""
+    prodform = ProductForm
+    template = loader.get_template("webapp/manage_products.html")
+    return HttpResponse(template.render(
+        {
+            "prodform": prodform,
+        },
+        request=request
+    ))
+
+
+def ajax_category(request):
+    """"""
+    template = loader.get_template("webapp/category.html")
+    categories = Category.objects.all().exclude(category_name="industriel")
+    return HttpResponse(template.render(
+        {
+            "categories": categories,
+        },
+        request=request,
+    ))
+
+
+def ajax_subcategory(request):
+    """"""
+    template = loader.get_template("webapp/subcategory.html")
+    get_category = request.GET.get("category")
+    category = Category.objects.get(id=get_category)
+    subcategories = SubCategory.objects.filter(subcategory_category=category)
+    return HttpResponse(template.render(
+        {"subcategories": subcategories},
+        request=request,
+    ))
+
+
+def ajax_ind_product(request):
+    """"""
+    template = loader.get_template("webapp/ind_product.html")
+    form_class = ProductForm
+    test_button = IndustrialProduct.objects.get(id=1)
+    return HttpResponse(template.render(
+        {
+            "prodform": form_class,
+            "test_button": test_button,
+        },
+        request=request,
+    ))
+
+
+def ajax_product_creation(request):
+    """"""
+    template = loader.get_template("webapp/product_creation.html")
+    get_subcategory = request.GET.get("subcategory")
+    checker = request.GET.get("checker")
+    try:
+        subcategory = SubCategory.objects.get(id=get_subcategory)
+    except ValueError:
+        subcategory = get_subcategory
+    return HttpResponse(template.render(
+        {
+            "subcategory": subcategory,
+            "checker": checker
+        },
+        request=request,
+    ))
+
+
+def ajax_create_product(request):
+    """"""
+    checker = request.GET.get("checker")
+    get_subcategory = request.GET.get("subcategory")
+    get_product_name = request.GET.get("product_name")
+    current_user = request.user
+
+    if checker == "raw":
+        product_data = {
+            "user": current_user,
+            "product_name": get_product_name,
+            "subcategory": get_subcategory,
+        }
+    if checker == "industrial":
+        product_data = {
+            "user": current_user,
+            "product_name": get_product_name,
+            "subcategory": "industriel",
+        }
+
+    Sql.product_creation(product_data)
+    return JsonResponse({"response": "success"})
+
+
+class ProductAutocomplete(autocomplete.Select2QuerySetView):
+    """Autocomplete form"""
+
+    def get_queryset(self):
+        """Set how autocomplete form must filter"""
+
+        request = IndustrialProduct.objects.all().order_by("ind_product_name")
+
+        if self.q:
+            request = request.filter(
+                ind_product_name__istartswith=self.q
+            )
+
+        return request
+
+
+@login_required
+def manage_devices(request):
+    """"""
+    template = loader.get_template("webapp/manage_devices.html")
+    return HttpResponse(template.render(request=request))
+
+
 def device(request):
     """Devices list page"""
     template = loader.get_template("webapp/device.html")
@@ -59,12 +174,12 @@ def ajax_modify_device(request):
 
 
 def ajax_device_modification(request):
-    get_device = request.GET.get("device")
-    device_name = request.GET.get("device_name")
-    device_place = request.GET.get("device_place")
-    device_type = request.GET.get("device_type")
-    compart_number = request.GET.get("compart_nb")
-    compart_str = request.GET.get("compart_list")
+    # get_device = request.GET.get("device")
+    # device_name = request.GET.get("device_name")
+    # device_place = request.GET.get("device_place")
+    # device_type = request.GET.get("device_type")
+    # compart_number = request.GET.get("compart_nb")
+    # compart_str = request.GET.get("compart_list")
 
     return JsonResponse({"response": "success"})
 
@@ -114,48 +229,6 @@ def ajax_create_device(request):
 
     return JsonResponse({"response": "success"})
 
-@login_required
-def main_board(request):
-    """Product list page"""
-    template = loader.get_template("webapp/main_board.html")
-    form_class = ProductForm
-    return HttpResponse(template.render(
-        {
-            "prodform": form_class,
-        },
-        request=request,
-    ))
-
-
-def manage_products(request):
-    """"""
-    prodform = ProductForm
-    template = loader.get_template("webapp/manage_products.html")
-    return HttpResponse(template.render(
-        {
-            "prodform": prodform,
-        },
-        request=request
-    ))
-
-
-def ajax_category(request):
-    """"""
-    template = loader.get_template("webapp/category.html")
-    categories = Category.objects.all().exclude(category_name="industriel")
-    return HttpResponse(template.render(
-        {
-            "categories": categories,
-        },
-        request=request,
-    ))
-
-
-def manage_devices(request):
-    """"""
-    template = loader.get_template("webapp/manage_devices.html")
-    return HttpResponse(template.render(request=request))
-
 
 def ajax_device(request):
     """"""
@@ -172,36 +245,11 @@ def ajax_device(request):
     ))
 
 
+@login_required
 def manage_stocks(request):
     """"""
     template = loader.get_template("webapp/manage_stocks.html")
     return HttpResponse(template.render(request=request))
-
-
-def ajax_subcategory(request):
-    """"""
-    template = loader.get_template("webapp/subcategory.html")
-    get_category = request.GET.get("category")
-    category = Category.objects.get(id=get_category)
-    subcategories = SubCategory.objects.filter(subcategory_category=category)
-    return HttpResponse(template.render(
-        {"subcategories": subcategories},
-        request=request,
-    ))
-
-
-def ajax_ind_product(request):
-    """"""
-    template = loader.get_template("webapp/ind_product.html")
-    form_class = ProductForm
-    test_button = IndustrialProduct.objects.get(id=1)
-    return HttpResponse(template.render(
-        {
-            "prodform": form_class,
-            "test_button": test_button,
-        },
-        request=request,
-    ))
 
 
 def ajax_product(request):
@@ -215,50 +263,6 @@ def ajax_product(request):
         },
         request=request,
     ))
-
-
-def ajax_product_creation(request):
-    """"""
-    template = loader.get_template("webapp/product_creation.html")
-    get_subcategory = request.GET.get("subcategory")
-    checker = request.GET.get("checker")
-    try:
-        subcategory = SubCategory.objects.get(id=get_subcategory)
-    except:
-        subcategory = get_subcategory
-    return HttpResponse(template.render(
-        {
-            "subcategory": subcategory,
-            "checker": checker
-        },
-        request=request,
-    ))
-
-
-def ajax_create_product(request):
-    """"""
-    template = loader.get_template("webapp/userprod.html")
-    checker = request.GET.get("checker")
-    get_subcategory = request.GET.get("subcategory")
-    get_product_name = request.GET.get("product_name")
-    current_user = request.user
-
-    if checker == "raw":
-        product_data = {
-            "user": current_user,
-            "product_name": get_product_name,
-            "subcategory": get_subcategory,
-        }
-    if checker == "industrial":
-        product_data = {
-            "user": current_user,
-            "product_name": get_product_name,
-            "subcategory": "industriel",
-        }
-
-    Sql.product_creation(product_data)
-
-    return JsonResponse({"response": "success"})
 
 
 def ajax_compartment(request):
@@ -278,7 +282,9 @@ def ajax_stock(request):
     template = loader.get_template("webapp/stock.html")
     get_compartment = request.GET.get("compartment")
     compartment = Compartment.objects.get(id=get_compartment)
-    stocks = Stock.objects.filter(stock_compartment=compartment).exclude(stock_number=0)
+    stocks = Stock.objects.filter(
+        stock_compartment=compartment
+    ).exclude(stock_number__lte=0)
     if not stocks:
         return HttpResponse(template.render(request=request))
     else:
@@ -311,7 +317,6 @@ def ajax_storage(request):
             )
         ).strftime('%d/%m/%Y')
         checker = "date"
-    
     return HttpResponse(template.render(
         {
             "duration": duration,
@@ -320,7 +325,6 @@ def ajax_storage(request):
         },
         request=request,
     ))
-
 
 
 def ajax_stocked(request):
@@ -346,47 +350,8 @@ def ajax_stocked(request):
     return JsonResponse({"response": "success"})
 
 
-class ProductAutocomplete(autocomplete.Select2QuerySetView):
-    """Autocomplete form"""
-
-    def get_queryset(self):
-        """Set how autocomplete form must filter"""
-
-        request = IndustrialProduct.objects.all().order_by("ind_product_name")
-
-        if self.q:
-            request = request.filter(
-                ind_product_name__istartswith=self.q
-            )
-
-        return request
-
-
 def ajax_remove_stock(request):
     """"""
     get_stock = request.GET.get("stock")
     Sql.remove_stock(get_stock)
-    return JsonResponse({"response": "success"})
-
-
-def emailing(request):
-    stocks = Stock.objects.all()
-    for stock in stocks:
-        if stock.stock_notification.notification_date == datetime.now().date():
-            user = stock.stock_compartment.compartment_colddevice.colddevice_user
-            product = stock.stock_product.product_name
-
-            subject = "MyColdManager - Rappel"
-            html_message = render_to_string(
-                "webapp/mail.html",
-                {
-                    "user": user,
-                    "product": product,
-                }
-            )
-            plain_message = strip_tags(html_message)
-            from_email = 'From <mycoldmanager@gmail.com>'
-            to = user.email
-
-            mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
     return JsonResponse({"response": "success"})

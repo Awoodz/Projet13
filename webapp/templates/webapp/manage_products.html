@@ -48,31 +48,11 @@
                 {% csrf_token %}
                 {{ prodform.as_p }}
             </form>
-            <input id="submit_form" type="submit" value="Rechercher" />
-            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+            <input id="submit_form" type="submit" value="Créer" />
             
             {{ prodform.media }}
             
-            <script>
-                window.onload = function() {
-                    $('#add-form').click(function() {
-                        var index = $('#id_inline_test_models-TOTAL_FORMS').val();
-                        var newTable = $('#id_inline_test_models-__prefix__-DELETE').parents('table').clone();
-                        newTable.find(':input').each(function() {
-                            for (attr of ['name', 'id'])
-                                $(this).attr(
-                                    attr,
-                                    $(this).attr(attr).replace('__prefix__', index)
-                                );
-                        });
-                        newTable.insertBefore($(this));
-                        $('#id_inline_test_models-TOTAL_FORMS').val(
-                            parseInt($('#id_inline_test_models-TOTAL_FORMS').val()) + 1
-                        );
-                        newTable.slideDown();
-                    });
-                };
-            </script>
+            <script src="{% static 'webapp/js/autocomplete.js' %}"></script>
             <script>
                 $("#submit_form").click(function () {
                     $.ajax({

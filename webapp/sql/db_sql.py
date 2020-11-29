@@ -123,7 +123,9 @@ class Sql():
 
     def stockage(data):
         logger = logging.getLogger(__name__)
-        notification_date = datetime.datetime.strptime(data["date"], '%d/%m/%Y')
+        notification_date = datetime.datetime.strptime(
+            data["date"], '%d/%m/%Y'
+        )
         diary = Diary(
             diary_add=datetime.datetime.now().date(),
             diary_number=0,
@@ -153,7 +155,9 @@ class Sql():
         # setting the logger
         logger = logging.getLogger(__name__)
         # emptying the database
-        categories = Category.objects.all().exclude(category_name="industriel").exclude(category_name="autre")
+        categories = Category.objects.all().exclude(
+            category_name="industriel"
+        ).exclude(category_name="autre")
         # for each category in category list
         for elem in categories:
             id_list = Requester(str(elem)).product_id_list
@@ -230,3 +234,36 @@ class Sql():
             except DatabaseError as remove_error:
                 logger.error(remove_error)
                 pass
+
+    def notification_is_send(stock_id):
+        logger = logging.getLogger(__name__)
+        stock = Stock.objects.get(id=stock_id)
+        print(stock)
+        notification = stock.stock_notification
+        print(notification.notification_is_send)
+        notification.notification_is_send = 1
+        try:
+            with transaction.atomic():
+                notification.save()
+        except DatabaseError as save_error:
+            logger.error(save_error)
+            pass
+
+
+    def mail_delete_stock(stock):
+        logger = logging.getLogger(__name__)
+        stock.stock_number = 0
+        diary = stock.stock_diary
+        notification = stock.stock_notification
+        diary.diary_remove = datetime.datetime.now().date()
+        diary.diary_number += 1
+        notification.notification_is_send = 1
+        try:
+            with transaction.atomic():
+                stock.save()
+                diary.save()
+                notification.save()
+        # report error if not ok
+        except DatabaseError as remove_error:
+            logger.error(remove_error)
+            pass

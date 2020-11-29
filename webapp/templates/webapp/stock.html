@@ -8,6 +8,9 @@
         $("#remove{{ stock.id }}").click(function () {
             var stockId = $(this).val();
             var stockQuantity = $("#quantity{{ stock.id }}").html();
+            if (parseInt($("#quantity{{ stock.id }}").html()) <= 0) {
+                return false;
+            }
             $.ajax({
                 type: 'GET',
                 url: "{% url 'ajax_remove_stock' %}",
@@ -16,7 +19,7 @@
                 },
                 success: function (data) {
                     $("#quantity{{ stock.id }}").html(parseInt(stockQuantity)-1);
-                    if ($("#quantity{{ stock.id }}").html() == "0") {
+                    if (parseInt($("#quantity{{ stock.id }}").html()) <= 0) {
                         $("#stock{{ stock.id }}").remove();
                     }
                 }
