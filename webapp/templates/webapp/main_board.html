@@ -5,43 +5,95 @@
 <!-- CSS-->
 <link href="{% static 'webapp/css/main_board.css' %}" rel="stylesheet" />
 <div class="background">
-    <div id="product_view" class="col-md-4" style="float: left; background-color: lightblue;">Gérer mes produit</div>
-    <div id="stock_view" class="col-md-4" style="float: left; background-color: lightblue;">Gérer stock</div>
-    <div id="device_view" class="col-md-4" style="float: left; background-color: lightblue;">Gérer mes appareil</div>
-    <div id="master_div_product" class="col-md-4" style="float: left; background-color: purple;">
-        <div id="product_type"></div>
-        <div id="category_list"></div>
-        <div id="subcategory_list"></div>
-        <div id="product_list"></div>
-        <div id="product_creation"></div>
+    <div id="product_view" class="col-md-3" style="float: left; background-color: lightblue;">Gérer mes produit</div>
+    <div id="stock_view" class="col-md-3" style="float: left; background-color: lightblue;">Gérer stock</div>
+    <div id="stock_view" class="col-md-3" style="float: left; background-color: lightblue;">Voir stock</div>
+    <div id="device_view" class="col-md-3" style="float: left; background-color: lightblue;">Gérer mes appareil</div>
+    <div id="main_board">
+        <div id="master_div_product" class="col-md-4" style="float: left; background-color: purple;">
+            <div id="product_type"></div>
+            <div id="category_list">
+                <!-- <form action="/search" method="get" title="Entrez le nom d'un produit">
+                    {% csrf_token %}
+                    {{ prodform.as_p }}
+                
+                    <input type="submit" value="Rechercher" />
+                </form>
+                
+                <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                
+                {{ prodform.media }}
+                
+                <script>
+                    window.onload = function() {
+                        $('#add-form').click(function() {
+                            var index = $('#id_inline_test_models-TOTAL_FORMS').val();
+                            var newTable = $('#id_inline_test_models-__prefix__-DELETE').parents('table').clone();
+                            newTable.find(':input').each(function() {
+                                for (attr of ['name', 'id'])
+                                    $(this).attr(
+                                        attr,
+                                        $(this).attr(attr).replace('__prefix__', index)
+                                    );
+                            });
+                            newTable.insertBefore($(this));
+                            $('#id_inline_test_models-TOTAL_FORMS').val(
+                                parseInt($('#id_inline_test_models-TOTAL_FORMS').val()) + 1
+                            );
+                            newTable.slideDown();
+                        });
+                    };
+                </script>
+                
+                <button id="test_button" value="{{ test_button }}">{{ test_button }}</button>
+                
+                <script>
+                    $("#test_button").click(function () {
+                        var subcategory = $(this).val();
+                        $.ajax({
+                            type: 'GET',
+                            url: "{% url 'ajax_product_creation' %}",
+                            data: {
+                                'subcategory': subcategory,
+                                'checker': "industrial",
+                            },
+                            success: function (data) {
+                                $("#master_div_product div").html("");
+                                $("#product_creation").html(data);
+                            }
+                        });
+                    });
+                
+                </script> -->
+            </div>
+            <div id="subcategory_list"></div>
+            <div id="product_list"></div>
+            <div id="product_creation"></div>
+        </div>
+        <div id="master_div_stock" class="col-md-4" style="float: left; background-color: purple;">
+            <div id="add_to_stock"></div>
+            <div id="stock"></div>
+        </div>
+        <div id="master_div_device" class="col-md-4" style="float: left; background-color: purple;">
+            <div id="device_list"></div>
+            <div id="compartment_list"></div>
+            <div id="device_creation"></div>
+        </div>
     </div>
-    <div id="master_div_stock" class="col-md-4" style="float: left; background-color: purple;">
-        <div id="add_to_stock"></div>
-        <div id="stock"></div>
-    </div>
-    <div id="master_div_device" class="col-md-4" style="float: left; background-color: purple;">
-        <div id="device_list"></div>
-        <div id="compartment_list"></div>
-        <div id="device_creation"></div>
-    </div>
-
 </div>
 
 <script>
-    $.ajaxPrefilter(function( options, original_Options, jqXHR ) {
-        options.async = true;
-    });
+    // $.ajaxPrefilter(function( options, original_Options, jqXHR ) {
+    //     options.async = true;
+    // });
 
     $("#product_view").click(function () {
         $.ajax({
             type: 'GET',
             url: "{% url 'ajax_product_type' %}",
             success: function (data) {
-                $("#master_div_product div").html("");
-                $("#master_div_stock div").html("");
-                $("#master_div_device div").html("");
-                $("#product_type").html(data);
-                $("#stock").html("Votre produit est-il brut ou industriel ?");
+                $("#main_board").html("");
+                $("#main_board").html(data);
             }
         });
     });

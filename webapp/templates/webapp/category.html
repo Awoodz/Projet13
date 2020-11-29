@@ -12,9 +12,9 @@
                 'category': category,
             },
             success: function (data) {
-                $("#master_div_product div").html("");
+                $("#product_creation").html("");
+                $("#category_list").html("");
                 $("#subcategory_list").html(data);
-                $("#stock").html("Selectionnez une sous-catégorie");
             }
         });
     });

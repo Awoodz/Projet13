@@ -118,15 +118,25 @@ def ajax_create_device(request):
 def main_board(request):
     """Product list page"""
     template = loader.get_template("webapp/main_board.html")
+    form_class = ProductForm
     return HttpResponse(template.render(
+        {
+            "prodform": form_class,
+        },
         request=request,
     ))
 
 
-def ajax_product_type(request):
+def manage_products(request):
     """"""
-    template = loader.get_template("webapp/product_type.html")
-    return HttpResponse(template.render(request=request))
+    prodform = ProductForm
+    template = loader.get_template("webapp/manage_products.html")
+    return HttpResponse(template.render(
+        {
+            "prodform": prodform,
+        },
+        request=request
+    ))
 
 
 def ajax_category(request):

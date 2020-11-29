@@ -1,0 +1,102 @@
+{% extends "webapp/base.html" %}
+{% block title %}Tableau de bord{% endblock %}
+{% block content %}
+{% load static %}
+<!-- CSS-->
+<link href="{% static 'webapp/css/manage_products.css' %}" rel="stylesheet" />
+<div>
+    <div id="column-1" class="col-md-4" style="float: left; background-color: purple;">
+        <div id="product_type">
+            Choisissez un type de produit:
+            <button id="raw_product">brut</button>
+            <button id="industrial_product">industriel</button>
+            <script>
+                $("#raw_product").click(function () {
+                    $.ajax({
+                        type: 'GET',
+                        url: "{% url 'ajax_category' %}",
+                    success: function (data) {
+                        $("#industrial_list").hide();
+                        $("#subcategory_list").html("");
+                        $("#product_creation").html("");
+                        $("#category_list").html(data);
+                    }
+                    });
+                });
+                
+                $("#industrial_product").click(function () {
+                    $.ajax({
+                        type: 'GET',
+                        url: "{% url 'ajax_ind_product' %}",
+                    success: function (data) {
+                        $("#subcategory_list").html("");
+                        $("#category_list").html("");
+                        $("#product_creation").html("");
+                        $("#industrial_list").show();
+                    }
+                    });
+                });
+
+            </script>
+        </div>
+    </div>
+    <div id="column-2" class="col-md-4" style="float: left; background-color: purple;">
+        <div id="category_list"></div>
+        <div id="subcategory_list"></div>
+        <div id="industrial_list" style="display:none">
+            <form action="/search" method="get" title="Entrez le nom d'un produit">
+                {% csrf_token %}
+                {{ prodform.as_p }}
+            </form>
+            <input id="submit_form" type="submit" value="Rechercher" />
+            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+            
+            {{ prodform.media }}
+            
+            <script>
+                window.onload = function() {
+                    $('#add-form').click(function() {
+                        var index = $('#id_inline_test_models-TOTAL_FORMS').val();
+                        var newTable = $('#id_inline_test_models-__prefix__-DELETE').parents('table').clone();
+                        newTable.find(':input').each(function() {
+                            for (attr of ['name', 'id'])
+                                $(this).attr(
+                                    attr,
+                                    $(this).attr(attr).replace('__prefix__', index)
+                                );
+                        });
+                        newTable.insertBefore($(this));
+                        $('#id_inline_test_models-TOTAL_FORMS').val(
+                            parseInt($('#id_inline_test_models-TOTAL_FORMS').val()) + 1
+                        );
+                        newTable.slideDown();
+                    });
+                };
+            </script>
+            <script>
+                $("#submit_form").click(function () {
+                    $.ajax({
+                        type: 'GET',
+                        url: "{% url 'ajax_product_creation' %}",
+                        data: {
+                            'subcategory': "{{ prodform.ind_product_name }}",
+                            'checker': "industrial",
+                        },
+                        success: function (data) {
+                            $("#product_creation").html(data);
+                        }
+                    });
+                });
+            </script>
+        </div>
+    </div>
+    <div id="column-3" class="col-md-4" style="float: left; background-color: purple;">
+        <div id="product_creation"></div>
+    </div>
+</div>
+<script>
+    $("#column-2").ready(function() {
+        $("#industrials_list").hide();
+    });
+</script>
+{% endblock %}

@@ -1,4 +1,3 @@
-<button id="close_creation">X</button>
 <h3>Création d'un produit</h3>
 {% if checker == "raw" %}
 <div>La durée de conservation recommandé pour la sous-catégorie {{ subcategory }} et de {{ subcategory.subcategory_peremption }} jours.</div>
@@ -17,6 +16,10 @@
     $("#submit_product").click(function (event) {
         event.preventDefault();
         var productName = $("#product_name").val();
+        if (productName == "") {
+            alert("Le produit doit avoir un nom !");
+        return false;
+            };
         $.ajax({
             type: 'GET',
             url: "{% url 'ajax_create_product' %}",
@@ -29,10 +32,5 @@
                 $("#product_creation").html("");
             }
         });
-    });
-
-    $("#close_creation").click(function () {
-        $("#master_div_product div").html("");
-        $("#master_div_stock div").html("");
     });
 </script>
