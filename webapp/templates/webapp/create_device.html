@@ -98,7 +98,6 @@
                 var compartName = document.getElementById("compartment_img" + i.toString()).innerHTML;
                 compartList.push(compartName);
             };
-            console.log(compartList)
             return compartList;
         };
         
@@ -114,6 +113,16 @@
             },
             success: function (data) {
                 $("#device_creation").html("");
+                $.ajax({
+                    type: 'GET',
+                    url: "{% url 'ajax_device' %}",
+                    data: {
+                    'checker': "device",
+                    },
+                    success: function (data) {
+                        $("#device_list").html(data);
+                    }
+                });
             }
         });
     });

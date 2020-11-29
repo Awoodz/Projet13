@@ -36,10 +36,10 @@
     </header>
     {% if user.is_authenticated %}
     <div id="action_list">
+        <a href="{% url 'manage_devices' %}"><div id="device_view" class="col-md-3" style="float: left; background-color: lightblue;">Gérer mes appareil</div></a>
         <a href="{% url 'manage_products' %}"><div id="product_view" class="col-md-3" style="float: left; background-color: lightblue;">Gérer mes produit</div></a>
         <div id="stock_view" class="col-md-3" style="float: left; background-color: lightblue;">Gérer stock</div>
-        <div id="stock_view" class="col-md-3" style="float: left; background-color: lightblue;">Voir stock</div>
-        <div id="device_view" class="col-md-3" style="float: left; background-color: lightblue;">Gérer mes appareil</div>
+        <div id="stockage_view" class="col-md-3" style="float: left; background-color: lightblue;">Voir stock</div>
     </div>
     {% endif %}
 

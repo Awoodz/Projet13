@@ -137,6 +137,16 @@
             },
             success: function (data) {
                 $("#device_creation").html("");
+                $.ajax({
+                    type: 'GET',
+                    url: "{% url 'ajax_device' %}",
+                    data: {
+                    'checker': "device",
+                    },
+                    success: function (data) {
+                        $("#device_list").html(data);
+                    }
+                });
             }
         });
     });
@@ -149,6 +159,16 @@
             data: {'device': "{{ device.id }}"},
             success: function (data) {
                 $("#device_creation").html("");
+                $.ajax({
+                    type: 'GET',
+                    url: "{% url 'ajax_device' %}",
+                    data: {
+                    'checker': "device",
+                    },
+                    success: function (data) {
+                        $("#device_list").html(data);
+                    }
+                });
             }
         });
     });
