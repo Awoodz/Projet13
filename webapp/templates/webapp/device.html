@@ -1,5 +1,7 @@
 {% if checker == "device" %}
 <div>Selectionnez un appareil pour le modifier</div>
+{% else %}
+<a href="{% url 'manage_devices' %}">Vous pouvez ajouter un appareil ici !</a>
 {% endif %}
 {% for device in user_devices %}
 <button type="submit" class="device" value="{{ device.id }}">{{ device }}</button></br>
@@ -33,6 +35,9 @@
                     'device': device,
                 },
                 success: function (data) {
+                    $("#storage").html("");
+                    $("#datepicker_div").hide();
+                    $("#product_list").html("");
                     $("#stock_list").html("");
                     $("#compartment_list").html(data);
                 }

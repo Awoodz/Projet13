@@ -13,6 +13,24 @@
     </div>
     <div id="column-3" class="col-md-4" style="float: left; background-color: purple;">
         <div id="stock_list"></div>
+        <div id="product_list"></div>
+        <div id="storage_div">
+            <div id=storage></div>
+            <div id="datepicker_div" style="display: none;">
+                <input id="datepicker">
+                <script>
+                    $(function () {
+                        $("#datepicker").datepicker({
+                        format:'dd/mm/yyyy',
+                        });
+                    });
+                </script>
+                </br>
+                <button id="store_product">
+                    Ajouter le produit
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 <script>

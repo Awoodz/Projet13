@@ -290,9 +290,9 @@ def ajax_stock(request):
         ))
 
 
-def ajax_add_to_stock(request):
+def ajax_storage(request):
     """"""
-    template = loader.get_template("webapp/add_to_stock.html")
+    template = loader.get_template("webapp/storage.html")
     get_product = request.GET.get("product")
     product = Product.objects.get(id=get_product)
     subcategory = product.product_subcategory

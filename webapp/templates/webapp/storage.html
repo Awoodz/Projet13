@@ -1,38 +1,18 @@
-
-<button id="close_add_to_stock">X</button></br>
 <h3>Ajout d'un produit</h3></br>
 <div>Vous voulez ajouter {{ product }} à votre stock !</div></br>
-<form id="add_product_to_stock">
-    <div>Quantité : <div id="product_quantity">1</div></div></br>
-    <button id=add_product_button type="button">+</button>
-    <button id=remove_product_button type="button">-</button>
-    </br>
-    {% if checker == "nodate" %}
-    <div>Nous n'avons pas d'information concernant la durabilité de ce produit !</div>
-    <div>Par défaut, nous réglerons la date de rappel sur 3 mois, vous pouvez la modifier.</div>
-    {% else %}
-    <div>Nous recommandons la date de rappel suivante :</div>
-    <div>(vous pouvez la modifier)</div>
-    {% endif %}
-    <input id="datepicker">
-    <script>
-        $(function () {
-            $("#datepicker").datepicker({
-            format:'dd/mm/yyyy',
-            });
-        });
-    </script>
-    </br>
-    <button type="submit" name="submit_add_to_stock" id="submit_add_to_stock">
-        Ajouter le produit
-    </button>
-</form>
+<div>Quantité : <div id="product_quantity">1</div></div></br>
+<button id=add_product_button>+</button>
+<button id=remove_product_button>-</button>
+</br>
+{% if checker == "nodate" %}
+<div>Nous n'avons pas d'information concernant la durabilité de ce produit !</div>
+<div>Par défaut, nous réglerons la date de rappel sur 3 mois, vous pouvez la modifier.</div>
+{% else %}
+<div>Nous recommandons la date de rappel suivante :</div>
+<div>(vous pouvez la modifier)</div>
+{% endif %}
 
 <script>
-    $("#close_add_to_stock").click(function () {
-        document.getElementById("add_to_stock").innerHTML = "";
-    });
-
     $("#add_product_button").click(function () {
         var productNb = document.getElementById("product_quantity").innerHTML;
         var intProductNb = parseInt(productNb);
@@ -51,7 +31,7 @@
         document.getElementById("product_quantity").innerHTML = intProductNb;
     });
 
-    $("#submit_add_to_stock").click(function (event) {
+    $("#store_product").click(function (event) {
         event.preventDefault();
         var compartment = $("#compartment_check").html();
         var durationDate = $("#datepicker").datepicker('getDate', true);
@@ -66,13 +46,24 @@
                 'product_quantity': productNb,
             },
             success: function (data) {
-                document.getElementById("add_to_stock").innerHTML = "";
+                $("#storage").html("");
+                $("#datepicker_div").hide();
+                $.ajax({
+                    type: 'GET',
+                    url: "{% url 'ajax_stock' %}",
+                    data: {
+                        'compartment': compartment,
+                    },
+                    success: function (data) {
+                        $("#product_list").html("");
+                        $("#stock_list").html(data);
+                    }
+                });
             }
         });
     });
 
-    $("#datepicker").ready(function() {
-        console.log("{{ checker }}");
+    $("#product_quantity").ready(function() {
         $("#datepicker").datepicker('setDate', '{{ duration }}');
     });
 

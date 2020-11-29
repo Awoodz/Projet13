@@ -1,28 +1,41 @@
-LE STOCK</br>
+<button id="store_product">Ajouter un produit</button>
 {% for stock in stocks %}
 <div id="stock{{ stock.id }}">
     <hr style="text-align:left;margin-left:0">
     {{ stock.stock_product.product_name }} - Quantité : <div id="quantity{{ stock.id }}" value="{{ stock.stock_number }}">{{ stock.stock_number }}</div> <button id="remove{{ stock.id }}" value="{{ stock.id }}">Retirer</button></br>
     Date de rappel : {{ stock.stock_notification.notification_date }}
+    <script>
+        $("#remove{{ stock.id }}").click(function () {
+            var stockId = $(this).val();
+            var stockQuantity = $("#quantity{{ stock.id }}").html();
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'ajax_remove_stock' %}",
+                data: {
+                    'stock': stockId,
+                },
+                success: function (data) {
+                    $("#quantity{{ stock.id }}").html(parseInt(stockQuantity)-1);
+                    if ($("#quantity{{ stock.id }}").html() == "0") {
+                        $("#stock{{ stock.id }}").remove();
+                    }
+                }
+            });
+        });
+    </script>
 </div>
+{% endfor %}
+
 <script>
-    $("#remove{{ stock.id }}").click(function () {
-        var stockId = $(this).val();
-        var stockQuantity = $("#quantity{{ stock.id }}").html();
+    $("#store_product").click(function () {
         $.ajax({
             type: 'GET',
-            url: "{% url 'ajax_remove_stock' %}",
-            data: {
-                'stock': stockId,
-            },
+            url: "{% url 'ajax_product' %}",
             success: function (data) {
-                $("#quantity{{ stock.id }}").html(parseInt(stockQuantity)-1);
-                if ($("#quantity{{ stock.id }}").html() == "0") {
-                    $("#stock{{ stock.id }}").remove();
-                }
+                $("#stock_list").html("");
+                $("#product_list").html(data);
             }
         });
     });
 </script>
-{% endfor %}
 

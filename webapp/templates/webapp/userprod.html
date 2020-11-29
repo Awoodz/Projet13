@@ -1,3 +1,4 @@
+<a href="{% url 'manage_products' %}">Vous pouvez créer un produit ici !</a>
 {% for product in products %}
 <button type="submit" class="product" value="{{ product.id }}">{{ product }}</button></br>
 {% endfor %}
@@ -8,14 +9,15 @@
         var compartment = document.getElementById("compartment_check").innerHTML;
         $.ajax({
             type: 'GET',
-            url: "{% url 'ajax_add_to_stock' %}",
+            url: "{% url 'ajax_storage' %}",
             data: {
                 'product': product,
                 'compartment': compartment
             },
             success: function (data) {
-                $("#master_div_stock div").html("");
-                $("#add_to_stock").html(data);
+                $("#product_list").html("");
+                $("#storage").html(data);
+                $("#datepicker_div").show();
             }
         });
     });

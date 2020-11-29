@@ -33,15 +33,14 @@
         <a href="{% url 'signup' %}">Créer un compte</a>
         <a href="{% url 'login' %}">Se connecter</a>
         {% endif %}
+        {% if user.is_authenticated %}
+        <div id="action_list">
+            <a href="{% url 'manage_devices' %}"><div id="device_view" class="col-md-4" style="float: left; background-color: lightblue;">Gérer mes appareil</div></a>
+            <a href="{% url 'manage_products' %}"><div id="product_view" class="col-md-4" style="float: left; background-color: lightblue;">Gérer mes produit</div></a>
+            <a href="{% url 'manage_stocks' %}"><div id="stock_view" class="col-md-4" style="float: left; background-color: lightblue;">Gérer mon stock</div></a>
+        </div>
+        {% endif %}
     </header>
-    {% if user.is_authenticated %}
-    <div id="action_list">
-        <a href="{% url 'manage_devices' %}"><div id="device_view" class="col-md-3" style="float: left; background-color: lightblue;">Gérer mes appareil</div></a>
-        <a href="{% url 'manage_products' %}"><div id="product_view" class="col-md-3" style="float: left; background-color: lightblue;">Gérer mes produit</div></a>
-        <div id="stockage_view" class="col-md-3" style="float: left; background-color: lightblue;">Gérer stock</div>
-        <a href="{% url 'manage_stocks' %}"><div id="stock_view" class="col-md-3" style="float: left; background-color: lightblue;">Voir stock</div></a>
-    </div>
-    {% endif %}
 
     {% block content %}
     {% endblock %}

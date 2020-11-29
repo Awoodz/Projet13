@@ -25,7 +25,8 @@ footer
     bottom: 0;
 }
 
-#action_list
-{
+#core
+{ 
     margin-top: 10em;
+    margin-bottom: 4em;
 }

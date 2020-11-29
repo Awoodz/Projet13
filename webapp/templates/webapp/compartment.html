@@ -6,25 +6,21 @@
 
 
 <script>
-$(".compartment").click(function () {
-    var compartment = $(this).val();
-    $("#compartment_check").html(compartment);
-    $.ajax({
-        type: 'GET',
-        url: "{% url 'ajax_stock' %}",
-        data: {
-            'compartment': compartment,
-        },
-        success: function (data) {
-            $("#stock_list").html(data);
-        }
+    $(".compartment").click(function () {
+        var compartment = $(this).val();
+        $("#compartment_check").html(compartment);
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'ajax_stock' %}",
+            data: {
+                'compartment': compartment,
+            },
+            success: function (data) {
+                $("#storage").html("");
+                $("#datepicker_div").hide();
+                $("#product_list").html("");
+                $("#stock_list").html(data);
+            }
+        });
     });
-    $.ajax({
-        type: 'GET',
-        url: "{% url 'ajax_product' %}",
-        success: function (data) {
-            $("#product_list").html(data);
-        }
-    });
-});
 </script>
