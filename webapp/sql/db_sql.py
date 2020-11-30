@@ -249,7 +249,6 @@ class Sql():
             logger.error(save_error)
             pass
 
-
     def mail_delete_stock(stock):
         logger = logging.getLogger(__name__)
         stock.stock_number = 0

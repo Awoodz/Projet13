@@ -28,7 +28,6 @@ urlpatterns = [
     url(r"^userapp/", include("userapp.urls")),
 
     url(r"^manage_devices/", dv.manage_devices, name="manage_devices"),
-    url(r"^device/", dv.device, name="device"),
     url(r"^ajax_device_creation/", dv.ajax_device_creation, name="ajax_device_creation"),
     url(r"^ajax_modify_device/", dv.ajax_modify_device, name="ajax_modify_device"),
     url(r"^ajax_device_modification/", dv.ajax_device_modification, name="ajax_device_modification"),

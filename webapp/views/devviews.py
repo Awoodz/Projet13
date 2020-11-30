@@ -13,17 +13,6 @@ def manage_devices(request):
     return HttpResponse(template.render(request=request))
 
 
-def device(request):
-    """Devices list page"""
-    template = loader.get_template("webapp/device/device.html")
-    current_user = request.user
-    user_devices = ColdDevice.objects.filter(colddevice_user=current_user.id)
-    return HttpResponse(template.render(
-        {"user_devices": user_devices},
-        request=request,
-    ))
-
-
 def ajax_device_creation(request):
     template = loader.get_template("webapp/device/create_device.html")
     device_types = ColdDeviceType.objects.all()
