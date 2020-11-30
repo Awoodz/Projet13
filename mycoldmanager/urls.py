@@ -17,36 +17,43 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include, url
 import debug_toolbar
-from webapp import views as webviews
+from webapp.views import baseviews as bv
+from webapp.views import devviews as dv
+from webapp.views import prodviews as pv
+from webapp.views import stockviews as sv
 
 urlpatterns = [
-    url(r"^$", webviews.index, name="index"),
+    url(r"^$", bv.index, name="index"),
     url(r"^webapp/", include("webapp.urls")),
     url(r"^userapp/", include("userapp.urls")),
-    url(r"^device/", webviews.device, name="device"),
-    url(r"^ajax_device_creation/", webviews.ajax_device_creation, name="ajax_device_creation"),
-    url(r"^ajax_compart/", webviews.ajax_compart, name="ajax_compart"),
-    url(r"^ajax_create_device/", webviews.ajax_create_device, name="ajax_create_device"),
-    url(r"^ajax_modify_device/", webviews.ajax_modify_device, name="ajax_modify_device"),
-    url(r"^ajax_device_modification/", webviews.ajax_device_modification, name="ajax_device_modification"),
-    url(r"^ajax_device_deletion/", webviews.ajax_device_deletion, name="ajax_device_deletion"),
-    url(r"^ajax_compartment_deletion/", webviews.ajax_compartment_deletion, name="ajax_compartment_deletion"),
-    url(r"^ajax_subcategory/", webviews.ajax_subcategory, name="ajax_subcategory"),
-    url(r"^ajax_product/", webviews.ajax_product, name="ajax_product"),
-    url(r"^manage_products/", webviews.manage_products, name="manage_products"),
-    url(r"^manage_devices/", webviews.manage_devices, name="manage_devices"),
-    url(r"^manage_stocks/", webviews.manage_stocks, name="manage_stocks"),
-    url(r"^ajax_device/", webviews.ajax_device, name="ajax_device"),
-    url(r"^ajax_category/", webviews.ajax_category, name="ajax_category"),
-    url(r"^ajax_ind_product/", webviews.ajax_ind_product, name="ajax_ind_product"),
-    url(r"^product_creation/", webviews.ajax_product_creation, name="ajax_product_creation"),
-    url(r"^create_product/", webviews.ajax_create_product, name="ajax_create_product"),
-    url(r"^ajax_compartment/", webviews.ajax_compartment, name="ajax_compartment"),
-    url(r"^ajax_stock/", webviews.ajax_stock, name="ajax_stock"),
-    url(r"^ajax_storage/", webviews.ajax_storage, name="ajax_storage"),
-    url(r"^ajax_stocked/", webviews.ajax_stocked, name="ajax_stocked"),
-    url(r"^ajax_remove_stock/", webviews.ajax_remove_stock, name="ajax_remove_stock"),
-    url(r"^autocomplete/$", webviews.ProductAutocomplete.as_view(), name="autocomplete",),
+
+    url(r"^manage_devices/", dv.manage_devices, name="manage_devices"),
+    url(r"^device/", dv.device, name="device"),
+    url(r"^ajax_device_creation/", dv.ajax_device_creation, name="ajax_device_creation"),
+    url(r"^ajax_modify_device/", dv.ajax_modify_device, name="ajax_modify_device"),
+    url(r"^ajax_device_modification/", dv.ajax_device_modification, name="ajax_device_modification"),
+    url(r"^ajax_compartment_deletion/", dv.ajax_compartment_deletion, name="ajax_compartment_deletion"),
+    url(r"^ajax_device_deletion/", dv.ajax_device_deletion, name="ajax_device_deletion"),
+    url(r"^ajax_compart/", dv.ajax_compart, name="ajax_compart"),
+    url(r"^ajax_create_device/", dv.ajax_create_device, name="ajax_create_device"),
+    url(r"^ajax_device/", dv.ajax_device, name="ajax_device"),
+
+    url(r"^manage_products/", pv.manage_products, name="manage_products"),
+    url(r"^ajax_category/", pv.ajax_category, name="ajax_category"),
+    url(r"^ajax_subcategory/", pv.ajax_subcategory, name="ajax_subcategory"),
+    url(r"^ajax_ind_product/", pv.ajax_ind_product, name="ajax_ind_product"),
+    url(r"^product_creation/", pv.ajax_product_creation, name="ajax_product_creation"),
+    url(r"^create_product/", pv.ajax_create_product, name="ajax_create_product"),
+    url(r"^autocomplete/$", pv.ProductAutocomplete.as_view(), name="autocomplete",),
+
+    url(r"^manage_stocks/", sv.manage_stocks, name="manage_stocks"),
+    url(r"^ajax_product/", sv.ajax_product, name="ajax_product"),
+    url(r"^ajax_compartment/", sv.ajax_compartment, name="ajax_compartment"),
+    url(r"^ajax_stock/", sv.ajax_stock, name="ajax_stock"),
+    url(r"^ajax_storage/", sv.ajax_storage, name="ajax_storage"),
+    url(r"^ajax_stocked/", sv.ajax_stocked, name="ajax_stocked"),
+    url(r"^ajax_remove_stock/", sv.ajax_remove_stock, name="ajax_remove_stock"),
+
     path('admin/', admin.site.urls),
     path("accounts/", include("userapp.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
