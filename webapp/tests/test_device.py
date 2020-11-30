@@ -4,13 +4,13 @@ from colddeviceapp.models import ColdDevice, ColdDeviceType
 from userapp.models import CustomUser
 
 
-class DeviceDivPageTestCase(TestCase):
-    def test_device_div_returns_200(self):
+class DevicePageTestCase(TestCase):
+    def test_device_returns_200(self):
 
         response = self.client.get(reverse("device"), {"checker": "none"})
         self.assertEqual(response.status_code, 200)
 
-    def test_device_div_contains_device(self):
+    def test_device_contains_device(self):
 
         user = CustomUser.objects.create(
             username="fakeuser",
