@@ -40,7 +40,6 @@ urlpatterns = [
     url(r"^manage_products/", pv.manage_products, name="manage_products"),
     url(r"^ajax_category/", pv.ajax_category, name="ajax_category"),
     url(r"^ajax_subcategory/", pv.ajax_subcategory, name="ajax_subcategory"),
-    url(r"^ajax_ind_product/", pv.ajax_ind_product, name="ajax_ind_product"),
     url(r"^product_creation/", pv.ajax_product_creation, name="ajax_product_creation"),
     url(r"^create_product/", pv.ajax_create_product, name="ajax_create_product"),
     url(r"^autocomplete/$", pv.ProductAutocomplete.as_view(), name="autocomplete",),

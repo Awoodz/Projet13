@@ -25,18 +25,11 @@
                 });
                 
                 $("#industrial_product").click(function () {
-                    $.ajax({
-                        type: 'GET',
-                        url: "{% url 'ajax_ind_product' %}",
-                    success: function (data) {
-                        $("#subcategory_list").html("");
-                        $("#category_list").html("");
-                        $("#product_creation").html("");
-                        $("#industrial_list").show();
-                    }
-                    });
+                    $("#subcategory_list").html("");
+                    $("#category_list").html("");
+                    $("#product_creation").html("");
+                    $("#industrial_list").show();
                 });
-
             </script>
         </div>
     </div>

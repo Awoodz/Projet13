@@ -44,28 +44,14 @@ def ajax_subcategory(request):
     ))
 
 
-def ajax_ind_product(request):
-    """"""
-    template = loader.get_template("webapp/product/ind_product.html")
-    form_class = ProductForm
-    test_button = IndustrialProduct.objects.get(id=1)
-    return HttpResponse(template.render(
-        {
-            "prodform": form_class,
-            "test_button": test_button,
-        },
-        request=request,
-    ))
-
-
 def ajax_product_creation(request):
     """"""
     template = loader.get_template("webapp/product/product_creation.html")
     get_subcategory = request.GET.get("subcategory")
     checker = request.GET.get("checker")
-    try:
+    if checker == "raw":
         subcategory = SubCategory.objects.get(id=get_subcategory)
-    except ValueError:
+    else:
         subcategory = get_subcategory
     return HttpResponse(template.render(
         {
