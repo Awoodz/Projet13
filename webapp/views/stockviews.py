@@ -99,7 +99,6 @@ def ajax_stocked(request):
     compartment = Compartment.objects.get(id=get_compartment)
     product = Product.objects.get(id=get_product)
     subcategory = product.product_subcategory
-    print(get_compartment, get_product, get_product_quantity, get_date)
 
     stock_data = {
         "product": product,
