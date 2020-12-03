@@ -3,8 +3,11 @@
 {% load static %}
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="MyColdDevice" content="" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="MyColdManager">
+    <meta name="author" content="Awood">
+    <title>MyColdManager.com</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="{% static 'webapp/img/favicon.png' %}" />
     <!-- jQuery -->
@@ -24,7 +27,7 @@
 <body>
     <!-- header -->
     <header>
-        <a href="{% url 'index' %}"><h1>Bienvenue sur MyColdManager.com !</h1></a></br>
+        <a href="{% url 'index' %}"><h3>Bienvenue sur MyColdManager.com !</h3></a></br>
         {% if user.is_authenticated %}
         Bonjour {{ user }}
         <a href="{% url 'logout' %}">Me déconnecter</a>
@@ -34,9 +37,9 @@
         {% endif %}
         {% if user.is_authenticated %}
         <div id="action_list">
-            <a href="{% url 'manage_devices' %}"><div id="device_view" class="col-md-4" style="float: left; background-color: lightblue;">Gérer mes appareil</div></a>
-            <a href="{% url 'manage_products' %}"><div id="product_view" class="col-md-4" style="float: left; background-color: lightblue;">Gérer mes produit</div></a>
-            <a href="{% url 'manage_stocks' %}"><div id="stock_view" class="col-md-4" style="float: left; background-color: lightblue;">Gérer mon stock</div></a>
+            <a href="{% url 'manage_devices' %}">Gérer mes appareil</a>
+            <a href="{% url 'manage_products' %}">Gérer mes produit</a>
+            <a href="{% url 'manage_stocks' %}">Gérer mon stock</a>
         </div>
         {% endif %}
     </header>
