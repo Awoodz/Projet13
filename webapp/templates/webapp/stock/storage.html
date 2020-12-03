@@ -34,7 +34,7 @@
         $("#datepicker").datepicker('setDate', '{{ duration }}');
     });
 
-    $("#store_product").click(function (event) {
+    $("#store_product").one("click", function (event) {
         event.preventDefault();
         var compartment = $("#compartment_check").html();
         var durationDate = $("#datepicker").datepicker('getDate', true);
