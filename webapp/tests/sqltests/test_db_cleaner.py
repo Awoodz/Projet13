@@ -56,6 +56,7 @@ class DbCleanStocksTestCase(TestCase):
         diary1 = Diary.objects.create(
             diary_add=fake_date1,
             diary_remove=fake_date1,
+            diary_number=0,
         )
 
         notification1 = Notification.objects.create(
@@ -76,6 +77,7 @@ class DbCleanStocksTestCase(TestCase):
         diary2 = Diary.objects.create(
             diary_add=fake_date2,
             diary_remove=fake_date2,
+            diary_number=0,
         )
 
         notification2 = Notification.objects.create(

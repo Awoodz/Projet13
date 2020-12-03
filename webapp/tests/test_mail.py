@@ -53,6 +53,7 @@ class EmailTest(TestCase):
 
         diary = Diary.objects.create(
             diary_add=datetime.now().date(),
+            diary_number=0,
         )
 
         notification = Notification.objects.create(
