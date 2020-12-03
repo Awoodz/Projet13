@@ -18,6 +18,8 @@ before_script:
 script:
   - pytest
 deploy:
-  provider: heroku
+  provider: heroku:git
   api_key:
-    secure: HEROKU_TOKEN
+    secure: HEROKU_MYCOLDMANAGER_KEY
+  app: mycoldmanager-test
+  edge: true # opt in to dpl v2
