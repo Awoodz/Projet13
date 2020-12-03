@@ -19,7 +19,6 @@ script:
   - pytest
 deploy:
   provider: heroku:git
-  api_key:
-    secure: HEROKU_MYCOLDMANAGER_KEY
+  username: HEROKU_MAIL
+  password: HEROKU_PASSWORD
   app: mycoldmanager-test
-  edge: true # opt in to dpl v2
