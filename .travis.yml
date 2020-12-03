@@ -17,3 +17,7 @@ before_script:
   - psql -c 'create database mycoldmanager;'
 script:
   - pytest
+deploy:
+  provider: heroku
+  api_key:
+    secure: HEROKU_TOKEN
