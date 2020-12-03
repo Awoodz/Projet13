@@ -155,32 +155,28 @@ class Sql():
         # setting the logger
         logger = logging.getLogger(__name__)
         # emptying the database
-        categories = Category.objects.all().exclude(
-            category_name="industriel"
-        ).exclude(category_name="autre")
-        # for each category in category list
-        for elem in categories:
-            id_list = Requester(str(elem)).product_id_list
-            # for each product id in id list
-            for product_id in id_list:
-                # gather product data with Requester class
-                product_data = Product_data(
-                    Requester.product_data_requester(product_id)
-                )
-                # create a product in database
-                product = IndustrialProduct(
-                    ind_product_name=product_data.name,
-                    ind_product_url=product_data.url,
-                    ind_product_id=product_data.product_id,
-                )
-                # save if ok
-                try:
-                    with transaction.atomic():
-                        product.save()
-                # report error if not ok
-                except DatabaseError as prod_error:
-                    logger.error(prod_error)
-                    pass
+        category = "surgeles"
+        id_list = Requester(str(category)).product_id_list
+        # for each product id in id list
+        for product_id in id_list:
+            # gather product data with Requester class
+            product_data = Product_data(
+                Requester.product_data_requester(product_id)
+            )
+            # create a product in database
+            product = IndustrialProduct(
+                ind_product_name=product_data.name,
+                ind_product_url=product_data.url,
+                ind_product_id=product_data.product_id,
+            )
+            # save if ok
+            try:
+                with transaction.atomic():
+                    product.save()
+            # report error if not ok
+            except DatabaseError as prod_error:
+                logger.error(prod_error)
+                pass
 
     def remove_device(device_id):
         logger = logging.getLogger(__name__)

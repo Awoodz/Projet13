@@ -1,4 +1,4 @@
-MAX_PAGE = 3
+MAX_PAGE = 40
 
 data_dict = {
     "industriel": {

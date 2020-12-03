@@ -96,7 +96,7 @@ class ProductAutocomplete(autocomplete.Select2QuerySetView):
 
         if self.q:
             request = request.filter(
-                ind_product_name__istartswith=self.q
+                ind_product_name__unaccent__istartswith=self.q
             )
 
         return request
