@@ -1,7 +1,7 @@
 {% if checker == "device" %}
 <div>Selectionnez un appareil pour le modifier</div>
 {% else %}
-<a href="{% url 'manage_devices' %}">Vous pouvez ajouter un appareil ici !</a>
+<a href="{% url 'manage_devices' %}">Vous pouvez ajouter un appareil ici !</a></br>
 {% endif %}
 {% for device in user_devices %}
 <button type="submit" class="device" value="{{ device.id }}">{{ device }}</button></br>

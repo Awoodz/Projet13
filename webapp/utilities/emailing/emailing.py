@@ -1,14 +1,15 @@
 from django.core import mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from stockapp.models import Stock
+from stockapp.models import Stock, Notification
 from webapp.sql.db_sql import Sql
 import datetime
 
 
 def emailing():
-    stocks = Stock.objects.all()
-    for stock in stocks:
+    notifications = Notification.objects.filter(notification_is_send=0)
+    for notification in notifications:
+        stock = Stock.objects.get(stock_notification=notification)
         if stock.stock_notification.notification_date == datetime.datetime.now().date():
             user = stock.stock_compartment.compartment_colddevice.colddevice_user
             product = stock.stock_product.product_name
@@ -19,11 +20,17 @@ def emailing():
                 {
                     "user": user,
                     "product": product,
-                    "stock": stock,
                 }
             )
             plain_message = strip_tags(html_message)
             from_email = 'From <mycoldmanager@gmail.com>'
             to = user.email
 
-            mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+            mail.send_mail(
+                subject,
+                plain_message,
+                from_email,
+                [to],
+                html_message=html_message
+            )
+            Sql.notification_is_send(notification)

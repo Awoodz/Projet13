@@ -1,16 +1,16 @@
-from django.core import mail
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.test import TestCase
 from colddeviceapp.models import ColdDevice, ColdDeviceType, Compartment
 from prodapp.models import Category, SubCategory, Product
 from stockapp.models import Stock, Diary, Notification
 from userapp.models import CustomUser
-from webapp.utilities.emailing.emailing import emailing
+from webapp.sql.db_cleaner import db_clean_stocks
 
 
-class EmailTest(TestCase):
+class DbCleanStocksTestCase(TestCase):
 
-    def test_send_email(self):
+    def test_db_clean_stocks_cleans_old_stocks(self):
+
         user = CustomUser.objects.create(
             username="fakeuser",
             email="fakemail@mail.com",
@@ -51,24 +51,50 @@ class EmailTest(TestCase):
             user_product=user,
         )
 
-        diary = Diary.objects.create(
-            diary_add=datetime.now().date(),
+        fake_date1 = datetime.now().date() - timedelta(days=91)
+
+        diary1 = Diary.objects.create(
+            diary_add=fake_date1,
+            diary_remove=fake_date1,
         )
 
-        notification = Notification.objects.create(
-            notification_date=datetime.now().date(),
-            notification_is_send=0,
+        notification1 = Notification.objects.create(
+            notification_date=fake_date1,
+            notification_is_send=1,
         )
 
-        stock = Stock.objects.create(
+        stock1 = Stock.objects.create(
             stock_product=product,
             stock_compartment=compartment,
             stock_number=1,
-            stock_diary=diary,
-            stock_notification=notification,
+            stock_diary=diary1,
+            stock_notification=notification1,
         )
-    
-        emailing()
 
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, "MyColdManager - Rappel")
+        fake_date2 = datetime.now().date() - timedelta(days=89)
+
+        diary2 = Diary.objects.create(
+            diary_add=fake_date2,
+            diary_remove=fake_date2,
+        )
+
+        notification2 = Notification.objects.create(
+            notification_date=fake_date2,
+            notification_is_send=1,
+        )
+
+        stock2 = Stock.objects.create(
+            stock_product=product,
+            stock_compartment=compartment,
+            stock_number=1,
+            stock_diary=diary2,
+            stock_notification=notification2,
+        )
+
+        count = Stock.objects.all().count()
+        self.assertEqual(count, 2)
+
+        db_clean_stocks()
+
+        count = Stock.objects.all().count()
+        self.assertEqual(count, 1)

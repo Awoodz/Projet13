@@ -1,16 +1,15 @@
-from django.core import mail
-from datetime import datetime
 from django.test import TestCase
+from datetime import datetime
 from colddeviceapp.models import ColdDevice, ColdDeviceType, Compartment
 from prodapp.models import Category, SubCategory, Product
 from stockapp.models import Stock, Diary, Notification
 from userapp.models import CustomUser
-from webapp.utilities.emailing.emailing import emailing
+from webapp.sql.db_sql import Sql
 
 
-class EmailTest(TestCase):
+class NotificationIsSendTestCase(TestCase):
 
-    def test_send_email(self):
+    def test_send_email_set_notification_is_send_to_1(self):
         user = CustomUser.objects.create(
             username="fakeuser",
             email="fakemail@mail.com",
@@ -67,8 +66,9 @@ class EmailTest(TestCase):
             stock_diary=diary,
             stock_notification=notification,
         )
-    
-        emailing()
 
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, "MyColdManager - Rappel")
+        self.assertEqual(notification.notification_is_send, 0)
+
+        Sql.notification_is_send(notification)
+
+        self.assertEqual(notification.notification_is_send, 1)

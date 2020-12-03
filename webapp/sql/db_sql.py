@@ -235,11 +235,8 @@ class Sql():
                 logger.error(remove_error)
                 pass
 
-    def notification_is_send(stock_id):
+    def notification_is_send(notification):
         logger = logging.getLogger(__name__)
-        stock = Stock.objects.get(id=stock_id)
-        print(stock)
-        notification = stock.stock_notification
         print(notification.notification_is_send)
         notification.notification_is_send = 1
         try:
@@ -249,19 +246,15 @@ class Sql():
             logger.error(save_error)
             pass
 
-    def mail_delete_stock(stock):
+    def destroy_stock(diary):
         logger = logging.getLogger(__name__)
-        stock.stock_number = 0
-        diary = stock.stock_diary
+        stock = Stock.objects.get(stock_diary=diary)
         notification = stock.stock_notification
-        diary.diary_remove = datetime.datetime.now().date()
-        diary.diary_number += 1
-        notification.notification_is_send = 1
         try:
             with transaction.atomic():
-                stock.save()
-                diary.save()
-                notification.save()
+                stock.delete()
+                notification.delete()
+                diary.delete()
         # report error if not ok
         except DatabaseError as remove_error:
             logger.error(remove_error)
