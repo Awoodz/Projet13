@@ -18,7 +18,7 @@ before_script:
 script:
   - pytest
 deploy:
-  provider: heroku:git
-  username: HEROKU_MAIL
-  password: HEROKU_PASSWORD
+  provider: heroku
+  api_key:
+    secure: b1eb7d10-930a-4225-a1cd-feea5906a47d
   app: mycoldmanager-test
