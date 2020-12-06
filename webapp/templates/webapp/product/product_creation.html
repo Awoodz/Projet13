@@ -1,14 +1,14 @@
 <h3>Création d'un produit</h3>
 {% if checker == "raw" %}
-<div>La durée de conservation recommandé pour la sous-catégorie {{ subcategory }} et de {{ subcategory.subcategory_peremption }} jours.</div>
+<div>La durée de conservation recommandée pour un produit de la sous-catégorie "{{ subcategory }}" et de {{ subcategory.subcategory_peremption }} jours.</div></br>
 {% endif %}
 {% if checker == "industrial" %}
-<div>La durée de conservation de ce produit nous est inconnue.</div>
+<div>La durée de conservation de ce produit nous est inconnue.</div></br>
 {% endif %}
 <form id="create_product">
     Nommez votre produit :
-    <input type="text" name="product_name" id="product_name" placeholder="{{ subcategory }}"/>
-    <button type="submit" name="submit_product" id="submit_product">
+    <input type="text" name="product_name" class="form-control" id="product_name" value="{{ subcategory }}"/></br>
+    <button class="btn btn-indigo custom_btn" id="submit_product">
         Créer le produit
     </button>
 </form>
@@ -30,6 +30,11 @@
             },
             success: function (data) {
                 $("#product_creation").html("");
+                $("#subcategory_list").html("");
+                $("#industrial_list").hide();
+                $('html, body').animate({
+                    scrollTop: $("#product_type").offset().top
+                }, 500);
             }
         });
     });

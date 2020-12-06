@@ -53,6 +53,13 @@ def ajax_product_creation(request):
         subcategory = SubCategory.objects.get(id=get_subcategory)
     else:
         subcategory = get_subcategory
+
+    try:
+        if subcategory.subcategory_name == "autre":
+            checker = "industrial"
+    except AttributeError:
+        pass
+
     return HttpResponse(template.render(
         {
             "subcategory": subcategory,

@@ -1,6 +1,7 @@
 <h3>Sélection d'une sous-catégorie</h3></br>
+<div>Sélectionnez la sous-catégorie correspondant le mieux à votre produit.</div></br>
 {% for subcategory in subcategories %}
-<button type="submit" class="subcategory" value="{{ subcategory.id }}">{{ subcategory }}</button></br>
+<button type="submit" class="subcategory device btn btn-light-blue custom_btn" value="{{ subcategory.id }}">{{ subcategory }}</button></br>
 {% endfor %}
 
 <script>
@@ -15,6 +16,9 @@
             },
             success: function (data) {
                 $("#product_creation").html(data);
+                $('html, body').animate({
+                    scrollTop: $("#product_creation").offset().top
+                }, 500);
             }
         });
     });

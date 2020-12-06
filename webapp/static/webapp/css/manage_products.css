@@ -1,0 +1,26 @@
+#product_type, #category_list, #subcategory_list, #industrial_list, #product_creation
+{
+    border-radius: 2em;
+    padding: 2em;
+    text-align: center;
+}
+
+#product_type
+{
+    background-color: rgb(73, 135, 184);
+}
+
+#category_list, #subcategory_list, #industrial_list
+{
+    background-color: rgb(51, 100, 138);
+}
+
+#product_creation
+{
+    background-color: rgb(31, 68, 97);
+}
+
+#product_type:empty, #category_list:empty, #subcategory_list:empty, #industrial_list:empty, #product_creation:empty
+{
+    display: none;
+}

@@ -1,0 +1,16 @@
+#device_list
+{
+    border-radius: 2em;
+    padding: 2em;
+    text-align: center;
+}
+
+#device_list
+{
+    background-color: rgb(73, 135, 184);
+}
+
+#device_list:empty
+{
+    display: none;
+}

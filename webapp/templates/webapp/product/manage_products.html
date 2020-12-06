@@ -5,11 +5,12 @@
 <!-- CSS-->
 <link href="{% static 'webapp/css/manage_products.css' %}" rel="stylesheet" />
 <div>
-    <div id="column-1" class="col-md-4" style="float: left; background-color: purple;">
+    <div id="column-1" class="col-md-4">
         <div id="product_type">
-            Choisissez un type de produit:
-            <button id="raw_product">brut</button>
-            <button id="industrial_product">industriel</button>
+            <h3>Sélection du type de produit</h3>
+            <div>Votre produit est-il maison ou issu de la grande consommation ?</div>
+            <button id="raw_product" class="btn btn-indigo custom_btn">Produit maison</button>
+            <button id="industrial_product" class="btn btn-indigo custom_btn">Produit industriel</button>
             <script>
                 $("#raw_product").click(function () {
                     $.ajax({
@@ -20,6 +21,9 @@
                         $("#subcategory_list").html("");
                         $("#product_creation").html("");
                         $("#category_list").html(data);
+                        $('html, body').animate({
+                            scrollTop: $("#category_list").offset().top
+                        }, 500);
                     }
                     });
                 });
@@ -29,41 +33,51 @@
                     $("#category_list").html("");
                     $("#product_creation").html("");
                     $("#industrial_list").show();
+                    $('html, body').animate({
+                            scrollTop: $("#industrial_list").offset().top
+                    }, 500);
                 });
             </script>
         </div>
     </div>
-    <div id="column-2" class="col-md-4" style="float: left; background-color: purple;">
+    <div id="column-2" class="col-md-4">
         <div id="category_list"></div>
         <div id="subcategory_list"></div>
         <div id="industrial_list" style="display:none">
+            <h3>Sélection d'un produit</h3>
+            <div>Tapez les premières lettre du nom de votre produit et sélectionnez le dans la liste</div><br>
             <form action="/search" method="get" title="Entrez le nom d'un produit">
                 {% csrf_token %}
                 {{ prodform.as_p }}
             </form>
-            <input id="submit_form" type="submit" value="Créer" />
+            </br>
+            <input id="submit_form" class="btn btn-indigo custom_btn" value="Valider" />
             
             {{ prodform.media }}
             
             <script src="{% static 'webapp/js/autocomplete.js' %}"></script>
             <script>
                 $("#submit_form").click(function () {
+                    var prodName = $("#select2-id_product_search-container").html();
                     $.ajax({
                         type: 'GET',
                         url: "{% url 'ajax_product_creation' %}",
                         data: {
-                            'subcategory': "{{ prodform.ind_product_name }}",
+                            'subcategory': prodName,
                             'checker': "industrial",
                         },
                         success: function (data) {
                             $("#product_creation").html(data);
+                            $('html, body').animate({
+                                scrollTop: $("#product_creation").offset().top
+                            }, 500);
                         }
                     });
                 });
             </script>
         </div>
     </div>
-    <div id="column-3" class="col-md-4" style="float: left; background-color: purple;">
+    <div id="column-3" class="col-md-4">
         <div id="product_creation"></div>
     </div>
 </div>
