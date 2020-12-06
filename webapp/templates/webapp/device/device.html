@@ -1,17 +1,16 @@
 <h3>Sélection d'un appareil</h3></br>
 {% if checker == "device" %}
-<div>Selectionnez un appareil pour le modifier</div>
+<div>Selectionnez un appareil pour le modifier</div></br>
 {% else %}
 <a href="{% url 'manage_devices' %}">Vous pouvez ajouter un appareil ici !</a></br>
 {% endif %}
 {% for device in user_devices %}
-<button type="submit" class="device" value="{{ device.id }}">{{ device }}</button></br>
+<button type="submit" class="device btn btn-light-blue custom_btn" value="{{ device.id }}">{{ device }}</button></br>
 {% endfor %}
 {% if checker == "device" %}
 <div>ou</div>
-<button id="create_device">Créer un appareil</button>
+<button id="create_device" class="btn btn-indigo custom_btn">Créer un appareil</button>
 {% endif %}
-
 <script>
     $(".device").click(function () {
         var device = $(this).val();
@@ -25,7 +24,9 @@
                 success: function (data) {
                     $("#master_div_device div").html("");
                     $("#device_creation").html(data);
-                    $("#stock").html("Modifiez votre appareil");
+                    $('html, body').animate({
+                        scrollTop: $("#device_creation").offset().top
+                    }, 2000);
                 }
             });
         } else {
@@ -53,7 +54,9 @@
             success: function (data) {
                 $("#master_div_device div").html("");
                 $("#device_creation").html(data);
-                $("#stock").html("");
+                $('html, body').animate({
+                        scrollTop: $("#device_creation").offset().top
+                }, 2000);
             }
         });
     });

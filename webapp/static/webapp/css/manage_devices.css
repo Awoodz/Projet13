@@ -1,0 +1,21 @@
+#device_list, #device_creation
+{
+    border-radius: 2em;
+    padding: 2em;
+    text-align: center;
+}
+
+#device_list
+{
+    background-color: rgb(73, 135, 184);
+}
+
+#device_creation
+{
+    background-color: rgb(51, 100, 138);
+}
+
+#device_list:empty, #device_creation:empty
+{
+    display: none;
+}

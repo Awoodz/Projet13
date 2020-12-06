@@ -1,22 +1,26 @@
-<h3>Création d'un appareil</h3></br>
+<h3 class="intro_text">Création d'un appareil</h3></br>
 <form id="create_device">
     <!-- leftside -->
     <div class="leftside">
-        <input type="text" name="device_name" id="device_name" placeholder="Nommez votre appareil"/></br>
-        <input type="text" name="device_place" id="device_place" placeholder="Où est votre appareil ? (optionnel)"/><br>
-        <select id="device_type_select">
+        <input type="text" name="device_name" id="device_name" class="form-control" placeholder="Nommez votre appareil"/></br>
+        <input type="text" name="device_place" id="device_place" class="form-control" placeholder="Où est votre appareil ? (optionnel)"/><br>
+        <select id="device_type_select" class="browser-default custom-select">
+            <option selected value="tag">Sélectionnez un type d'appareil</option>
             {% for type in device_types %}
             <option>{{ type }}</option>
             {% endfor %}
-        </select></br>
-        <div>Définissez le nombre de compartiments : <div id="compartment_number">1</div></div></br>
-        <button id=add_button type="button">+</button>
-        <button id=remove_button type="button">-</button>
+        </select></br></br>
+        <div>
+            <div style="display: inline-block;">Définissez le nombre de compartiments : </div>
+            <div style="display: inline-block;" id="compartment_number">1</div>
+        </div></br>
+        <button id=add_button type="button" class="btn btn-light-green">Ajouter</button>
+        <button id=remove_button type="button" class="btn btn-deep-orange">Retirer</button>
 
         <div class="rightside">
             <div id="compartment1">
-                <div id="compartment_img1" class="compartment" style="float: left;">Compartiment 1 </div>
-                <input type="text" class="compartment_name" id="compartment_name1" name="compartment_name" placeholder="Nommez le compartiment"/>
+                <div id="compartment_img1" class="compartment">Compartiment 1 </div>
+                <input type="text" class="compartment_name form-control" id="compartment_name1" name="compartment_name" placeholder="Renommez le compartiment"/>
                 <script>
                     $("#compartment_name1").on('input', function () {
                         if ($(this).val() == "") {
@@ -28,7 +32,8 @@
                 </script>
             </div>
         </div>
-    <button type="submit" name="submit_device" id="submit_device">
+    </br>
+    <button class="btn btn-indigo custom_btn" id="submit_device">
         Créer l'appareil
     </button>
     </div>
@@ -92,6 +97,11 @@
             return false;
         };
 
+        if (deviceType == "tag") {
+            alert("Vous devez selectionner un type d'appareil !");
+            return false;
+        };
+
         function listBuilder(number) {
             var compartList = [];
             var i;
@@ -124,6 +134,9 @@
                         $("#device_list").html(data);
                     }
                 });
+                $('html, body').animate({
+                        scrollTop: $("#device_list").offset().top
+                }, 2000);
             }
         });
     });

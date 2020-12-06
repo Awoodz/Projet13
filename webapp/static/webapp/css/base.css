@@ -8,7 +8,7 @@ body, header, footer
 header, footer
 {
     background-color: blueviolet;
-    z-index: 3;
+    z-index: 1;
 }
 
 header
@@ -25,10 +25,10 @@ footer
     bottom: 0;
 }
 
-#core
-{ 
-    margin-top: 10em;
-    margin-bottom: 4em;
+#column-1, #column-2, #column-3
+{
+    float: left;
+    z-index: 0;
 }
 
 @media (max-width: 1023px) {
@@ -53,4 +53,12 @@ footer
     }
   }
 
+body
+{
+    background:cornflowerblue;
+}
 
+.custom_btn
+{
+    width: 17em;
+}

@@ -17,6 +17,8 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
     <!-- CSS-->
     <link href="{% static 'webapp/css/base.css' %}" rel="stylesheet" />
     <!-- Fengyuan Chen's Datepicker -->
@@ -27,19 +29,25 @@
 <body>
     <!-- header -->
     <header>
-        <a href="{% url 'index' %}"><h3>Bienvenue sur MyColdManager.com !</h3></a></br>
+        <div class="col-md-12">
+            <a href="{% url 'index' %}"><h3>Bienvenue sur MyColdManager.com !</h3></a>
+        </div>
         {% if user.is_authenticated %}
-        Bonjour {{ user }}
-        <a href="{% url 'logout' %}">Me déconnecter</a>
-        {% else %}
-        <a href="{% url 'signup' %}">Créer un compte</a>
-        <a href="{% url 'login' %}">Se connecter</a>
-        {% endif %}
-        {% if user.is_authenticated %}
-        <div id="action_list">
+        <div class="col-md-6">
+            Bonjour {{ user }} !
+        </div>
+        <div id="action_list" class="col-md-6">
             <a href="{% url 'manage_devices' %}">Gérer mes appareil</a>
             <a href="{% url 'manage_products' %}">Gérer mes produit</a>
             <a href="{% url 'manage_stocks' %}">Gérer mon stock</a>
+            <a href="{% url 'logout' %}">Me déconnecter</a>
+        </div>
+        {% else %}
+        <div class="col-md-6">
+            <a href="{% url 'signup' %}">Créer un compte</a>
+        </div>
+        <div class="col-md-6">
+            <a href="{% url 'login' %}">Se connecter</a>
         </div>
         {% endif %}
     </header>

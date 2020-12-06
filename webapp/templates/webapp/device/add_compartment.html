@@ -1,8 +1,8 @@
 {% load static %}
 {% if compart_number %}
 <div id="compartment{{ compart_number }}">
-    <div id='compartment_img{{ compart_number }}' class='compartment' style="float: left;">Compartiment {{ compart_number }} </div>
-    <input type='text' class='compartment_name' id='compartment_name{{ compart_number}}' name='compartment_name' placeholder='Nommez le compartiment'/>
+    <div id='compartment_img{{ compart_number }}' class='compartment'>Compartiment {{ compart_number }} </div>
+    <input type='text' class='compartment_name form-control' id='compartment_name{{ compart_number}}' name='compartment_name' placeholder='Renommez le compartiment'/>
     <script>
         $('#compartment_name{{ compart_number}}').on('input', function () {
         if ($(this).val() == '') {
