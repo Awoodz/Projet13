@@ -6,12 +6,14 @@
 {% if checker == "device" %}
 <button id="create_device" class="btn btn-indigo custom_btn">Créer un appareil</button></br></br>
 <div>Ou sélectionnez un appareil pour le modifier</div></br>
+{% else %}
+<div>Sélectionnez l'appareil dont vous voulez vérifier le contenu.</div></br>
 {% endif %}
 {% for device in user_devices %}
 <button type="submit" class="device btn btn-light-blue custom_btn" value="{{ device.id }}">{{ device }}</button></br>
 {% endfor %}
 {% if checker != "device" %}
-<a href="{% url 'manage_devices' %}">Vous pouvez ajouter un appareil ici !</a></br>
+</br><a href="{% url 'manage_devices' %}">Vous pouvez ajouter un appareil ici !</a></br>
 {% endif %}
 
 <script>
@@ -41,10 +43,13 @@
                 },
                 success: function (data) {
                     $("#storage").html("");
-                    $("#datepicker_div").hide();
+                    $("#storage_div").hide();
                     $("#product_list").html("");
                     $("#stock_list").html("");
                     $("#compartment_list").html(data);
+                    $('html, body').animate({
+                        scrollTop: $("#compartment_list").offset().top
+                    }, 500);
                 }
             });
         }

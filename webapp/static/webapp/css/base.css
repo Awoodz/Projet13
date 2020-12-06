@@ -62,3 +62,9 @@ body
 {
     width: 17em;
 }
+
+.custom_small_btn
+{
+    width: 1em;
+    height: 1em;
+}

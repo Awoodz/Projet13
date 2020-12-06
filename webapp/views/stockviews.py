@@ -50,10 +50,16 @@ def ajax_stock(request):
         stock_compartment=compartment
     ).exclude(stock_number__lte=0)
     if not stocks:
-        return HttpResponse(template.render(request=request))
+        return HttpResponse(template.render(
+            {
+                "compartment": compartment,
+            },
+            request=request,
+        ))
     else:
         return HttpResponse(template.render(
             {
+                "compartment": compartment,
                 "stocks": stocks,
             },
             request=request,

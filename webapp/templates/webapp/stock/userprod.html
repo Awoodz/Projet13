@@ -1,7 +1,8 @@
-<h3>Sélection d'un produit</h3></br>
-<a href="{% url 'manage_products' %}">Vous pouvez créer un produit ici !</a>
+<h3>Sélection d'un produit</h3>
+<div>Sélectionnez un produit à ajouter dans le compartiment.</div><br>
+<a href="{% url 'manage_products' %}">Vous pouvez créer un produit ici !</a></br></br>
 {% for product in products %}
-<button type="submit" class="product" value="{{ product.id }}">{{ product }}</button></br>
+<button type="submit" class="product btn btn-light-blue custom_btn" value="{{ product.id }}">{{ product }}</button></br>
 {% endfor %}
 
 <script>
@@ -18,7 +19,10 @@
             success: function (data) {
                 $("#product_list").html("");
                 $("#storage").html(data);
-                $("#datepicker_div").show();
+                $("#storage_div").show();
+                $('html, body').animate({
+                        scrollTop: $("#storage").offset().top
+                }, 500);
             }
         });
     });

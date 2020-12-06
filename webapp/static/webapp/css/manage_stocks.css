@@ -1,4 +1,4 @@
-#device_list
+#device_list, #compartment_list, #stock_list, #product_list, #storage_div
 {
     border-radius: 2em;
     padding: 2em;
@@ -10,7 +10,22 @@
     background-color: rgb(73, 135, 184);
 }
 
-#device_list:empty
+#compartment_list
+{
+    background-color: rgb(51, 100, 138);
+}
+
+#stock_list, #product_list, #storage_div
+{
+    background-color: rgb(31, 68, 97);
+}
+
+#device_list:empty, #compartment_list:empty, #stock_list:empty, #product_list:empty, #storage_div
 {
     display: none;
+}
+
+.stock_div_overflow
+{
+     overflow: hidden;
 }

@@ -1,10 +1,22 @@
-<h3>Stock</h3></br>
-<button id="store_product">Ajouter un produit</button>
+<h3>Contenu de {{ compartment.compartment_name }}</h3>
+<button class="btn btn-indigo custom_btn" id="store_product">Ajouter un produit</button>
+{% if stocks %}
 {% for stock in stocks %}
-<div id="stock{{ stock.id }}">
+<div id="stock{{ stock.id }}" class="stock_div_overflow">
     <hr style="text-align:left;margin-left:0">
-    {{ stock.stock_product.product_name }} - Quantité : <div id="quantity{{ stock.id }}" value="{{ stock.stock_number }}">{{ stock.stock_number }}</div> <button id="remove{{ stock.id }}" value="{{ stock.id }}">Retirer</button></br>
-    Date de rappel : {{ stock.stock_notification.notification_date }}
+    <div>
+        <div style="float: left;">
+            <div>{{ stock.stock_product.product_name }}</div>
+            <div>Ajouté le {{ stock.stock_diary.diary_add }}</div>
+            <div>Date de rappel : {{ stock.stock_notification.notification_date }}</div>
+        </div>
+        <div style="float: right;">
+            <div style="display: inline-block;">Quantité : </div>
+            <div style="display: inline-block;" id="quantity{{ stock.id }}" value="{{ stock.stock_number }}">{{ stock.stock_number }}</div></br>
+            <button id="remove{{ stock.id }}" value="{{ stock.id }}" class="btn btn-danger btn-sm">-</button>
+        </div>
+    </div>
+    </br>
     <script>
         $("#remove{{ stock.id }}").click(function () {
             var stockId = $(this).val();
@@ -29,7 +41,10 @@
     </script>
 </div>
 {% endfor %}
-
+{% else %}
+</br>
+<div>Ce compartiment est vide !</div>
+{% endif %}
 <script>
     $("#store_product").click(function () {
         $.ajax({
@@ -38,6 +53,9 @@
             success: function (data) {
                 $("#stock_list").html("");
                 $("#product_list").html(data);
+                $('html, body').animate({
+                        scrollTop: $("#product_list").offset().top
+                }, 500);
             }
         });
     });

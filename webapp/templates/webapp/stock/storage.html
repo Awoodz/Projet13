@@ -1,15 +1,18 @@
-<h3>Ajout d'un produit</h3></br>
-<div>Vous voulez ajouter {{ product }} à votre stock !</div></br>
-<div>Quantité : <div id="product_quantity">1</div></div></br>
-<button id=add_product_button>+</button>
-<button id=remove_product_button>-</button>
+<h3>Ajout d'un produit</h3>
+<div>Vous vous apprêtez à ajouter le produit "{{ product }}" à ce compartiment.</div></br>
+<div>Déterminez la quantité :</div>
+<div style="display: inline-block;">Quantité : </div><div id="product_quantity" style="display: inline-block;">1</div>
+</br>
+<button id=add_product_button class="btn btn-light-green btn-sm">+</button>
+<button id=remove_product_button class="btn btn-danger btn-sm">-</button>
+</br>
 </br>
 {% if checker == "nodate" %}
-<div>Nous n'avons pas d'information concernant la durabilité de ce produit !</div>
+<div>Nous n'avons pas d'information concernant la durabilité de ce produit.</div>
 <div>Par défaut, nous réglerons la date de rappel sur 3 mois, vous pouvez la modifier.</div>
 {% else %}
-<div>Nous recommandons la date de rappel suivante :</div>
-<div>(vous pouvez la modifier)</div>
+<div>Nous vous recommandons une date de rappel basé sur la sous-catégorie du produit.</div>
+<div>Vous pouvez la modifier.</div></br>
 {% endif %}
 <script>
     $("#add_product_button").click(function () {
@@ -60,7 +63,11 @@
                     },
                     success: function (data) {
                         $("#product_list").html("");
+                        $("#storage_div").hide();
                         $("#stock_list").html(data);
+                        $('html, body').animate({
+                                scrollTop: $("#stock_list").offset().top
+                        }, 500);
                     }
                 });
             }

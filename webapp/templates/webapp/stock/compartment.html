@@ -1,14 +1,22 @@
-<h3>Sélection d'un compartiment</h3></br>
-{% for compartment in compartments %}
-<input type="radio" name="compartment" value="{{ compartment.id }}" class="compartment"/>
-<label for="{{ compartment }}">{{ compartment }}</label></br>
-{% endfor %}
+<h3>Sélection d'un compartiment</h3>
+<div>Sélectionnez le compartiment dont vous voulez vérifier le contenu.</div></br>
+
+<div class="btn-group-toggle" data-toggle="buttons" id="radio_compartment">
+    {% for compartment in compartments %}
+    <label class="btn btn-light-blue custom_btn form-check-label">
+      <input class="form-check-input compartment" type="radio" name="options" id="option{{ compartment.id }}" autocomplete="off" value="{{ compartment.id }}"> {{ compartment }}
+    </label>
+    </br>
+    {% endfor %}
+</div>
+
 <div id="compartment_check" style="visibility: hidden; height: 0px;"></div>
 
 
 <script>
-    $(".compartment").click(function () {
-        var compartment = $(this).val();
+    $("#radio_compartment").change(function () {
+        console.log($('input[name="options"]:checked').val());
+        var compartment = $('input[name="options"]:checked').val();
         $("#compartment_check").html(compartment);
         $.ajax({
             type: 'GET',
@@ -18,9 +26,12 @@
             },
             success: function (data) {
                 $("#storage").html("");
-                $("#datepicker_div").hide();
+                $("#storage_div").hide();
                 $("#product_list").html("");
                 $("#stock_list").html(data);
+                $('html, body').animate({
+                        scrollTop: $("#stock_list").offset().top
+                }, 500);
             }
         });
     });

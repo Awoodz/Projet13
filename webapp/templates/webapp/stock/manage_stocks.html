@@ -5,18 +5,18 @@
 <!-- CSS-->
 <link href="{% static 'webapp/css/manage_stocks.css' %}" rel="stylesheet" />
 <div>
-    <div id="column-1" class="col-md-4" style="float: left; background-color: purple;">
+    <div id="column-1" class="col-md-4">
         <div id="device_list"></div>
     </div>
-    <div id="column-2" class="col-md-4" style="float: left; background-color: purple;">
+    <div id="column-2" class="col-md-4">
         <div id="compartment_list"></div>
     </div>
-    <div id="column-3" class="col-md-4" style="float: left; background-color: purple;">
+    <div id="column-3" class="col-md-4">
         <div id="stock_list"></div>
         <div id="product_list"></div>
         <div id="storage_div">
             <div id=storage></div>
-            <div id="datepicker_div" style="display: none;">
+            <div id="datepicker_div">
                 <input id="datepicker">
                 <script>
                     $(function () {
@@ -26,7 +26,8 @@
                     });
                 </script>
                 </br>
-                <button id="store_product">
+                </br>
+                <button id="store_product" class="btn btn-indigo custom_btn">
                     Ajouter le produit
                 </button>
             </div>
