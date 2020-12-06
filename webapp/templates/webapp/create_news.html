@@ -1,0 +1,30 @@
+{% extends "webapp/base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+{% load static %}
+<!-- CSS-->
+<link href="{% static 'webapp/css/create_news.css' %}" rel="stylesheet" />
+<div id="news_body">
+    <input type="text" name="news_title" id="news_title" class="form-control" placeholder="Titre de l'actu"/>
+    <div class="form-group">
+        <label for="news_content">Contenu</label>
+        <textarea class="form-control rounded-0" id="news_content" rows="10"></textarea>
+    </div>
+    <submit id="submit_news" class="btn btn-indigo custom_btn">Créer l'actualité</button>
+</div>
+<script>
+    $("#submit_news").click(function () {
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'ajax_create_news' %}",
+            data: {
+                'title': $("#news_title").val(),
+                'content': $("#news_content").val(),
+            },
+            success: function (data) {
+                window.location.replace("{% url 'index' %}");
+            }
+        });
+    });
+</script>
+{% endblock %}

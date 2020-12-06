@@ -1,4 +1,3 @@
-
 from datetime import datetime, timedelta
 from django.http import HttpResponse, JsonResponse
 from django.template import loader

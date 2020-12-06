@@ -5,6 +5,38 @@
 <!-- CSS-->
 <link href="{% static 'webapp/css/index.css' %}" rel="stylesheet" />
 <div class="index">
-    <h1>SITE EN CONSTRUCTION</h1>
+    <h1>BETA</h1>
+
+    <div>Comment ça marche ?</div>
+    <div>
+        <h3>Actu</h3>
+    {% for new in news %}
+        <div id="news{{new.id}}">
+            <hr style="text-align:left;margin-left:0">
+            <h4>{{ new.news_title }}</h4></br>
+            <div>Le {{ new.news_date }} par {{ new.news_author }}</div></br>
+            <div>{{ new.news_content|linebreaks }}</div></br>
+            {% if request.user.is_staff %}
+            <button value="{{ new.id }}" class="delete_news btn btn-danger btn-sm">delete news</button>
+            {% endif %}
+            <script>
+                $(".delete_news").click(function () {
+                    var newId = $(this).val();
+                    $.ajax({
+                        type: 'GET',
+                        url: "{% url 'ajax_destroy_news' %}",
+                        data: {
+                            'news': newId,
+                        },
+                        success: function (data) {
+                            $("#news"+newId).remove();
+                        }
+                    });
+                });
+            </script>
+        </div>
+    {%endfor%}
+    </div>
 </div>
 {% endblock %}
+

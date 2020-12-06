@@ -5,6 +5,7 @@ from prodapp.models import Category, SubCategory, Product, IndustrialProduct
 from stockapp.models import Stock, Diary, Notification
 from webapp.utilities.api.requester import Requester
 from webapp.utilities.api.product_data import Product_data
+from webapp.models import AppNews
 import webapp.utilities.data as dt
 import logging
 import datetime
@@ -251,6 +252,33 @@ class Sql():
                 stock.delete()
                 notification.delete()
                 diary.delete()
+        # report error if not ok
+        except DatabaseError as remove_error:
+            logger.error(remove_error)
+            pass
+
+    def add_news(news_data):
+        logger = logging.getLogger(__name__)
+        news = AppNews(
+            news_title=news_data["title"],
+            news_content=news_data["content"],
+            news_date=datetime.datetime.now(),
+            news_author=news_data["user"],
+        )
+        try:
+            with transaction.atomic():
+                news.save()
+        # report error if not ok
+        except DatabaseError as save_error:
+            logger.error(save_error)
+            pass
+
+    def destroy_news(news_id):
+        logger = logging.getLogger(__name__)
+        news = AppNews.objects.get(id=news_id)
+        try:
+            with transaction.atomic():
+                news.delete()
         # report error if not ok
         except DatabaseError as remove_error:
             logger.error(remove_error)

@@ -41,6 +41,9 @@
             <a href="{% url 'manage_products' %}">Gérer mes produit</a>
             <a href="{% url 'manage_stocks' %}">Gérer mon stock</a>
             <a href="{% url 'logout' %}">Me déconnecter</a>
+            {% if request.user.is_staff %}
+            <a href="{% url 'create_news' %}">Créer une news</a>
+            {% endif %}
         </div>
         {% else %}
         <div class="col-md-6">
