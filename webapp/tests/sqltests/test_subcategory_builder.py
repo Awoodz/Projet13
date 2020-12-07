@@ -11,4 +11,4 @@ class SubCategoryBuilderTestCase(TestCase):
         self.assertEqual(count, 0)
         Sql.subcategory_builder()
         count = SubCategory.objects.all().count()
-        self.assertEqual(count, 11)
+        self.assertEqual(count, 48)

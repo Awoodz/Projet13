@@ -10,4 +10,4 @@ class CategoryBuilderTestCase(TestCase):
         self.assertEqual(count, 0)
         Sql.category_builder()
         count = Category.objects.all().count()
-        self.assertEqual(count, 5)
+        self.assertEqual(count, 8)
