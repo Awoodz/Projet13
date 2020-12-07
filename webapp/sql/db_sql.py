@@ -76,8 +76,7 @@ class Sql():
 
     def category_builder():
         logger = logging.getLogger(__name__)
-        category_list = ["industriel", "viande", "poisson", "legume", "autre"]
-        for category in category_list:
+        for category in dt.DATA_DICT:
             new_category = Category(category_name=category)
             try:
                 with transaction.atomic():
@@ -88,7 +87,7 @@ class Sql():
 
     def subcategory_builder():
         logger = logging.getLogger(__name__)
-        data_dict = dt.data_dict
+        data_dict = dt.DATA_DICT
         for categories in data_dict:
             category = Category.objects.get(category_name=categories)
             for subcategory in data_dict[categories]["subcategory"]:

@@ -15,7 +15,7 @@ class SubCategory(models.Model):
         Category,
         on_delete=models.CASCADE
     )
-    subcategory_name = models.CharField(max_length=100, unique=True)
+    subcategory_name = models.CharField(max_length=100)
     subcategory_peremption = models.IntegerField()
 
     def __str__(self):
