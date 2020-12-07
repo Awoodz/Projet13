@@ -5,21 +5,26 @@ body, header, footer
     padding: 0%;
 }
 
+#mainNav
+{
+    background-color: steelblue;
+}
+
 header, footer
 {
-    background-color: blueviolet;
     z-index: 1;
 }
 
 header
 {
-    height: 10em;
+    height: 8em;
     position: fixed;
     top: 0;
 }
 
 footer
 {
+    background-color: steelblue;
     height: 4em;
     position: fixed;
     bottom: 0;

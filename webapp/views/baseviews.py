@@ -17,6 +17,12 @@ def index(request):
     ))
 
 
+def legalmention(request):
+    """Legal mentions page"""
+    template = loader.get_template("webapp/legalmention.html")
+    return HttpResponse(template.render(request=request))
+
+
 @staff_member_required
 def create_news(request):
     """"""

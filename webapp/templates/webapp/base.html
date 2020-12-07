@@ -29,30 +29,77 @@
 <body>
     <!-- header -->
     <header>
-        <div class="col-md-12">
-            <a href="{% url 'index' %}"><h3>Bienvenue sur MyColdManager.com !</h3></a>
-        </div>
-        {% if user.is_authenticated %}
-        <div class="col-md-6">
-            Bonjour {{ user }} !
-        </div>
-        <div id="action_list" class="col-md-6">
-            <a href="{% url 'manage_devices' %}">Gérer mes appareil</a>
-            <a href="{% url 'manage_products' %}">Gérer mes produit</a>
-            <a href="{% url 'manage_stocks' %}">Gérer mon stock</a>
-            <a href="{% url 'logout' %}">Me déconnecter</a>
-            {% if request.user.is_staff %}
-            <a href="{% url 'create_news' %}">Créer une news</a>
-            {% endif %}
-        </div>
-        {% else %}
-        <div class="col-md-6">
-            <a href="{% url 'signup' %}">Créer un compte</a>
-        </div>
-        <div class="col-md-6">
-            <a href="{% url 'login' %}">Se connecter</a>
-        </div>
-        {% endif %}
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+            <div class="container">
+                <div class="col-md-7">
+                    <a class="navbar-brand js-scroll-trigger" href="{% url 'index' %}#page-top" style="color: black;"><img
+                            id="logo_pb" style="width: 2em; height: 2em;" src="{% static 'webapp/img/favicon.png' %}" title="Retour à l'accueil"
+                            alt="Retour à l'acceuil" />MyColdManager</a>
+                </div>
+    
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                    data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                    aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto my-2 my-lg-0">
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <div class="col-md-3 text-center">
+                                <a class="nav-link js-scroll-trigger" href="{% url 'manage_devices' %}" title="Gérer mes appareils" alt="Gérer mes appareils">
+                                    Gérer mes appareils
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="col-md-3 text-center">
+                                <a class="nav-link js-scroll-trigger" href="{% url 'manage_products' %}" title="Gérer mes produits" alt="Gérer mes produits">
+                                    Gérer mes produits
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="col-md-3 text-center">
+                                <a class="nav-link js-scroll-trigger" href="{% url 'manage_stocks' %}" title="Gérer mes stocks" alt="Gérer mes stocks">
+                                    Gérer mes produits
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="col-md-3 text-center">
+                                <a class="nav-link js-scroll-trigger" href="{% url 'logout' %}" title="Me déconnecter" alt="Me déconnecter">
+                                    Me déconnecter
+                                </a>
+                            </div>
+                        </li>
+                        {% if request.user.is_staff %}
+                        <li class="nav-item">
+                            <div class="col-md-3 text-center">
+                                <a class="nav-link js-scroll-trigger" href="{% url 'create_news' %}" title="Créer une actualité" alt="Créer une actualité">
+                                    Créer une actualité
+                                </a>
+                            </div>
+                        </li>
+                        {% endif %}
+                        {% else %}
+                        <li class="nav-item">
+                            <div class="col-md-3 text-center">
+                                <a class="nav-link js-scroll-trigger" href="{% url 'signup' %}" title="Créer un compte" alt="Créer un compte">
+                                    Créer un compte
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="col-md-1 text-center">
+                                <a class="nav-link js-scroll-trigger" href="{% url 'login' %}" title="Me connecter à mon compte" alt="Me connecter à mon compte">
+                                    Se connecter
+                                </a>
+                            </div>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </header>
 
     {% block content %}
@@ -60,7 +107,9 @@
 
     <!-- Footer-->
     <footer>
-        A remplir
+        <a href="{% url 'legalmention' %}" title="Mentions Légales" alt="Mentions Légales">
+            Mentions légales
+        </a>
     </footer>
 </body>
 

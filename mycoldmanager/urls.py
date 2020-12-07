@@ -29,6 +29,7 @@ urlpatterns = [
     url(r"^create_news/", bv.create_news, name="create_news"),
     url(r"^ajax_create_news/", bv.ajax_create_news, name="ajax_create_news"),
     url(r"^ajax_destroy_news/", bv.ajax_destroy_news, name="ajax_destroy_news"),
+    url(r"^legalmention/", bv.legalmention, name="legalmention"),
 
     url(r"^manage_devices/", dv.manage_devices, name="manage_devices"),
     url(r"^ajax_device_creation/", dv.ajax_device_creation, name="ajax_device_creation"),

@@ -54,7 +54,7 @@
             },
             success: function (data) {
                 $("#storage").html("");
-                $("#datepicker_div").hide();
+                $("#storage_div").hide();
                 $.ajax({
                     type: 'GET',
                     url: "{% url 'ajax_stock' %}",

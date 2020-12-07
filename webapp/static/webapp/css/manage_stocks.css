@@ -7,17 +7,17 @@
 
 #device_list
 {
-    background-color: rgb(73, 135, 184);
+    background-color: rgb(101, 188, 255);
 }
 
 #compartment_list
 {
-    background-color: rgb(51, 100, 138);
+    background-color: rgb(84, 165, 226);
 }
 
 #stock_list, #product_list, #storage_div
 {
-    background-color: rgb(31, 68, 97);
+    background-color: rgb(61, 134, 190);
 }
 
 #device_list:empty, #compartment_list:empty, #stock_list:empty, #product_list:empty, #storage_div

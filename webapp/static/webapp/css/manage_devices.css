@@ -7,12 +7,12 @@
 
 #device_list
 {
-    background-color: rgb(73, 135, 184);
+    background-color: rgb(101, 188, 255);
 }
 
 #device_creation
 {
-    background-color: rgb(51, 100, 138);
+    background-color: rgb(84, 165, 226);
 }
 
 #device_list:empty, #device_creation:empty
