@@ -31,7 +31,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
             <div class="container">
-                <div class="col-md-7">
+                <div class="col-md-4">
                     <a class="navbar-brand js-scroll-trigger" href="{% url 'index' %}#page-top" style="color: black;"><img
                             id="logo_pb" style="width: 2em; height: 2em;" src="{% static 'webapp/img/favicon.png' %}" title="Retour à l'accueil"
                             alt="Retour à l'acceuil" />MyColdManager</a>
@@ -44,56 +44,42 @@
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <div class="col-md-3 text-center">
-                                <a class="nav-link js-scroll-trigger" href="{% url 'manage_devices' %}" title="Gérer mes appareils" alt="Gérer mes appareils">
-                                    Gérer mes appareils
-                                </a>
-                            </div>
+                            <a class="nav-link js-scroll-trigger btn" href="{% url 'manage_devices' %}" title="Gérer mes appareils" alt="Gérer mes appareils">
+                                Gérer mes appareils
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <div class="col-md-3 text-center">
-                                <a class="nav-link js-scroll-trigger" href="{% url 'manage_products' %}" title="Gérer mes produits" alt="Gérer mes produits">
+                                <a class="nav-link js-scroll-trigger btn" href="{% url 'manage_products' %}" title="Gérer mes produits" alt="Gérer mes produits">
                                     Gérer mes produits
                                 </a>
-                            </div>
                         </li>
                         <li class="nav-item">
-                            <div class="col-md-3 text-center">
-                                <a class="nav-link js-scroll-trigger" href="{% url 'manage_stocks' %}" title="Gérer mes stocks" alt="Gérer mes stocks">
+                                <a class="nav-link js-scroll-trigger btn" href="{% url 'manage_stocks' %}" title="Gérer mes stocks" alt="Gérer mes stocks">
                                     Gérer mon stock
                                 </a>
-                            </div>
                         </li>
                         <li class="nav-item">
-                            <div class="col-md-3 text-center">
-                                <a class="nav-link js-scroll-trigger" href="{% url 'logout' %}" title="Me déconnecter" alt="Me déconnecter">
+                                <a class="nav-link js-scroll-trigger btn" href="{% url 'logout' %}" title="Me déconnecter" alt="Me déconnecter">
                                     Me déconnecter
                                 </a>
-                            </div>
                         </li>
                         {% if request.user.is_staff %}
                         <li class="nav-item">
-                            <div class="col-md-3 text-center">
-                                <a class="nav-link js-scroll-trigger" href="{% url 'create_news' %}" title="Créer une actualité" alt="Créer une actualité">
+                                <a class="nav-link js-scroll-trigger btn" href="{% url 'create_news' %}" title="Créer une actualité" alt="Créer une actualité">
                                     Créer une actualité
                                 </a>
-                            </div>
                         </li>
                         {% endif %}
                         {% else %}
                         <li class="nav-item">
-                            <div class="col-md-3 text-center">
-                                <a class="nav-link js-scroll-trigger" href="{% url 'signup' %}" title="Créer un compte" alt="Créer un compte">
+                                <a class="nav-link js-scroll-trigger btn" href="{% url 'signup' %}" title="Créer un compte" alt="Créer un compte">
                                     Créer un compte
                                 </a>
-                            </div>
                         </li>
                         <li class="nav-item">
-                            <div class="col-md-1 text-center">
-                                <a class="nav-link js-scroll-trigger" href="{% url 'login' %}" title="Me connecter à mon compte" alt="Me connecter à mon compte">
+                                <a class="nav-link js-scroll-trigger btn" href="{% url 'login' %}" title="Me connecter à mon compte" alt="Me connecter à mon compte">
                                     Se connecter
                                 </a>
-                            </div>
                         </li>
                         {% endif %}
                     </ul>
