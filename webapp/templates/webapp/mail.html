@@ -6,8 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyColdManager</title>
 </head>
-<body>
-    <div style="background-color: purple;">Bonjour {{ user.username }} !</div>
-    <div style="background-color: purple;">{{ product }} approche de sa date limite !</div>
+<body style="background: cornflowerblue;">
+    <header style="height: 8em; position: fixed; top: 0; z-index: 1; background-color: steelblue; width: 100%; text-align: center;">
+        <a style="font-size: 3em;" href="http://www.mycoldmanager.com">MyColdManager</a>
+    </header>
+    <div style="background-color: purple; border-radius: 2em; padding: 2em; margin-top: 9em; margin-bottom: 5em; text-align: center;">
+        <div style="font-size: 2em;">Bonjour {{ user.username }} !</div></br>
+        <div style="font-size: 2em;">Le produit "{{ product }}" approche de sa date de consommation recommandée.</div></br>
+    </div>
+    <footer style="height: 4em; position: fixed; bottom: 0; z-index: 1; background-color: steelblue; width: 100%; text-align: center;">
+        <a style="font-size: 3em;" href="http://www.mycoldmanager.com">MyColdManager</a>
+    </footer>
 </body>
 </html>
