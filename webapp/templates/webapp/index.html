@@ -4,20 +4,24 @@
 {% load static %}
 <!-- CSS-->
 <link href="{% static 'webapp/css/index.css' %}" rel="stylesheet" />
-<div class="index" style="text-align: center;">
-    <h3>BETA</h3>
 
-    <h4>Comment ça marche ?</h4>
-    <div>Bienvenue sur MyColdManager.com ! Cette application vous permet de gérer vos congélateurs et leurs contenus !</div></br>
-    <div>Vous devrez tout d'abord ajouter un (ou plusieurs) appareil en cliquant sur l'ongler "Gérer mes appareils".</div></br>
-    <div>Ensuite, via l'onglet "Gérer mes produits", vous pourrez créer les produits que vous comptez ranger dans l'appareil.</div>
-    <div>De cette façon, les produits que vous avez déjà créé seront à l'avenir plus simple à ajouter</div></br>
-    <div>Enfin, cliquez sur l'onglet "Gérer mon stock", sélectionnez un appareil, un compartiment, et son contenu (le cas échéant) vous sera affiché !</div>
-    <div>C'est également à partir de cette page que vous pourrez décider quel produit ranger dans quel compartiment</div></br>
-    <div>Fini d'oublier ce que votre congélateur contient ! De plus l'application vous enverra un email quand la date de conservation conseillée approchera de son terme.</div>
-    <div>
-        <h3>Actu</h3>
-    {% for new in news %}
+<div class="index">
+
+    <div class="block">
+        <h3>BETA</h3>
+        <h4>Comment ça marche ?</h4>
+        <div>Bienvenue sur MyColdManager.com ! Cette application vous permet de gérer vos congélateurs et leurs contenus !</div></br>
+        <div>Vous devrez tout d'abord ajouter un (ou plusieurs) appareil en cliquant sur l'ongler "Gérer mes appareils".</div></br>
+        <div>Ensuite, via l'onglet "Gérer mes produits", vous pourrez créer les produits que vous comptez ranger dans l'appareil.</div>
+        <div>De cette façon, les produits que vous avez déjà créé seront à l'avenir plus simple à ajouter</div></br>
+        <div>Enfin, cliquez sur l'onglet "Gérer mon stock", sélectionnez un appareil, un compartiment, et son contenu (le cas échéant) vous sera affiché !</div>
+        <div>C'est également à partir de cette page que vous pourrez décider quel produit ranger dans quel compartiment</div></br>
+        <div>Fini d'oublier ce que votre congélateur contient ! De plus l'application vous enverra un email quand la date de conservation conseillée approchera de son terme.</div>
+    </div>
+
+    <div class="block">
+        <h3>Actualités</h3>
+        {% for new in news %}
         <div id="news{{new.id}}">
             <hr style="text-align:left;margin-left:0">
             <h4>{{ new.news_title }}</h4></br>
@@ -42,7 +46,7 @@
                 });
             </script>
         </div>
-    {%endfor%}
+        {%endfor%}
     </div>
 </div>
 {% endblock %}

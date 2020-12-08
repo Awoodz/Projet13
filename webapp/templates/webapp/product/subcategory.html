@@ -1,8 +1,11 @@
 <h3>Sélection d'une sous-catégorie</h3></br>
 <div>Sélectionnez la sous-catégorie correspondant le mieux à votre produit.</div></br>
 {% for subcategory in subcategories %}
+{% if subcategory.subcategory_name != "autre" %}
 <button type="submit" class="subcategory device btn btn-light-blue custom_btn" value="{{ subcategory.id }}">{{ subcategory }}</button></br>
+{% endif %}
 {% endfor %}
+<button type="submit" class="subcategory device btn btn-light-blue custom_btn" value="{{ other_subcat.id }}">{{ other_subcat }}</button></br>
 
 <script>
     $(".subcategory").click(function () {

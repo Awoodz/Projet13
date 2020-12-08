@@ -37,9 +37,18 @@ def ajax_subcategory(request):
     template = loader.get_template("webapp/product/subcategory.html")
     get_category = request.GET.get("category")
     category = Category.objects.get(id=get_category)
-    subcategories = SubCategory.objects.filter(subcategory_category=category)
+    subcategories = SubCategory.objects.filter(
+        subcategory_category=category
+    )
+    other_subcat = SubCategory.objects.get(
+        subcategory_name="autre"
+    )
+    print(subcategories)
     return HttpResponse(template.render(
-        {"subcategories": subcategories},
+        {
+            "subcategories": subcategories,
+            "other_subcat": other_subcat,
+        },
         request=request,
     ))
 

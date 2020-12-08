@@ -16,7 +16,6 @@ DATA_DICT = {
             {"name": "porc haché", "duration": 90},
             {"name": "porc saucisse", "duration": 30},
             {"name": "poulet", "duration": 360},
-            {"name": "autre", "duration": 0},
         ],
     },
     "poisson": {
@@ -24,7 +23,6 @@ DATA_DICT = {
             {"name": "saumon", "duration": 90},
             {"name": "sardine", "duration": 90},
             {"name": "colin", "duration": 90},
-            {"name": "autre", "duration": 0},
         ],
     },
     "legume": {
@@ -40,7 +38,6 @@ DATA_DICT = {
             {"name": "petit pois", "duration": 360},
             {"name": "tomate", "duration": 90},
             {"name": "tomate en coulis", "duration": 360},
-            {"name": "autre", "duration": 0},
         ],
     },
     "fruit": {
@@ -54,7 +51,6 @@ DATA_DICT = {
             {"name": "poire", "duration": 360},
             {"name": "pomme", "duration": 360},
             {"name": "quetsche", "duration": 360},
-            {"name": "autre", "duration": 0},
         ],
     },
     "produit laitier": {
@@ -63,7 +59,6 @@ DATA_DICT = {
             {"name": "fromage fermenté", "duration": 90},
             {"name": "fromage à pâte cuite", "duration": 180},
             {"name": "fromage râpé", "duration": 90},
-            {"name": "autre", "duration": 0},
         ],
     },
     "boulangerie": {
@@ -73,7 +68,6 @@ DATA_DICT = {
             {"name": "gâteau", "duration": 90},
             {"name": "viennoiserie", "duration": 60},
             {"name": "pâte, fond de tarte", "duration": 90},
-            {"name": "autre", "duration": 0},
         ],
     },
     "autre": {

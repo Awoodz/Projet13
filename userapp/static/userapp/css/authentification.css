@@ -1,7 +1,9 @@
 .login_body, .signup_body
 {
     width: 100%;
-    margin-top: 10em;
+    margin-top: 9em;
     background-color: cornflowerblue;
-    margin-bottom: 4em;
+    margin-bottom: 5em;
+    border-radius: 2em;
+    padding: 2em;
 }
