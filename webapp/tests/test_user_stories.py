@@ -15,7 +15,7 @@ class MySeleniumTests(StaticLiveServerTestCase):
         chrome_options.add_argument("--no-first-run")
         chrome_options.add_argument("--disable-default-apps")
         chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--headless")
+        # chrome_options.add_argument("--headless")
         super().setUpClass()
         cls.selenium = Chrome(options=chrome_options)
         cls.selenium.implicitly_wait(10)
