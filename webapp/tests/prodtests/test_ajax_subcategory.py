@@ -10,6 +10,12 @@ class AjaxSubCategoryPageTestCase(TestCase):
             category_name="fakecat",
         )
 
+        other_subcat = SubCategory.objects.create(
+            subcategory_name="autre",
+            subcategory_category=category,
+            subcategory_peremption=0,
+        )
+
         response = self.client.get(
             reverse("ajax_subcategory"),
             {"category": category.id},
@@ -26,6 +32,12 @@ class AjaxSubCategoryPageTestCase(TestCase):
             subcategory_category=category,
             subcategory_name="fakesubcat",
             subcategory_peremption=30,
+        )
+
+        other_subcat = SubCategory.objects.create(
+            subcategory_name="autre",
+            subcategory_category=category,
+            subcategory_peremption=0,
         )
 
         response = self.client.get(
