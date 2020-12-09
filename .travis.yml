@@ -17,7 +17,3 @@ before_script:
   - psql -c 'create database mycoldmanager;'
 script:
   - pytest
-deploy:
-  provider: heroku:HEROKU_MCM_GIT
-  username: HEROKU_MAIL
-  password: HEROKU_PASSWORD
