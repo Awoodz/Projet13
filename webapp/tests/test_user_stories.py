@@ -1,3 +1,4 @@
+from seleniumlogin import force_login
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
@@ -5,8 +6,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from userapp.models import CustomUser
+
 
 class MySeleniumTests(StaticLiveServerTestCase):
+
     @classmethod
     def setUpClass(cls):
         chrome_options = Options()
@@ -52,3 +56,33 @@ class MySeleniumTests(StaticLiveServerTestCase):
             EC.presence_of_element_located((By.CLASS_NAME, "block"))
         )
         assert self.selenium.current_url == self.live_server_url + "/"
+
+    def test_manage_devices(self):
+        user = CustomUser.objects.create_user(
+            username='fakeuser', password='fakepassword'
+        )
+        force_login(user, self.selenium, self.live_server_url)
+        self.selenium.get(self.live_server_url + "/manage_devices/")
+        assert self.selenium.current_url == (
+            self.live_server_url + "/manage_devices/"
+        )
+
+    def test_manage_products(self):
+        user = CustomUser.objects.create_user(
+            username='fakeuser', password='fakepassword'
+        )
+        force_login(user, self.selenium, self.live_server_url)
+        self.selenium.get(self.live_server_url + "/manage_products/")
+        assert self.selenium.current_url == (
+            self.live_server_url + "/manage_products/"
+        )
+
+    def test_manage_stocks(self):
+        user = CustomUser.objects.create_user(
+            username='fakeuser', password='fakepassword'
+        )
+        force_login(user, self.selenium, self.live_server_url)
+        self.selenium.get(self.live_server_url + "/manage_stocks/")
+        assert self.selenium.current_url == (
+            self.live_server_url + "/manage_stocks/"
+        )
