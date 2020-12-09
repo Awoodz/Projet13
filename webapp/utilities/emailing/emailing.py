@@ -1,9 +1,11 @@
+import datetime
+
 from django.core import mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from stockapp.models import Stock, Notification
+
+from stockapp.models import Notification, Stock
 from webapp.sql.db_sql import Sql
-import datetime
 
 
 def emailing():

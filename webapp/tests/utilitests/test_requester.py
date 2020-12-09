@@ -1,6 +1,7 @@
-from webapp.utilities.api.requester import Requester
-from webapp.utilities.api.externals.openfoodfact_request import Openfoodfact_request
 import webapp.utilities.data as dt
+from webapp.utilities.api.externals.openfoodfact_request import \
+    Openfoodfact_request
+from webapp.utilities.api.requester import Requester
 
 
 def mock_openfoodfact_category_request(text, mock):

@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from userapp.models import TypeList
 from webapp.sql.db_sql import Sql
 

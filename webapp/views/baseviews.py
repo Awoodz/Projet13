@@ -1,8 +1,9 @@
+from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
-from django.contrib.admin.views.decorators import staff_member_required
-from webapp.sql.db_sql import Sql
+
 from webapp.models import AppNews
+from webapp.sql.db_sql import Sql
 
 
 def index(request):

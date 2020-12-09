@@ -1,7 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
-from userapp.models import CustomUser
+
 from colddeviceapp.models import ColdDevice, ColdDeviceType
+from userapp.models import CustomUser
 
 
 class AjaxCreateDevicePageTestCase(TestCase):

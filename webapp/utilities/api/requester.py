@@ -1,5 +1,6 @@
 import webapp.utilities.data as dt
-from webapp.utilities.api.externals.openfoodfact_request import Openfoodfact_request
+from webapp.utilities.api.externals.openfoodfact_request import \
+    Openfoodfact_request
 
 
 class Requester:

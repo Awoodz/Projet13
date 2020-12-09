@@ -1,8 +1,10 @@
+from datetime import datetime
+
 from django.test import TestCase
 from django.urls import reverse
+
 from userapp.models import CustomUser
 from webapp.models import AppNews
-from datetime import datetime
 
 
 class AxajCreateNewsPageTestCase(TestCase):

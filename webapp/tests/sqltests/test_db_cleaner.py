@@ -1,8 +1,10 @@
 from datetime import datetime, timedelta
+
 from django.test import TestCase
+
 from colddeviceapp.models import ColdDevice, ColdDeviceType, Compartment
-from prodapp.models import Category, SubCategory, Product
-from stockapp.models import Stock, Diary, Notification
+from prodapp.models import Category, Product, SubCategory
+from stockapp.models import Diary, Notification, Stock
 from userapp.models import CustomUser
 from webapp.sql.db_cleaner import db_clean_stocks
 

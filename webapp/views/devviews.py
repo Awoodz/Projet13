@@ -1,7 +1,9 @@
 import json
+
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
-from django.contrib.auth.decorators import login_required
+
 from colddeviceapp.models import ColdDevice, ColdDeviceType, Compartment
 from webapp.sql.db_sql import Sql
 

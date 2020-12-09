@@ -1,7 +1,9 @@
 from datetime import datetime, timedelta
+
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
-from django.contrib.auth.decorators import login_required
+
 from colddeviceapp.models import ColdDevice, Compartment
 from prodapp.models import Product
 from stockapp.models import Stock

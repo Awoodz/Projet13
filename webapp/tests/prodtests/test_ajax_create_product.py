@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
-from prodapp.models import Category, SubCategory, Product
+
+from prodapp.models import Category, Product, SubCategory
 from userapp.models import CustomUser
 
 

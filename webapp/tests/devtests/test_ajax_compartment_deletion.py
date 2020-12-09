@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+
 from colddeviceapp.models import ColdDevice, ColdDeviceType, Compartment
 from userapp.models import CustomUser
 
@@ -69,7 +70,7 @@ class AjaxCompartmentDeletionPageTestCase(TestCase):
         count = Compartment.objects.all().count()
         self.assertEqual(count, 1)
 
-        response = self.client.get(
+        self.client.get(
             reverse("ajax_compartment_deletion"),
             {"compartment": compartment.id},
         )

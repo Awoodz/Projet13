@@ -1,21 +1,24 @@
-from django.db import DatabaseError, transaction
-from colddeviceapp.models import ColdDeviceType, ColdDevice, Compartment
-from userapp.models import TypeList, CustomUser
-from prodapp.models import Category, SubCategory, Product, IndustrialProduct
-from stockapp.models import Stock, Diary, Notification
-from webapp.utilities.api.requester import Requester
-from webapp.utilities.api.product_data import Product_data
-from webapp.models import AppNews
-import webapp.utilities.data as dt
-import logging
 import datetime
+import logging
+
+from django.db import DatabaseError, transaction
+
+import webapp.utilities.data as dt
+from colddeviceapp.models import ColdDevice, ColdDeviceType, Compartment
+from prodapp.models import Category, IndustrialProduct, Product, SubCategory
+from stockapp.models import Diary, Notification, Stock
+from userapp.models import CustomUser, TypeList
+from webapp.models import AppNews
+from webapp.utilities.api.product_data import Product_data
+from webapp.utilities.api.requester import Requester
 
 
 class Sql():
 
     def device_type_builder():
-        """"""
+        """Add device types to database"""
         logger = logging.getLogger(__name__)
+
         type_list = ["Congélateur bac", "Congélateur tiroir"]
 
         for elem in type_list:
@@ -28,8 +31,9 @@ class Sql():
                 pass
 
     def user_type_builder():
-        """"""
+        """Add user types to database"""
         logger = logging.getLogger(__name__)
+
         type_list = ["particulier", "professionel"]
 
         for elem in type_list:
@@ -42,11 +46,16 @@ class Sql():
                 pass
 
     def device_creation(data):
+        """Add user's device to database"""
         logger = logging.getLogger(__name__)
+
+        # Get the device type
         device_type = ColdDeviceType.objects.get(
             colddevicetype_name=data["device_type"]
         )
+        # Get the device user
         user = CustomUser.objects.get(username=data["user"])
+        # Creates the device
         device = ColdDevice(
             colddevice_name=data["device_name"],
             colddevice_place=data["device_place"],
@@ -56,12 +65,13 @@ class Sql():
         try:
             with transaction.atomic():
                 device.save()
-        # report error if not ok
         except DatabaseError as prod_error:
             logger.error(prod_error)
             pass
 
+        # For compartments in device
         for elem in data["compart_list"]:
+            # Creates compartments
             compartment = Compartment(
                 compartment_name=elem,
                 compartment_colddevice=device,
@@ -69,14 +79,16 @@ class Sql():
             try:
                 with transaction.atomic():
                     compartment.save()
-            # report error if not ok
             except DatabaseError as prod_error:
                 logger.error(prod_error)
                 pass
 
     def category_builder():
+        """Add food category to database"""
         logger = logging.getLogger(__name__)
+        # Get categories names from dictionnary
         for category in dt.DATA_DICT:
+            # Creates category for each element
             new_category = Category(category_name=category)
             try:
                 with transaction.atomic():
@@ -87,10 +99,13 @@ class Sql():
 
     def subcategory_builder():
         logger = logging.getLogger(__name__)
-        data_dict = dt.DATA_DICT
-        for categories in data_dict:
+        # Get categories names from dictionnary
+        for categories in dt.DATA_DICT:
+            # Get category for each element
             category = Category.objects.get(category_name=categories)
-            for subcategory in data_dict[categories]["subcategory"]:
+            # Get subcategories datas from dictionnary
+            for subcategory in dt.DATA_DICT[categories]["subcategory"]:
+                # Creates subcategory for each element
                 new_subcategory = SubCategory(
                     subcategory_category=category,
                     subcategory_name=subcategory["name"],
@@ -105,10 +120,13 @@ class Sql():
 
     def product_creation(data):
         logger = logging.getLogger(__name__)
+        # Get the product subcategory
         subcategory = SubCategory.objects.get(
             subcategory_name=data["subcategory"]
         )
+        # Get the product user
         user = CustomUser.objects.get(username=data["user"])
+        # Creates the product
         product = Product(
             product_subcategory=subcategory,
             product_name=data["product_name"],
@@ -123,17 +141,21 @@ class Sql():
 
     def stockage(data):
         logger = logging.getLogger(__name__)
+        # Converts date to date type var
         notification_date = datetime.datetime.strptime(
             data["date"], '%d/%m/%Y'
         )
+        # Creates a product diary
         diary = Diary(
             diary_add=datetime.datetime.now().date(),
             diary_number=0,
         )
+        # Creates a notification rememberer
         notification = Notification(
             notification_date=notification_date,
             notification_is_send=0,
         )
+        # Creates a stock
         stockage = Stock(
             stock_product=data["product"],
             stock_compartment=data["compartment"],
@@ -151,89 +173,97 @@ class Sql():
             pass
 
     def product_updater():
-        """Makes new product insertion in database"""
-        # setting the logger
+        """Insert openfoodfact products in database"""
         logger = logging.getLogger(__name__)
-        # emptying the database
         category = "surgeles"
         id_list = Requester(str(category)).product_id_list
-        # for each product id in id list
+        # For each product in list
         for product_id in id_list:
-            # gather product data with Requester class
+            # Get product datas
             product_data = Product_data(
                 Requester.product_data_requester(product_id)
             )
-            # create a product in database
+            # Creates product in database
             product = IndustrialProduct(
                 ind_product_name=product_data.name,
                 ind_product_url=product_data.url,
                 ind_product_id=product_data.product_id,
             )
-            # save if ok
             try:
                 with transaction.atomic():
                     product.save()
-            # report error if not ok
             except DatabaseError as prod_error:
                 logger.error(prod_error)
                 pass
 
     def remove_device(device_id):
+        """Removes user's device from database"""
         logger = logging.getLogger(__name__)
+        # Get the device then removes it
         device = ColdDevice.objects.get(id=device_id)
         try:
             with transaction.atomic():
                 device.delete()
-        # report error if not ok
         except DatabaseError as remove_error:
             logger.error(remove_error)
             pass
 
     def remove_compartment(compartment_id):
+        """Removes device's compartment from database"""
         logger = logging.getLogger(__name__)
+        # Get the compartment then removes it
         compartment = Compartment.objects.get(id=compartment_id)
         try:
             with transaction.atomic():
                 compartment.delete()
-        # report error if not ok
         except DatabaseError as remove_error:
             logger.error(remove_error)
             pass
 
     def remove_stock(stock_id):
+        """Substract one product from a stock"""
         logger = logging.getLogger(__name__)
+        # Get the stock
         stock = Stock.objects.get(id=stock_id)
+        # Substract one product
         stock.stock_number -= 1
+        # Get the stock diary
         diary = stock.stock_diary
+        # Get the stock notification rememberer
         notification = stock.stock_notification
+        # If there is 0 product in stock
         if stock.stock_number == 0:
+            # Add a remove date in diary
             diary.diary_remove = datetime.datetime.now().date()
+            # Add one to diary number
             diary.diary_number += 1
+            # Consider that the notification is send
             notification.notification_is_send = 1
             try:
                 with transaction.atomic():
                     stock.save()
                     diary.save()
                     notification.save()
-            # report error if not ok
             except DatabaseError as remove_error:
                 logger.error(remove_error)
                 pass
+        # Else if some product remains in stock
         else:
+            # Add a modification date in diary
             diary.diary_modification = datetime.datetime.now().date()
+            # Add one to diary number
             diary.diary_number += 1
             try:
                 with transaction.atomic():
                     diary.save()
                     stock.save()
-            # report error if not ok
             except DatabaseError as remove_error:
                 logger.error(remove_error)
                 pass
 
     def notification_is_send(notification):
+        """Set notification_is_send to 1"""
         logger = logging.getLogger(__name__)
-        print(notification.notification_is_send)
         notification.notification_is_send = 1
         try:
             with transaction.atomic():
@@ -243,21 +273,26 @@ class Sql():
             pass
 
     def destroy_stock(diary):
+        """Removes stock from database"""
         logger = logging.getLogger(__name__)
+        # Get the stock
         stock = Stock.objects.get(stock_diary=diary)
+        # Get the notification rememberer
         notification = stock.stock_notification
+        # Then delete all
         try:
             with transaction.atomic():
                 stock.delete()
                 notification.delete()
                 diary.delete()
-        # report error if not ok
         except DatabaseError as remove_error:
             logger.error(remove_error)
             pass
 
     def add_news(news_data):
+        """Add news datas in database"""
         logger = logging.getLogger(__name__)
+        # Creates a news
         news = AppNews(
             news_title=news_data["title"],
             news_content=news_data["content"],
@@ -267,18 +302,17 @@ class Sql():
         try:
             with transaction.atomic():
                 news.save()
-        # report error if not ok
         except DatabaseError as save_error:
             logger.error(save_error)
             pass
 
     def destroy_news(news_id):
+        """Removes a new from database"""
         logger = logging.getLogger(__name__)
         news = AppNews.objects.get(id=news_id)
         try:
             with transaction.atomic():
                 news.delete()
-        # report error if not ok
         except DatabaseError as remove_error:
             logger.error(remove_error)
             pass

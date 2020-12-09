@@ -1,12 +1,21 @@
 from django.db import models
-from prodapp.models import Product
+
 from colddeviceapp.models import Compartment
+from prodapp.models import Product
 
 
 class Diary(models.Model):
     diary_add = models.DateField(auto_now=False, auto_now_add=False)
-    diary_modification = models.DateField(auto_now=False, auto_now_add=False, null=True)
-    diary_remove = models.DateField(auto_now=False, auto_now_add=False, null=True)
+    diary_modification = models.DateField(
+        auto_now=False,
+        auto_now_add=False,
+        null=True
+    )
+    diary_remove = models.DateField(
+        auto_now=False,
+        auto_now_add=False,
+        null=True
+    )
     diary_number = models.IntegerField()
 
 

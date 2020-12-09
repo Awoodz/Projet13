@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from colddeviceapp.models import ColdDeviceType
 from webapp.sql.db_sql import Sql
 

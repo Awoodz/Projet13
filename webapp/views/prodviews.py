@@ -1,10 +1,11 @@
 from dal import autocomplete
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
-from django.contrib.auth.decorators import login_required
-from prodapp.models import Category, SubCategory, IndustrialProduct
-from webapp.sql.db_sql import Sql
+
+from prodapp.models import Category, IndustrialProduct, SubCategory
 from webapp.forms import ProductForm
+from webapp.sql.db_sql import Sql
 
 
 @login_required
