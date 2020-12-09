@@ -11,7 +11,6 @@ class Requester:
 
     def product_id_requester(self, category):
         """Makes a category request in order to fill a product id list"""
-
         product_id_list = []
         i = 0
         while i < dt.MAX_PAGE:

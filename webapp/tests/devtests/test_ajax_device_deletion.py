@@ -60,7 +60,7 @@ class AjaxDeviceDeletionPageTestCase(TestCase):
         count = ColdDevice.objects.all().count()
         self.assertEqual(count, 1)
 
-        response = self.client.get(
+        self.client.get(
             reverse("ajax_device_deletion"),
             {"device": device.id},
         )
@@ -89,7 +89,7 @@ class AjaxDeviceDeletionPageTestCase(TestCase):
             colddevice_type=device_type,
         )
 
-        compartment = Compartment.objects.create(
+        Compartment.objects.create(
             compartment_name="fakecompartment",
             compartment_colddevice=device,
         )
@@ -97,7 +97,7 @@ class AjaxDeviceDeletionPageTestCase(TestCase):
         count = Compartment.objects.all().count()
         self.assertEqual(count, 1)
 
-        response = self.client.get(
+        self.client.get(
             reverse("ajax_device_deletion"),
             {"device": device.id},
         )

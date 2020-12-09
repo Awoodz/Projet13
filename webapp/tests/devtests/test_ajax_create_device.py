@@ -16,7 +16,7 @@ class AjaxCreateDevicePageTestCase(TestCase):
 
         self.client.force_login(user)
 
-        device_type = ColdDeviceType.objects.create(
+        ColdDeviceType.objects.create(
             colddevicetype_name="faketype",
         )
 
@@ -46,11 +46,11 @@ class AjaxCreateDevicePageTestCase(TestCase):
 
         self.client.force_login(user)
 
-        device_type = ColdDeviceType.objects.create(
+        ColdDeviceType.objects.create(
             colddevicetype_name="faketype",
         )
 
-        response = self.client.get(
+        self.client.get(
             reverse("ajax_create_device"),
             {
                 "device_name": "fakedevice",

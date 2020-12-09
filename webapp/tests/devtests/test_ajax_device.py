@@ -25,7 +25,7 @@ class AjaxDevicePageTestCase(TestCase):
             colddevicetype_name="faketype",
         )
 
-        device = ColdDevice.objects.create(
+        ColdDevice.objects.create(
             colddevice_name="fakedevice",
             colddevice_place="fakeplace",
             colddevice_user=user,

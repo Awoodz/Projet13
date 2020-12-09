@@ -40,7 +40,7 @@ class AjaxProductPageTestCase(TestCase):
             subcategory_peremption=30,
         )
 
-        product = Product.objects.create(
+        Product.objects.create(
             product_name="fakeprod",
             product_subcategory=subcategory,
             user_product=user,

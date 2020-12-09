@@ -36,7 +36,9 @@ class MySeleniumTests(StaticLiveServerTestCase):
         password_input.send_keys("Testpass1")
         password_input = self.selenium.find_element_by_name("password2")
         password_input.send_keys("Testpass1")
-        self.selenium.find_element_by_xpath('//button[@value="signup"]').click()
+        self.selenium.find_element_by_xpath(
+            '//button[@value="signup"]'
+        ).click()
 
         WebDriverWait(self.selenium, 5).until(
             EC.presence_of_element_located((By.CLASS_NAME, "login_body"))

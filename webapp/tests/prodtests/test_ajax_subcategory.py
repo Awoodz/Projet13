@@ -11,7 +11,7 @@ class AjaxSubCategoryPageTestCase(TestCase):
             category_name="fakecat",
         )
 
-        other_subcat = SubCategory.objects.create(
+        SubCategory.objects.create(
             subcategory_name="autre",
             subcategory_category=category,
             subcategory_peremption=0,
@@ -29,13 +29,13 @@ class AjaxSubCategoryPageTestCase(TestCase):
             category_name="fakecat",
         )
 
-        subcategory = SubCategory.objects.create(
+        SubCategory.objects.create(
             subcategory_category=category,
             subcategory_name="fakesubcat",
             subcategory_peremption=30,
         )
 
-        other_subcat = SubCategory.objects.create(
+        SubCategory.objects.create(
             subcategory_name="autre",
             subcategory_category=category,
             subcategory_peremption=0,

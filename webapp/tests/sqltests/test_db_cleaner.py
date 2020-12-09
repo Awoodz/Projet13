@@ -66,7 +66,7 @@ class DbCleanStocksTestCase(TestCase):
             notification_is_send=1,
         )
 
-        stock1 = Stock.objects.create(
+        Stock.objects.create(
             stock_product=product,
             stock_compartment=compartment,
             stock_number=1,
@@ -87,7 +87,7 @@ class DbCleanStocksTestCase(TestCase):
             notification_is_send=1,
         )
 
-        stock2 = Stock.objects.create(
+        Stock.objects.create(
             stock_product=product,
             stock_compartment=compartment,
             stock_number=1,

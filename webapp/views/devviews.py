@@ -10,12 +10,14 @@ from webapp.sql.db_sql import Sql
 
 @login_required
 def manage_devices(request):
-    """"""
+    """Manage devices main page"""
     template = loader.get_template("webapp/device/manage_devices.html")
     return HttpResponse(template.render(request=request))
 
 
 def ajax_device_creation(request):
+    """Ajax call - Fill device_creation div with data"""
+    """Allow user to create a device"""
     template = loader.get_template("webapp/device/create_device.html")
     device_types = ColdDeviceType.objects.all()
     return HttpResponse(template.render(
@@ -25,6 +27,8 @@ def ajax_device_creation(request):
 
 
 def ajax_modify_device(request):
+    """Ajax call - Fill device_creation div with data"""
+    """Allow user to delete a device"""
     template = loader.get_template("webapp/device/modify_device.html")
     get_device = request.GET.get("device")
     device = ColdDevice.objects.get(pk=get_device)
@@ -41,6 +45,7 @@ def ajax_modify_device(request):
 
 
 def ajax_device_modification(request):
+    """Unused at the moment"""
     # get_device = request.GET.get("device")
     # device_name = request.GET.get("device_name")
     # device_place = request.GET.get("device_place")
@@ -52,18 +57,22 @@ def ajax_device_modification(request):
 
 
 def ajax_compartment_deletion(request):
+    """Ajax call - remove compartment from database"""
     get_compartment = request.GET.get("compartment")
     Sql.remove_compartment(get_compartment)
     return JsonResponse({"response": "success"})
 
 
 def ajax_device_deletion(request):
+    """Ajax call - remove device from database"""
     get_device = request.GET.get("device")
     Sql.remove_device(get_device)
     return JsonResponse({"response": "success"})
 
 
 def ajax_compart(request):
+    """Ajax call - create a compartment div when user push"""
+    """ '+' button during device creation"""
     template = loader.get_template("webapp/device/add_compartment.html")
     compart_number = request.GET.get("compartment")
     return HttpResponse(template.render(
@@ -73,7 +82,7 @@ def ajax_compart(request):
 
 
 def ajax_create_device(request):
-    """"""
+    """Ajax call - add device in database"""
     current_user = request.user
     device_name = request.GET.get("device_name")
     device_place = request.GET.get("device_place")
@@ -98,7 +107,7 @@ def ajax_create_device(request):
 
 
 def ajax_device(request):
-    """"""
+    """Ajax call - Create list of user's device"""
     template = loader.get_template("webapp/device/device.html")
     checker = request.GET.get("checker")
     current_user = request.user

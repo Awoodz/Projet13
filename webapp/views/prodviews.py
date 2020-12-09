@@ -10,7 +10,7 @@ from webapp.sql.db_sql import Sql
 
 @login_required
 def manage_products(request):
-    """"""
+    """Manage products main page"""
     prodform = ProductForm
     template = loader.get_template("webapp/product/manage_products.html")
     return HttpResponse(template.render(
@@ -22,7 +22,7 @@ def manage_products(request):
 
 
 def ajax_category(request):
-    """"""
+    """Ajax call - Create list of product's categories"""
     template = loader.get_template("webapp/product/category.html")
     categories = Category.objects.all().exclude(category_name="industriel")
     return HttpResponse(template.render(
@@ -34,17 +34,17 @@ def ajax_category(request):
 
 
 def ajax_subcategory(request):
-    """"""
+    """Ajax call - Create list of category's subcategories"""
     template = loader.get_template("webapp/product/subcategory.html")
     get_category = request.GET.get("category")
     category = Category.objects.get(id=get_category)
     subcategories = SubCategory.objects.filter(
         subcategory_category=category
     )
+    # Add "other" subcategory to the template
     other_subcat = SubCategory.objects.get(
         subcategory_name="autre"
     )
-    print(subcategories)
     return HttpResponse(template.render(
         {
             "subcategories": subcategories,
@@ -55,7 +55,7 @@ def ajax_subcategory(request):
 
 
 def ajax_product_creation(request):
-    """"""
+    """Ajax call - User choose if product is raw or industrial"""
     template = loader.get_template("webapp/product/product_creation.html")
     get_subcategory = request.GET.get("subcategory")
     checker = request.GET.get("checker")
@@ -80,7 +80,8 @@ def ajax_product_creation(request):
 
 
 def ajax_create_product(request):
-    """"""
+    """Ajax call - Fill product_creation div with data"""
+    """Allow user to create a product"""
     checker = request.GET.get("checker")
     get_subcategory = request.GET.get("subcategory")
     get_product_name = request.GET.get("product_name")

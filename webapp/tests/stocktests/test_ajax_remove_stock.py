@@ -143,7 +143,7 @@ class AjaxStockPageTestCase(TestCase):
         stock_test = Stock.objects.get(stock_product=product)
         self.assertEqual(stock_test.stock_number, 1)
 
-        response = self.client.get(
+        self.client.get(
             reverse("ajax_remove_stock"),
             {"stock": stock.id},
         )

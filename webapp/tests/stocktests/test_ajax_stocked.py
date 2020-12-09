@@ -1,11 +1,9 @@
-from datetime import datetime
-
 from django.test import TestCase
 from django.urls import reverse
 
 from colddeviceapp.models import ColdDevice, ColdDeviceType, Compartment
 from prodapp.models import Category, Product, SubCategory
-from stockapp.models import Diary, Notification, Stock
+from stockapp.models import Stock
 from userapp.models import CustomUser
 
 
@@ -112,7 +110,7 @@ class AjaxStockedPageTestCase(TestCase):
         count = Stock.objects.all().count()
         self.assertEqual(count, 0)
 
-        response = self.client.get(
+        self.client.get(
             reverse("ajax_stocked"),
             {
                 "compartment": compartment.id,

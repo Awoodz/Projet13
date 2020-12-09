@@ -17,7 +17,7 @@ class AxajCreateNewsPageTestCase(TestCase):
             is_staff="t",
         )
 
-        news = AppNews.objects.create(
+        AppNews.objects.create(
             news_title="faketitle",
             news_date=datetime.now().date(),
             news_author=user,
@@ -47,7 +47,7 @@ class AxajCreateNewsPageTestCase(TestCase):
         count = AppNews.objects.all().count()
         self.assertEqual(count, 0)
 
-        response = self.client.get(
+        self.client.get(
             reverse("ajax_create_news"),
             {
                 "title": "faketitle",

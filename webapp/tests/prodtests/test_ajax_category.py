@@ -12,7 +12,7 @@ class AjaxCategoryPageTestCase(TestCase):
 
     def test_ajax_category_contains_category(self):
 
-        category = Category.objects.create(
+        Category.objects.create(
             category_name="fakecat",
         )
 

@@ -26,14 +26,14 @@ def legalmention(request):
 
 @staff_member_required
 def create_news(request):
-    """"""
+    """News creation page"""
     template = loader.get_template("webapp/create_news.html")
     return HttpResponse(template.render(request=request))
 
 
 @staff_member_required
 def ajax_create_news(request):
-    """"""
+    """Ajax call - Create news"""
     current_user = request.user
     get_title = request.GET.get("title")
     get_content = request.GET.get("content")
@@ -48,7 +48,7 @@ def ajax_create_news(request):
 
 @staff_member_required
 def ajax_destroy_news(request):
-    """"""
+    """Ajax call - Destroy news"""
     get_news = request.GET.get("news")
     Sql.destroy_news(get_news)
     return JsonResponse({"response": "success"})

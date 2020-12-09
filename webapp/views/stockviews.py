@@ -12,13 +12,13 @@ from webapp.sql.db_sql import Sql
 
 @login_required
 def manage_stocks(request):
-    """"""
+    """Manage stocks main page"""
     template = loader.get_template("webapp/stock/manage_stocks.html")
     return HttpResponse(template.render(request=request))
 
 
 def ajax_product(request):
-    """"""
+    """Ajax call - Fill product_list div with user's product"""
     template = loader.get_template("webapp/stock/userprod.html")
     current_user = request.user
     products = Product.objects.filter(user_product=current_user)
@@ -31,7 +31,7 @@ def ajax_product(request):
 
 
 def ajax_compartment(request):
-    """"""
+    """Ajax call - Fill compartment_list div with device's compartment"""
     template = loader.get_template("webapp/stock/compartment.html")
     get_device = request.GET.get("device")
     device = ColdDevice.objects.get(id=get_device)
@@ -43,7 +43,7 @@ def ajax_compartment(request):
 
 
 def ajax_stock(request):
-    """"""
+    """Ajax call - Fill stock_list div with stocked products"""
     template = loader.get_template("webapp/stock/stock.html")
     get_compartment = request.GET.get("compartment")
     compartment = Compartment.objects.get(id=get_compartment)
@@ -68,7 +68,7 @@ def ajax_stock(request):
 
 
 def ajax_storage(request):
-    """"""
+    """Ajax call - Fill storage_div with stock creation form"""
     template = loader.get_template("webapp/stock/storage.html")
     get_product = request.GET.get("product")
     product = Product.objects.get(id=get_product)
@@ -98,7 +98,7 @@ def ajax_storage(request):
 
 
 def ajax_stocked(request):
-    """"""
+    """Ajax call - Create stock in database"""
     get_compartment = request.GET.get("compartment")
     get_product = request.GET.get("product")
     get_product_quantity = request.GET.get("product_quantity")
@@ -121,7 +121,7 @@ def ajax_stocked(request):
 
 
 def ajax_remove_stock(request):
-    """"""
+    """Ajax call - Remove 1 product quantity from stock"""
     get_stock = request.GET.get("stock")
     Sql.remove_stock(get_stock)
     return JsonResponse({"response": "success"})

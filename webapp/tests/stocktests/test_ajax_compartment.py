@@ -60,7 +60,7 @@ class AjaxCompartmentPageTestCase(TestCase):
             colddevice_type=device_type,
         )
 
-        compartment = Compartment.objects.create(
+        Compartment.objects.create(
             compartment_name="fakecompartment",
             compartment_colddevice=device,
         )

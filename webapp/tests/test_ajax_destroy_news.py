@@ -59,7 +59,7 @@ class AxajDestroyNewsPageTestCase(TestCase):
         count = AppNews.objects.all().count()
         self.assertEqual(count, 1)
 
-        response = self.client.get(
+        self.client.get(
             reverse("ajax_destroy_news"),
             {
                 "news": news.id,

@@ -18,6 +18,8 @@ class Openfoodfact_request:
     def product_request(product_id):
         """Request product JSON on OpenfoodFact API"""
         request = requests.get(
-            "https://fr.openfoodfacts.org/api/v0/product/" + product_id + ".json"
+            "https://fr.openfoodfacts.org/api/v0/product/"
+            + product_id
+            + ".json"
         )
         return request.json()

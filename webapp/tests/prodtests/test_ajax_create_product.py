@@ -63,7 +63,7 @@ class AjaxCreateProductPageTestCase(TestCase):
         prodcount = Product.objects.all().count()
         self.assertEqual(prodcount, 0)
 
-        response = self.client.get(
+        self.client.get(
             reverse("ajax_create_product"),
             {
                 "checker": "raw",

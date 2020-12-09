@@ -1,5 +1,7 @@
-MAX_PAGE = 40
+# Number of page requested to Openfoodfact
+MAX_PAGE = 200
 
+# Category and subcategory datas
 DATA_DICT = {
     "industriel": {
         "subcategory": [

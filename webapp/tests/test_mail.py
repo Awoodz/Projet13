@@ -63,14 +63,14 @@ class EmailTest(TestCase):
             notification_is_send=0,
         )
 
-        stock = Stock.objects.create(
+        Stock.objects.create(
             stock_product=product,
             stock_compartment=compartment,
             stock_number=1,
             stock_diary=diary,
             stock_notification=notification,
         )
-    
+
         emailing()
 
         self.assertEqual(len(mail.outbox), 1)
