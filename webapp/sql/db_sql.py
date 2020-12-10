@@ -201,6 +201,21 @@ class Sql():
         logger = logging.getLogger(__name__)
         # Get the device then removes it
         device = ColdDevice.objects.get(id=device_id)
+        compartments = Compartment.objects.filter(
+            compartment_colddevice=device
+        )
+        for compartment in compartments:
+            stocks = Stock.objects.filter(stock_compartment=compartment)
+            for stock in stocks:
+                notification = stock.stock_notification
+                diary = stock.stock_diary
+                try:
+                    with transaction.atomic():
+                        notification.delete()
+                        diary.delete()
+                except DatabaseError as remove_error:
+                    logger.error(remove_error)
+                    pass
         try:
             with transaction.atomic():
                 device.delete()
