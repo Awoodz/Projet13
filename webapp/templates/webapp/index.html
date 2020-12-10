@@ -7,11 +7,11 @@
 
 <div class="index">
 
+    {% if user.is_authenticated %}
     <div class="block_sm">
-        {% if user.is_authenticated %}
         <h4>Bonjour {{ user.username }} ! - Bienvenue sur MyColdManager.com !</h4>
-        {% endif %}
     </div>
+    {% endif %}
 
     <div class="block">
         <h4>Comment ça marche ?</h4>
