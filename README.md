@@ -7,7 +7,7 @@ Ce programme a été développé dans le cadre d'un projet proposé par OpenClas
 
 # Comment l'utiliser ?
 ### Directement sur internet !
-Retrouvez l'application ici : https://www.mycoldmanager.com/
+Retrouvez l'application ici : https://mycoldmanager.herokuapp.com/
 
 ### Sur votre ordinateur :
   * Téléchargez le repository et décompressez le au chemin de votre choix
